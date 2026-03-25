@@ -10,7 +10,7 @@
            ========================================= */
         :root {
             --bg-main: #f2f2f7; 
-            --card-bg: rgba(255, 255, 255, 0.85); /* Efecto cristal */
+            --card-bg: rgba(255, 255, 255, 0.85); 
             --text-main: #1c1c1e;
             --text-muted: #8e8e93;
             --title-color: #d1124d; 
@@ -56,9 +56,6 @@
             --row-intercalated: rgba(34, 34, 34, 0.6); 
         }
 
-        /* =========================================
-           ESTILOS GENERALES Y LAYOUT
-           ========================================= */
         body {
             background-color: var(--bg-main); color: var(--text-main); font-family: var(--font-family-global);
             margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center;
@@ -68,7 +65,6 @@
 
         #app-container { padding: 15px; width: 100%; max-width: 480px; box-sizing: border-box; }
 
-        /* BANNER OFFLINE */
         #network-banner {
             background-color: #ff3b30; color: white; width: 100%; text-align: center;
             padding: 6px 0; font-size: 0.85rem; font-weight: 800; letter-spacing: 1px;
@@ -90,12 +86,10 @@
         .icon-btn { cursor: pointer; user-select: none; transition: opacity 0.2s; opacity: 0.7;}
         .icon-btn:active { opacity: 1; transform: scale(0.9);}
 
-        /* ANIMACIÓN FADE-IN PARA PESTAÑAS */
         .app-view { display: none; width: 100%; flex-direction: column; gap: 12px; animation: fadeIn 0.3s ease-out; }
         .app-view.active { display: flex; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* EFECTO CRISTAL (GLASSMORPHISM) EN TARJETAS */
         .card {
             background-color: var(--card-bg); border: var(--border-width) solid var(--border-color);
             border-radius: var(--card-radius); padding: 20px; box-sizing: border-box; 
@@ -123,7 +117,6 @@
         body.theme-steampunk .btn-gold { color: #ffd700; }
         body.theme-steampunk .btn-green, body.theme-gothic .btn-green { color: #000 !important; }
 
-        /* Rutas Intercaladas */
         #route-full-buttons button:nth-child(odd) { background-color: var(--card-bg); border: 1px solid var(--text-muted); }
         #route-full-buttons button:nth-child(even) { background-color: var(--row-intercalated); border: 1px solid transparent; color: var(--text-main);}
 
@@ -140,7 +133,6 @@
         .history-controls { display: flex; gap: 15px; font-size: 1.25rem; }
         .past-day-card { border-left: 5px solid var(--title-color); }
 
-        /* Contador Activo Pro */
         #route-display {
             background-color: var(--card-bg); padding: 12px; border-radius: 10px; 
             text-align: center; font-weight: 800; font-size: 1.05rem; margin-bottom: 15px; 
@@ -148,11 +140,10 @@
             border: 1px solid var(--border-color); backdrop-filter: blur(10px);
         }
         
-        /* Número Gigante con fuente tabular para que no brinque */
         #counter-value { 
             font-size: 7.5rem; font-weight: 900; color: var(--title-color); margin: 0; 
             text-align: center; line-height: 1; letter-spacing: -4px;
-            font-variant-numeric: tabular-nums; /* Evita que los números cambien de ancho */
+            font-variant-numeric: tabular-nums; 
         }
         
         #counter-controls { display: flex; flex-direction: column; gap: 12px; align-items: center; width: 100%; margin-top: 5px; position: relative;}
@@ -167,7 +158,6 @@
             pointer-events: none; letter-spacing: -1px; border: 1px solid rgba(255, 215, 0, 0.3);
         }
 
-        /* TOAST NOTIFICATION */
         #toast-container {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
             background-color: rgba(30, 30, 30, 0.95); color: #fff; padding: 14px 24px; border-radius: 30px;
@@ -179,6 +169,21 @@
 
         .indicator { width: 8px; height: 8px; border-radius: 50%; background-color: #34c759; display: inline-block; margin-right: 6px; box-shadow: 0 0 5px rgba(52, 199, 89, 0.5);}
         .indicator.offline { background-color: #ff3b30; box-shadow: 0 0 5px rgba(255, 59, 48, 0.5);}
+
+        /* MODAL FLOTANTE (ESTÉTICO) */
+        #modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
+            display: none; justify-content: center; align-items: center; z-index: 20000;
+            opacity: 0; transition: opacity 0.2s;
+        }
+        #modal-overlay.show { display: flex; opacity: 1; }
+        .modal-box {
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: var(--card-radius); padding: 25px; width: 85%; max-width: 320px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center;
+        }
+        .modal-buttons { display: flex; gap: 10px; margin-top: 20px; }
 
     </style>
 </head>
@@ -244,7 +249,7 @@
             <h2>Días Anteriores</h2>
             <div style="display: flex; gap: 10px; margin-bottom: 15px;">
                 <button class="btn btn-gold wa-btn" style="flex: 1; font-size: 0.9rem; padding: 12px;" onclick="generarResumenAcumulado()">📊 ACUMULADO</button>
-                <button class="btn btn-green" style="flex: 1; font-size: 0.9rem; padding: 12px; background-color: #28a745;" onclick="exportarCSV()">📥 EXCEL (CSV)</button>
+                <button class="btn btn-green" style="flex: 1; font-size: 0.9rem; padding: 12px; background-color: #28a745;" onclick="exportarCSV()">📥 EXCEL</button>
             </div>
             <div id="history-list-past"></div>
             <button class="btn btn-cherry" style="margin-top: 20px;" onclick="showScreen('view-home')">VOLVER AL HOME</button>
@@ -285,7 +290,8 @@
         <div id="view-cierre" class="app-view card">
             <h2 style="text-align: center;">Resumen PAX</h2>
             <div id="cierre-details" style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 20px; text-align: center; color: var(--text-main);">...</div>
-            <button class="btn btn-green wa-btn" style="margin-bottom: 10px;" onclick="enviarReporteVueltaWA()">ENVIAR VUELTA WA</button>
+            
+            <button id="btn-enviar-vuelta-individual" class="btn btn-green wa-btn" style="margin-bottom: 10px;">ENVIAR VUELTA</button>
             <button class="btn btn-outline" onclick="showScreen('view-home')">VOLVER AL BALANCE</button>
         </div>
 
@@ -295,6 +301,18 @@
             <input type="text" id="reg-operador" placeholder="Operador (ej. Carlos)" value="Carlos">
             <input type="number" id="reg-unidad" placeholder="Unidad (ej. 15)" value="15">
             <button class="btn btn-cherry" style="margin-top: 15px;" onclick="showScreen('view-home')">GUARDAR DATOS</button>
+        </div>
+    </div>
+
+    <div id="modal-overlay">
+        <div class="modal-box">
+            <h3 style="margin-top: 0; margin-bottom: 10px;" id="modal-title">Editar PAX</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">Ajusta el número de pasajeros para esta vuelta.</p>
+            <input type="number" id="modal-pax-input" style="font-size: 2rem; text-align: center; font-weight: bold; margin-bottom: 20px;" min="0">
+            <div class="modal-buttons">
+                <button class="btn btn-outline" style="flex: 1; padding: 12px;" onclick="cerrarModal()">Cancelar</button>
+                <button class="btn btn-cherry" style="flex: 1; padding: 12px;" onclick="guardarEdicionVuelta()">Guardar</button>
+            </div>
         </div>
     </div>
 
@@ -314,6 +332,9 @@
         let comboCount = 0;
         let comboTimer;
         let isEditingActiveRoute = false;
+        
+        // Variables para el Modal
+        let idVueltaEditando = null;
 
         const themes = ['theme-default', 'theme-steampunk', 'theme-gothic'];
         const themeIcons = ['○', '◍', '●'];
@@ -331,15 +352,15 @@
 
             if (isOnline) {
                 banner.style.display = 'none';
-                indicator.className = 'indicator'; // Verde
+                indicator.className = 'indicator'; 
                 btnCerrar.innerText = "ENVIAR Y GUARDAR DÍA";
                 waButtons.forEach(btn => btn.style.opacity = '1');
             } else {
                 banner.style.display = 'block';
-                indicator.className = 'indicator offline'; // Rojo
+                indicator.className = 'indicator offline'; 
                 btnCerrar.innerText = "💾 GUARDAR TURNO LOCAL (SIN SEÑAL)";
                 waButtons.forEach(btn => {
-                    if(btn.id !== 'btn-cerrar-turno') btn.style.opacity = '0.5'; // Atenuar botones de WA
+                    if(btn.id !== 'btn-cerrar-turno') btn.style.opacity = '0.5';
                 });
             }
         }
@@ -349,7 +370,7 @@
         window.onload = () => {
             const savedTheme = localStorage.getItem('orbita_theme') || 'theme-default';
             setTheme(savedTheme);
-            checkNetworkStatus(); // Checar señal al abrir
+            checkNetworkStatus(); 
             
             const session = JSON.parse(localStorage.getItem('orbita_active_session'));
             if (session) {
@@ -451,6 +472,9 @@
         }
 
         function incrementCounter() { 
+            // Vibración Haptica sutil si el celular lo soporta
+            if (navigator.vibrate) navigator.vibrate(30);
+
             currentVuelta.passengers++; updateVueltaDisplay(); saveSession();
             comboCount++; clearTimeout(comboTimer);
             const comboBox = document.getElementById('combo-box');
@@ -460,6 +484,7 @@
         }
 
         function decrementCounter() { 
+            if (navigator.vibrate) navigator.vibrate([20, 30, 20]);
             if (currentVuelta.passengers > 0) { currentVuelta.passengers--; updateVueltaDisplay(); saveSession(); }
         }
 
@@ -480,7 +505,12 @@
                 ${currentVuelta.passengers} PAX<br>
                 <b style="font-size: 1.15rem;">$${currentVuelta.cash}</b>
             `;
-            currentVuelta = null; saveSession(); showScreen('view-cierre');
+            
+            // Inyectar el ID de la vuelta al botón de enviar, SIN nullificar currentVuelta todavía
+            document.getElementById('btn-enviar-vuelta-individual').setAttribute('onclick', `enviarReporteVueltaWA(${currentVuelta.id})`);
+            
+            saveSession(); 
+            showScreen('view-cierre');
         }
 
         function updateHomeView() {
@@ -505,7 +535,7 @@
                         <span style="font-size:0.85rem; color: var(--text-muted);">${vuelta.startTime} | <b style="color: var(--text-main);">$${vuelta.cash}</b></span>
                     </div>
                     <div class="history-controls">
-                        <span style="cursor:pointer;" onclick="editVuelta(${vuelta.id})">✎</span>
+                        <span style="cursor:pointer;" onclick="abrirModalEdicion(${vuelta.id})">✎</span>
                         <span style="cursor:pointer;" class="wa-btn" onclick="enviarReporteVueltaWA(${vuelta.id})">📲</span>
                     </div>
                 `;
@@ -513,56 +543,60 @@
             });
         }
 
-        function editVuelta(vueltaId) {
-            const vuelta = vueltasHistory.find(v => v.id === vueltaId);
-            const nuevos = prompt(`Editar PAX en ${vuelta.route}:`, vuelta.passengers);
-            if (nuevos !== null && !isNaN(nuevos)) {
+        // --- SISTEMA DEL MODAL FLOTANTE ESTÉTICO ---
+        function abrirModalEdicion(id) {
+            idVueltaEditando = id;
+            const vuelta = vueltasHistory.find(v => v.id === id);
+            document.getElementById('modal-title').innerText = `Editar ${vuelta.route}`;
+            document.getElementById('modal-pax-input').value = vuelta.passengers;
+            document.getElementById('modal-overlay').classList.add('show');
+            document.getElementById('modal-pax-input').focus();
+        }
+
+        function cerrarModal() {
+            document.getElementById('modal-overlay').classList.remove('show');
+            idVueltaEditando = null;
+        }
+
+        function guardarEdicionVuelta() {
+            const nuevos = document.getElementById('modal-pax-input').value;
+            if (nuevos !== null && nuevos !== "" && !isNaN(nuevos) && nuevos >= 0) {
+                const vuelta = vueltasHistory.find(v => v.id === idVueltaEditando);
                 totalDayCashAccumulated -= vuelta.cash;
                 vuelta.passengers = parseInt(nuevos);
                 vuelta.cash = vuelta.passengers * vuelta.rate;
                 totalDayCashAccumulated += vuelta.cash;
-                updateHomeView(); updateTodayHistoryList(); showToast("Vuelta actualizada"); saveSession();
+                
+                updateHomeView(); 
+                updateTodayHistoryList(); 
+                showToast("✅ Vuelta actualizada correctamente"); 
+                saveSession();
+                cerrarModal();
+            } else {
+                showToast("⚠️ Ingresa un número válido de PAX");
             }
         }
 
-        // --- MANEJO DE HISTORIAL Y EXCEL ---
         function guardarCorteEnMemoria(textoCorte, datosBrutos) {
             let pasados = JSON.parse(localStorage.getItem('orbita_cortes_pasados')) || [];
             const fecha = new Date().toLocaleDateString('es-MX');
-            
-            // Guardamos el reporte visual Y los datos limpios para el Excel
-            pasados.unshift({ 
-                fecha: fecha, 
-                reporte: textoCorte, 
-                datos: datosBrutos, // Para el CSV
-                id: Date.now() 
-            });
-            
-            if (pasados.length > 30) pasados.pop(); // Guarda hasta 1 mes
+            pasados.unshift({ fecha: fecha, reporte: textoCorte, datos: datosBrutos, id: Date.now() });
+            if (pasados.length > 30) pasados.pop(); 
             localStorage.setItem('orbita_cortes_pasados', JSON.stringify(pasados));
         }
 
         function exportarCSV() {
             let pasados = JSON.parse(localStorage.getItem('orbita_cortes_pasados')) || [];
             if(pasados.length === 0) { showToast("No hay datos para exportar a Excel."); return; }
-
-            // Cabeceras del CSV
             let csvContent = "data:text/csv;charset=utf-8,";
             csvContent += "Fecha,Vueltas,Ingreso Bruto,Sueldo Operador,Gastos Extra,Concepto Gasto,Liquidacion Final\n";
-
             pasados.forEach(dia => {
-                if(dia.datos) {
-                    csvContent += `${dia.fecha},${dia.datos.vueltas},${dia.datos.bruto},650,${dia.datos.gastoExtra},"${dia.datos.concepto}",${dia.datos.liquidacion}\n`;
-                }
+                if(dia.datos) csvContent += `${dia.fecha},${dia.datos.vueltas},${dia.datos.bruto},650,${dia.datos.gastoExtra},"${dia.datos.concepto}",${dia.datos.liquidacion}\n`;
             });
-
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "OrbitaF1_Cortes.csv");
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            link.setAttribute("href", encodedUri); link.setAttribute("download", "OrbitaF1_Cortes.csv");
+            document.body.appendChild(link); link.click(); document.body.removeChild(link);
             showToast("✅ Archivo Excel descargado");
         }
 
@@ -602,15 +636,15 @@
             if(!navigator.onLine) { showToast("📵 Necesitas internet para enviar el reporte."); return; }
             let pasados = JSON.parse(localStorage.getItem('orbita_cortes_pasados')) || [];
             if (pasados.length === 0) { showToast("No hay días guardados para sumar."); return; }
-
             let totalAcumulado = 0;
             pasados.forEach(dia => { if(dia.datos) totalAcumulado += dia.datos.liquidacion; });
-
             const texto = encodeURIComponent(`*ÓRBITA F1 - RESUMEN ACUMULADO*
-*Días procesados:* ${pasados.length}
+-------------------------
+*DÍAS PROCESADOS:* ${pasados.length}
+-------------------------
 *TOTAL A ENTREGAR:* $${totalAcumulado}
-
-_(Generado automáticamente desde la App)_`);
+-------------------------
+_Generado automáticamente desde la App_`);
             window.open(`https://wa.me/?text=${texto}`, '_blank');
         }
 
@@ -619,15 +653,24 @@ _(Generado automáticamente desde la App)_`);
             window.open(`https://wa.me/?text=${encodedText}`, '_blank'); 
         }
 
+        // --- FORMATO DE WHATSAPP CON LÍNEAS SEPARADORAS Y NEGRITAS ---
         function enviarReporteVueltaWA(vueltaId) {
             if(!navigator.onLine) { showToast("📵 Necesitas internet para enviar WhatsApp."); return; }
+            
+            // Busca la vuelta, si no, agarra la que se acaba de cerrar y aún está en memoria
             const data = (vueltaId) ? vueltasHistory.find(v => v.id === vueltaId) : currentVuelta;
+            
+            if(!data) { showToast("⚠️ Error: No se encontró la información de la vuelta."); return; }
+
             const text = encodeURIComponent(`*ÓRBITA F1 - REPORTE DE VUELTA*
-*Unidad:* ${document.getElementById('reg-unidad').value} | *Operador:* ${document.getElementById('reg-operador').value}
-*Ruta:* ${data.route}
-*Inicio:* ${data.startTime} | *Fin:* ${data.endTime}
+-------------------------
+*UNIDAD:* ${document.getElementById('reg-unidad').value} | *OPERADOR:* ${document.getElementById('reg-operador').value}
+-------------------------
+*RUTA:* ${data.route}
+*INICIO:* ${data.startTime} | *FIN:* ${data.endTime}
+-------------------------
 *PAX:* ${data.passengers}
-*Efectivo:* $${data.cash}`);
+*EFECTIVO:* $${data.cash}`);
             window.open(`https://wa.me/?text=${text}`, '_blank');
         }
 
@@ -635,32 +678,27 @@ _(Generado automáticamente desde la App)_`);
             if(vueltasHistory.length === 0) { showToast("⚠️ No puedes cerrar un turno en ceros."); return; }
 
             const gastoEx = parseInt(document.getElementById('corte-gasto-extra').value) || 0;
-            const conc = document.getElementById('corte-gasto-concepto').value || 'Gasto no detallado';
-            const obs = document.getElementById('corte-obs').value || 'Sin novedades';
+            const conc = document.getElementById('corte-gasto-concepto').value || 'Ninguno';
+            const obs = document.getElementById('corte-obs').value || 'Todo en orden';
             const liquidacionFinal = totalDayCashAccumulated - sueldoFijo - gastoEx;
             
             const textoLimpio = `*ÓRBITA F1 - CORTE DEL DÍA*
-*Unidad:* ${document.getElementById('reg-unidad').value} | *Operador:* ${document.getElementById('reg-operador').value}
-*Vueltas Totales:* ${vueltasHistory.length}
-*Ingreso Bruto:* $${totalDayCashAccumulated}
-*Sueldo:* -$650
-*Gasto Extra:* -$${gastoEx} (${conc})
+-------------------------
+*UNIDAD:* ${document.getElementById('reg-unidad').value} | *OPERADOR:* ${document.getElementById('reg-operador').value}
+-------------------------
+*VUELTAS TOTALES:* ${vueltasHistory.length}
+*INGRESO BRUTO:* $${totalDayCashAccumulated}
+*SUELDO:* -$650
+*GASTO EXTRA:* -$${gastoEx} (${conc})
+-------------------------
 *A ENTREGAR:* $${liquidacionFinal}
-*Observaciones:* ${obs}`;
+-------------------------
+*OBSERVACIONES:* ${obs}`;
 
-            // Datos limpios para el CSV
-            const datosBrutos = {
-                vueltas: vueltasHistory.length,
-                bruto: totalDayCashAccumulated,
-                gastoExtra: gastoEx,
-                concepto: conc,
-                liquidacion: liquidacionFinal
-            };
-
+            const datosBrutos = { vueltas: vueltasHistory.length, bruto: totalDayCashAccumulated, gastoExtra: gastoEx, concepto: conc, liquidacion: liquidacionFinal };
             guardarCorteEnMemoria(textoLimpio, datosBrutos);
             
-            // RESETEO AUTOMÁTICO Y LIMPIEZA DE SESIÓN
-            vueltasHistory = []; totalDayCashAccumulated = 0;
+            vueltasHistory = []; totalDayCashAccumulated = 0; currentVuelta = null;
             document.getElementById('corte-gasto-extra').value = '';
             document.getElementById('corte-gasto-concepto').value = '';
             document.getElementById('corte-obs').value = '';
