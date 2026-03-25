@@ -6,43 +6,54 @@
     <title>Órbita F1 - Rol Local</title>
     <style>
         /* =========================================
-           PALETAS DE COLORES (Minimalistas)
+           PALETAS DE COLORES (Ultra Minimalistas)
            ========================================= */
         :root {
-            --bg-main: #fcfcfc;
-            --text-main: #222222;
+            /* Tema 1: Claro / Corporativo (☀️) */
+            --bg-main: #f2f2f7; /* Apple gray background */
+            --card-bg: #ffffff;
+            --text-main: #1c1c1e;
+            --text-muted: #8e8e93;
             --title-color: #d1124d; 
-            --btn-plus-bg: #4ae256; 
-            --btn-minus-bg: #d1124d; 
+            --btn-plus-bg: #34c759; /* Modern green */
+            --btn-minus-bg: #ff3b30; /* Modern red */
             --btn-submit-bg: #d1124d;
-            --border-color: #dddddd;
-            --border-width: 1px;
-            --button-radius: 8px;
-            --font-family-global: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --border-color: transparent;
+            --border-width: 0px;
+            --button-radius: 14px;
+            --card-radius: 16px;
+            --shadow: 0 4px 12px rgba(0,0,0,0.05);
+            --font-family-global: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
         body.theme-steampunk {
-            --bg-main: #1a1511; 
+            /* Tema 2: Steampunk / Neón (🪐) */
+            --bg-main: #0a0806; 
+            --card-bg: #14100c;
             --text-main: #e8c396; 
+            --text-muted: #8c765a;
             --title-color: #3aeaff; 
             --btn-plus-bg: #3aeaff; 
             --btn-minus-bg: #ff00ff; 
             --btn-submit-bg: #3aeaff;
-            --border-color: #4a3827; 
+            --border-color: #33271c; 
             --border-width: 1px;
-            --button-radius: 8px;
+            --shadow: 0 4px 12px rgba(58, 234, 255, 0.05);
         }
 
         body.theme-gothic {
-            --bg-main: #0a0a0a; 
+            /* Tema 3: Oscuro / Gótico (🌙) */
+            --bg-main: #000000; 
+            --card-bg: #0c0c0c;
             --text-main: #d4d4d4; 
+            --text-muted: #666666;
             --title-color: #8c0a1a; 
             --btn-plus-bg: #8c0a1a; 
             --btn-minus-bg: #600711; 
             --btn-submit-bg: #8c0a1a;
-            --border-color: #333333; 
+            --border-color: #222222; 
             --border-width: 1px; 
-            --button-radius: 4px;
+            --shadow: 0 4px 12px rgba(0,0,0,0.5);
         }
 
         /* =========================================
@@ -52,83 +63,89 @@
             background-color: var(--bg-main); color: var(--text-main); font-family: var(--font-family-global);
             margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center;
             min-height: 100vh; box-sizing: border-box; overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent; /* Quita el brillo azul al tocar en móviles */
         }
 
-        h1, h2, h3 { color: var(--title-color); margin: 10px 0; font-weight: 600; }
+        h1, h2, h3 { color: var(--title-color); margin: 5px 0 15px 0; font-weight: 700; font-size: 1.3rem; }
 
         header {
             width: 100%; max-width: 480px; display: flex; justify-content: space-between;
-            align-items: center; border-bottom: var(--border-width) solid var(--border-color);
-            padding-bottom: 15px; margin-bottom: 20px;
+            align-items: center; padding-bottom: 15px; margin-bottom: 15px;
         }
 
-        .header-title { font-size: 1.2rem; font-weight: bold; color: var(--title-color); margin: 0; }
-        .header-icons { display: flex; gap: 15px; font-size: 1.4rem; }
-        .icon-btn { cursor: pointer; user-select: none; transition: transform 0.2s; }
-        .icon-btn:active { transform: scale(0.9); }
+        .header-title { font-size: 1.3rem; font-weight: 800; color: var(--title-color); margin: 0; letter-spacing: -0.5px;}
+        .header-icons { display: flex; gap: 20px; font-size: 1.5rem; }
+        .icon-btn { cursor: pointer; user-select: none; transition: transform 0.2s; opacity: 0.8;}
+        .icon-btn:active { transform: scale(0.8); opacity: 1;}
 
         .app-view { display: none; width: 100%; max-width: 480px; flex-direction: column; gap: 15px; }
         .app-view.active { display: flex; }
 
         .card {
-            background-color: transparent; border: var(--border-width) solid var(--border-color);
-            border-radius: var(--button-radius); padding: 15px; box-sizing: border-box;
+            background-color: var(--card-bg); border: var(--border-width) solid var(--border-color);
+            border-radius: var(--card-radius); padding: 20px; box-sizing: border-box; box-shadow: var(--shadow);
         }
 
         input, textarea {
-            background-color: transparent; color: var(--text-main);
-            border: var(--border-width) solid var(--border-color); border-radius: var(--button-radius);
-            padding: 12px; font-size: 1rem; width: 100%; box-sizing: border-box;
+            background-color: var(--bg-main); color: var(--text-main);
+            border: none; border-radius: 8px;
+            padding: 15px; font-size: 1rem; width: 100%; box-sizing: border-box;
             font-family: var(--font-family-global); margin-bottom: 10px;
         }
-        input:focus, textarea:focus { outline: none; border-color: var(--title-color); }
+        input:focus, textarea:focus { outline: 2px solid var(--title-color); }
 
         .btn {
             border: none; border-radius: var(--button-radius); font-family: var(--font-family-global);
-            font-size: 1.1rem; font-weight: 600; padding: 15px; cursor: pointer;
-            transition: opacity 0.2s; width: 100%; box-sizing: border-box; position: relative;
+            font-size: 1.1rem; font-weight: 700; padding: 16px; cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s; width: 100%; box-sizing: border-box; position: relative;
         }
-        .btn:active { opacity: 0.8; }
-        .btn-green { background-color: var(--btn-plus-bg); color: #ffffff; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+        .btn:active { opacity: 0.7; transform: scale(0.98); }
+        .btn-green { background-color: var(--btn-plus-bg); color: #ffffff; }
         .btn-cherry { background-color: var(--btn-submit-bg); color: #ffffff; }
-        .btn-outline { background-color: transparent; border: var(--border-width) solid var(--border-color); color: var(--text-main); }
+        .btn-outline { background-color: var(--card-bg); border: 1px solid var(--text-muted); color: var(--text-main); }
+        
+        body:not(.theme-default) .btn-green { color: #000; } /* Ajuste de contraste para Steampunk/Gótico */
 
-        #route-full-buttons { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        #route-full-buttons { display: flex; flex-direction: column; gap: 12px; width: 100%; }
 
-        #counter-value { font-size: 7rem; font-weight: bold; color: var(--title-color); margin: 5px 0; text-align: center; }
-        #counter-controls { display: flex; flex-direction: column; gap: 15px; align-items: center; width: 100%; }
+        #counter-value { font-size: 7.5rem; font-weight: 800; color: var(--title-color); margin: 0; text-align: center; line-height: 1; letter-spacing: -3px;}
+        #counter-controls { display: flex; flex-direction: column; gap: 15px; align-items: center; width: 100%; margin-top: 10px;}
         
         #btn-plus { 
-            font-size: 3rem; border-radius: var(--button-radius); width: 80%; padding: 20px 0; 
-            overflow: visible; /* Necesario para la animación de combo */
+            font-size: 3.5rem; border-radius: var(--card-radius); width: 100%; padding: 25px 0; 
+            overflow: visible; box-shadow: var(--shadow);
         }
         
-        #btn-minus { font-size: 2rem; border-radius: 12px; width: 60px; height: 60px; padding: 0; display: flex; justify-content: center; align-items: center; }
-        #counter-cash { border: var(--border-width) solid var(--border-color); color: var(--text-main); font-weight: bold; padding: 12px; text-align: center; border-radius: var(--button-radius); margin-top: 15px; }
+        #btn-minus { font-size: 2rem; border-radius: 12px; width: 70px; height: 70px; padding: 0; display: flex; justify-content: center; align-items: center; }
+        
+        #counter-cash { background-color: var(--card-bg); color: var(--text-main); font-weight: 700; padding: 15px; text-align: center; border-radius: var(--button-radius); margin-top: 10px; font-size: 1.2rem; box-shadow: var(--shadow);}
 
-        .merged-section { margin-bottom: 20px; }
-        .corte-item { display: flex; justify-content: space-between; border-bottom: var(--border-width) solid var(--border-color); padding: 10px 0; font-size: 0.95rem; }
+        .merged-section { margin-bottom: 15px; }
+        .corte-item { display: flex; justify-content: space-between; padding: 12px 0; font-size: 1rem; border-bottom: 1px solid var(--bg-main);}
+        .corte-item:last-child { border-bottom: none; }
         
         .history-item-home {
-            border: var(--border-width) solid var(--border-color); border-radius: var(--button-radius);
-            padding: 12px; display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 8px; font-size: 0.9rem;
+            background-color: var(--card-bg); border-radius: var(--button-radius);
+            padding: 15px; display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 10px; font-size: 0.95rem; box-shadow: var(--shadow); border: var(--border-width) solid var(--border-color);
         }
-        .history-controls { display: flex; gap: 15px; font-size: 1.3rem; }
-        .past-day-card { border-left: 4px solid var(--title-color); margin-bottom: 10px; }
+        .history-controls { display: flex; gap: 18px; font-size: 1.4rem; }
+        .past-day-card { border-left: 5px solid var(--title-color); }
 
-        /* =========================================
-           ANIMACIÓN TIPO MARIO BROS (COMBO)
-           ========================================= */
+        /* Módulo de Cambio de Ruta */
+        #route-display {
+            background-color: var(--card-bg); padding: 12px; border-radius: 10px; 
+            text-align: center; font-weight: 700; font-size: 1.1rem; margin-bottom: 15px; 
+            color: var(--title-color); box-shadow: var(--shadow); cursor: pointer;
+            border: 1px solid transparent; transition: border 0.2s;
+        }
+        #route-display:active { border-color: var(--title-color); }
+
+        /* Animación Combo */
         .floating-combo {
-            position: absolute;
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: #ffd700; /* Dorado brillante */
+            position: absolute; font-size: 2.5rem; font-weight: 900; color: #ffd700;
             text-shadow: 2px 2px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000, 1px 1px 0px #000;
-            pointer-events: none; /* Para no bloquear clics */
-            animation: floatCoin 0.6s ease-out forwards;
-            z-index: 100;
+            pointer-events: none; animation: floatCoin 0.6s ease-out forwards; z-index: 100;
         }
 
         @keyframes floatCoin {
@@ -139,81 +156,81 @@
 
     </style>
 </head>
-<body id="app-body">
+<body id="app-body" class="theme-default">
 
     <header>
         <div class="header-title">Órbita F1</div>
         <div class="header-icons">
-            <span class="icon-btn" onclick="setTheme('default')" title="Tema Claro">☀️</span>
-            <span class="icon-btn" onclick="setTheme('theme-steampunk')" title="Tema Steampunk">🪐</span>
-            <span class="icon-btn" onclick="setTheme('theme-gothic')" title="Tema Gótico">🌙</span>
+            <span class="icon-btn" id="theme-toggle-btn" onclick="cycleTheme()" title="Cambiar Estilo">☀️</span>
             <span class="icon-btn" onclick="showScreen('view-registration')" title="Configuración">⚙️</span>
         </div>
     </header>
 
     <div id="view-home" class="app-view active">
-        <div class="merged-section" style="text-align: center;">
-            <p style="margin: 0; color: var(--text-main); font-size: 0.9rem;">Efectivo acumulado hoy</p>
-            <div id="balance-total-cash" style="font-size: 3rem; font-weight: bold; color: var(--title-color);">$0</div>
+        <div class="merged-section" style="text-align: center; padding: 10px 0;">
+            <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; font-weight: 600;">Efectivo acumulado hoy</p>
+            <div id="balance-total-cash" style="font-size: 3.5rem; font-weight: 800; color: var(--title-color); letter-spacing: -1px;">$0</div>
         </div>
 
         <div class="merged-section">
-            <button class="btn btn-cherry" onclick="showScreen('view-route-full')">GENERAR VUELTA</button>
+            <button class="btn btn-cherry" onclick="openRouteSelection(false)">GENERAR VUELTA</button>
         </div>
 
         <div class="merged-section">
-            <button class="btn btn-outline" onclick="showScreen('view-history')">VER HISTORIAL Y DÍAS PASADOS</button>
+            <button class="btn btn-outline" onclick="showScreen('view-history')">VER HISTORIAL Y PASADOS</button>
         </div>
 
         <div class="merged-section card">
-            <h2 style="margin-top:0; font-size: 1.1rem;">Liquidación del Turno</h2>
-            <div class="corte-item"><span>Vueltas Totales:</span><b id="corte-vueltas-count">0</b></div>
-            <div class="corte-item"><span>Ingreso Bruto:</span><b id="corte-bruto">$0</b></div>
-            <div class="corte-item"><span>Sueldo Operador:</span><b>-$650</b></div>
+            <h2>Liquidación del Turno</h2>
+            <div class="corte-item"><span style="color: var(--text-muted);">Vueltas Totales:</span><b id="corte-vueltas-count">0</b></div>
+            <div class="corte-item"><span style="color: var(--text-muted);">Ingreso Bruto:</span><b id="corte-bruto">$0</b></div>
+            <div class="corte-item"><span style="color: var(--text-muted);">Sueldo Operador:</span><b>-$650</b></div>
             
-            <div style="margin-top: 15px;">
+            <div style="margin-top: 20px;">
                 <input type="number" id="corte-gasto-extra" placeholder="Monto extra (ej. 150)" oninput="updateHomeView()">
-                <input type="text" id="corte-gasto-concepto" placeholder="Concepto del gasto (ej. Talacha)">
-                <textarea id="corte-obs" placeholder="Observaciones (tráfico, novedades...)"></textarea>
+                <input type="text" id="corte-gasto-concepto" placeholder="Concepto (ej. Talacha)">
+                <textarea id="corte-obs" placeholder="Observaciones generales..."></textarea>
             </div>
 
-            <div style="margin-top: 15px; text-align: center; padding-top: 15px; border-top: var(--border-width) solid var(--border-color);">
-                <span style="font-size: 0.9rem;">A ENTREGAR</span>
-                <div id="corte-final" style="font-size: 2.2rem; font-weight: bold; color: var(--title-color);">$0</div>
+            <div style="margin-top: 15px; text-align: center; padding-top: 20px; border-top: 1px solid var(--bg-main);">
+                <span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 700;">A ENTREGAR</span>
+                <div id="corte-final" style="font-size: 2.8rem; font-weight: 800; color: var(--title-color); letter-spacing: -1px;">$0</div>
             </div>
 
-            <button class="btn btn-outline" style="margin-top: 15px;" onclick="enviarReporteCorteWA()">ENVIAR CORTE Y GUARDAR DÍA</button>
+            <button class="btn btn-outline" style="margin-top: 20px;" onclick="enviarReporteCorteWA()">ENVIAR CORTE Y GUARDAR DÍA</button>
         </div>
     </div>
 
     <div id="view-history" class="app-view">
-        <h2 style="margin-bottom: 0;">Historial de Hoy</h2>
-        <div id="history-list-today" style="margin-bottom: 20px;"></div>
+        <h2>Historial de Hoy</h2>
+        <div id="history-list-today" style="margin-bottom: 25px;"></div>
 
-        <h2 style="margin-bottom: 0;">Días Anteriores</h2>
+        <h2>Días Anteriores</h2>
         <div id="history-list-past"></div>
 
-        <button class="btn btn-cherry" style="margin-top: 20px;" onclick="showScreen('view-home')">VOLVER AL HOME</button>
+        <button class="btn btn-cherry" style="margin-top: 20px;" onclick="showScreen('view-home')">VOLVER AL BALANCE</button>
     </div>
 
     <div id="view-route-full" class="app-view">
-        <h2 style="text-align: center; margin-bottom: 20px;">Destino</h2>
+        <h2 style="text-align: center; margin-bottom: 20px;" id="route-title">Selecciona Destino</h2>
         <div id="route-full-buttons">
-            <button class="btn btn-outline" onclick="generateVuelta('Huehuetoca')">HUEHUETOCA ($15)</button>
-            <button class="btn btn-outline" onclick="generateVuelta('Lazaro Cardenas')">LÁZARO CÁRDENAS ($14)</button>
-            <button class="btn btn-outline" onclick="generateVuelta('Colorado')">COLORADO ($14)</button>
-            <button class="btn btn-outline" onclick="generateVuelta('Compadres')">COMPADRES ($14)</button>
-            <button class="btn btn-outline" onclick="generateVuelta('Tetecla')">TETECLA ($14)</button>
-            <button class="btn btn-outline" onclick="generateVuelta('Pendiente 1')">PENDIENTE 1 ($14)</button>
-            <button class="btn btn-outline" onclick="generateVuelta('Pendiente 2')">PENDIENTE 2 ($14)</button>
+            <button class="btn btn-outline" onclick="selectRoute('Huehuetoca')">HUEHUETOCA ($15)</button>
+            <button class="btn btn-outline" onclick="selectRoute('Lazaro Cardenas')">LÁZARO CÁRDENAS ($14)</button>
+            <button class="btn btn-outline" onclick="selectRoute('Colorado')">COLORADO ($14)</button>
+            <button class="btn btn-outline" onclick="selectRoute('Compadres')">COMPADRES ($14)</button>
+            <button class="btn btn-outline" onclick="selectRoute('Tetecla')">TETECLA ($14)</button>
+            <button class="btn btn-outline" onclick="selectRoute('Pendiente 1')">PENDIENTE 1 ($14)</button>
+            <button class="btn btn-outline" onclick="selectRoute('Pendiente 2')">PENDIENTE 2 ($14)</button>
         </div>
-        <button class="btn btn-cherry" style="margin-top: 20px;" onclick="showScreen('view-home')">CANCELAR</button>
+        <button class="btn btn-cherry" style="margin-top: 20px;" onclick="cancelRouteSelection()">CANCELAR</button>
     </div>
 
     <div id="view-vueltas" class="app-view">
-        <div id="route-display" style="text-align: center; font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; color: var(--title-color);">[Ruta]</div>
+        <div id="route-display" onclick="openRouteSelection(true)" title="Toca para cambiar de destino">
+            [Ruta] <span style="font-size:0.8rem; opacity:0.6;">✏️ Cambiar</span>
+        </div>
         
-        <div style="text-align: center; font-size: 0.9rem; letter-spacing: 1px;">PAX TOTALES</div>
+        <div style="text-align: center; font-size: 0.85rem; letter-spacing: 1px; color: var(--text-muted); font-weight: 700;">PAX TOTALES</div>
         <div id="counter-value">0</div>
         
         <div id="counter-controls">
@@ -221,18 +238,19 @@
             <button id="btn-minus" class="btn btn-cherry" onclick="decrementCounter()">-</button>
         </div>
         <div id="counter-cash">TOTAL: $0</div>
-        <button class="btn btn-cherry" style="margin-top:25px;" onclick="closeVuelta()">CERRAR VUELTA</button>
+        <button class="btn btn-cherry" style="margin-top:20px;" onclick="closeVuelta()">CERRAR VUELTA</button>
     </div>
 
     <div id="view-cierre" class="app-view card">
         <h2 style="text-align: center;">Resumen</h2>
-        <div id="cierre-details" style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 20px; text-align: center;">...</div>
-        <button class="btn btn-green" style="margin-bottom: 10px;" onclick="enviarReporteVueltaWA()">ENVIAR VUELTA</button>
-        <button class="btn btn-outline" onclick="showScreen('view-home')">VOLVER AL HOME</button>
+        <div id="cierre-details" style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 25px; text-align: center; color: var(--text-main);">...</div>
+        <button class="btn btn-green" style="margin-bottom: 12px;" onclick="enviarReporteVueltaWA()">ENVIAR VUELTA</button>
+        <button class="btn btn-outline" onclick="showScreen('view-home')">VOLVER AL BALANCE</button>
     </div>
 
     <div id="view-registration" class="app-view card">
-        <h2 style="margin-top: 0;">Configuración</h2>
+        <h2>Configuración</h2>
+        <p style="font-size: 0.9rem; color: var(--text-muted);">Datos fijos para reportes de WhatsApp:</p>
         <input type="text" id="reg-operador" placeholder="Operador (ej. Carlos)" value="Carlos">
         <input type="number" id="reg-unidad" placeholder="Unidad (ej. 15)" value="15">
         <button class="btn btn-cherry" style="margin-top: 15px;" onclick="showScreen('view-home')">GUARDAR</button>
@@ -249,12 +267,19 @@
         let vueltasHistory = [];
         let totalDayCashAccumulated = 0;
         
-        // Variables para el combo de clics
         let comboCount = 0;
         let comboTimer;
 
+        // Lógica de Cambio de Ruta
+        let isEditingActiveRoute = false;
+
+        // Lógica del Tema Unificado
+        const themes = ['theme-default', 'theme-steampunk', 'theme-gothic'];
+        const themeIcons = ['☀️', '🪐', '🌙'];
+        let currentThemeIndex = 0;
+
         window.onload = () => {
-            const savedTheme = localStorage.getItem('orbita_theme') || 'default';
+            const savedTheme = localStorage.getItem('orbita_theme') || 'theme-default';
             setTheme(savedTheme);
             updatePastDaysList();
         };
@@ -266,52 +291,75 @@
             if (screenId === 'view-history') { updateTodayHistoryList(); updatePastDaysList(); }
         }
 
-        function setTheme(theme) {
-            document.getElementById('app-body').className = theme === 'default' ? '' : theme;
-            localStorage.setItem('orbita_theme', theme);
+        function cycleTheme() {
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+            setTheme(themes[currentThemeIndex]);
         }
 
-        function generateVuelta(route) {
-            currentVuelta = {
-                id: Date.now(), route: route, rate: rates[route],
-                startTime: new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' }),
-                passengers: 0, cash: 0
-            };
-            document.getElementById('route-display').innerText = `${currentVuelta.route} ($${currentVuelta.rate})`;
+        function setTheme(themeClass) {
+            document.getElementById('app-body').className = themeClass;
+            localStorage.setItem('orbita_theme', themeClass);
+            
+            currentThemeIndex = themes.indexOf(themeClass);
+            if(currentThemeIndex === -1) currentThemeIndex = 0;
+            document.getElementById('theme-toggle-btn').innerText = themeIcons[currentThemeIndex];
+        }
+
+        // --- FUNCIONES DE SELECCIÓN DE RUTA ---
+        function openRouteSelection(isEditing) {
+            isEditingActiveRoute = isEditing;
+            document.getElementById('route-title').innerText = isEditing ? "Cambiar Destino" : "Selecciona Destino";
+            showScreen('view-route-full');
+        }
+
+        function cancelRouteSelection() {
+            if (isEditingActiveRoute) {
+                showScreen('view-vueltas'); // Regresar al contador sin cambios
+            } else {
+                showScreen('view-home'); // Canceló generar vuelta nueva
+            }
+        }
+
+        function selectRoute(route) {
+            if (isEditingActiveRoute && currentVuelta) {
+                // Solo actualizar destino y tarifa de la vuelta actual
+                currentVuelta.route = route;
+                currentVuelta.rate = rates[route];
+                isEditingActiveRoute = false;
+            } else {
+                // Generar vuelta completamente nueva
+                currentVuelta = {
+                    id: Date.now(), route: route, rate: rates[route],
+                    startTime: new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' }),
+                    passengers: 0, cash: 0
+                };
+            }
+            document.getElementById('route-display').innerHTML = `${currentVuelta.route} ($${currentVuelta.rate}) <span style="font-size:0.8rem; opacity:0.6;">✏️ Cambiar</span>`;
             updateVueltaDisplay();
             showScreen('view-vueltas');
         }
 
+        // --- CONTADOR Y COMBOS ---
         function incrementCounter(e) { 
             currentVuelta.passengers++; 
             updateVueltaDisplay(); 
 
-            // Lógica del Combo
             comboCount++;
             clearTimeout(comboTimer);
-            comboTimer = setTimeout(() => { comboCount = 0; }, 800); // Se reinicia el combo tras 0.8s sin clics
+            comboTimer = setTimeout(() => { comboCount = 0; }, 800); 
 
-            // Crear el elemento flotante
             const floater = document.createElement('div');
             floater.className = 'floating-combo';
             floater.innerText = `+${comboCount}`;
 
             const btn = document.getElementById('btn-plus');
-            
-            // Posicionar donde se hizo el clic o en el centro si no hay coordenadas
             let x = btn.offsetWidth / 2;
             let y = btn.offsetHeight / 2;
-            if (e && e.offsetX) {
-                x = e.offsetX;
-                y = e.offsetY;
-            }
+            if (e && e.offsetX) { x = e.offsetX; y = e.offsetY; }
 
             floater.style.left = `${x}px`;
             floater.style.top = `${y}px`;
-
             btn.appendChild(floater);
-
-            // Eliminarlo después de la animación
             setTimeout(() => floater.remove(), 600);
         }
 
@@ -329,14 +377,15 @@
             totalDayCashAccumulated += currentVuelta.cash;
             
             document.getElementById('cierre-details').innerHTML = `
-                <b>${currentVuelta.route}</b><br>
+                <b style="color: var(--title-color); font-size: 1.3rem;">${currentVuelta.route}</b><br>
                 ${currentVuelta.startTime} - ${currentVuelta.endTime}<br>
                 ${currentVuelta.passengers} PAX<br>
-                <b>$${currentVuelta.cash}</b>
+                <b style="font-size: 1.2rem;">$${currentVuelta.cash}</b>
             `;
             showScreen('view-cierre');
         }
 
+        // --- HOME Y HISTORIAL ---
         function updateHomeView() {
             document.getElementById('balance-total-cash').innerText = `$${totalDayCashAccumulated}`;
             document.getElementById('corte-vueltas-count').innerText = vueltasHistory.length;
@@ -348,17 +397,17 @@
         function updateTodayHistoryList() {
             const list = document.getElementById('history-list-today');
             list.innerHTML = '';
-            if (vueltasHistory.length === 0) { list.innerHTML = '<p style="font-size: 0.9rem; opacity: 0.7;">No hay vueltas hoy.</p>'; return; }
+            if (vueltasHistory.length === 0) { list.innerHTML = '<p style="font-size: 0.9rem; opacity: 0.5;">No hay vueltas hoy.</p>'; return; }
             vueltasHistory.forEach(vuelta => {
                 const item = document.createElement('div');
                 item.className = 'history-item-home';
                 item.innerHTML = `
                     <div>
-                        <b>${vuelta.route}</b> (PAX:${vuelta.passengers})<br>
-                        <span style="font-size:0.8rem;">${vuelta.startTime} | $${vuelta.cash}</span>
+                        <b style="color: var(--title-color);">${vuelta.route}</b> (PAX: ${vuelta.passengers})<br>
+                        <span style="font-size:0.85rem; color: var(--text-muted);">${vuelta.startTime} | <b style="color: var(--text-main);">$${vuelta.cash}</b></span>
                     </div>
                     <div class="history-controls">
-                        <span style="cursor:pointer;" onclick="editVuelta(${vuelta.id})">🔍</span>
+                        <span style="cursor:pointer;" onclick="editVuelta(${vuelta.id})">✏️</span>
                         <span style="cursor:pointer;" onclick="enviarReporteVueltaWA(${vuelta.id})">📲</span>
                     </div>
                 `;
@@ -379,6 +428,7 @@
             }
         }
 
+        // --- ALMACENAMIENTO DE DÍAS ---
         function guardarCorteEnMemoria(textoCorte) {
             let pasados = JSON.parse(localStorage.getItem('orbita_cortes_pasados')) || [];
             const fecha = new Date().toLocaleDateString('es-MX');
@@ -391,7 +441,7 @@
             const list = document.getElementById('history-list-past');
             list.innerHTML = '';
             let pasados = JSON.parse(localStorage.getItem('orbita_cortes_pasados')) || [];
-            if (pasados.length === 0) { list.innerHTML = '<p style="font-size: 0.9rem; opacity: 0.7;">Aún no hay días guardados.</p>'; return; }
+            if (pasados.length === 0) { list.innerHTML = '<p style="font-size: 0.9rem; opacity: 0.5;">Aún no hay días guardados.</p>'; return; }
             pasados.forEach(dia => {
                 const item = document.createElement('div');
                 item.className = 'history-item-home past-day-card';
@@ -399,8 +449,8 @@
                 let resumenTotal = aEntregar ? aEntregar[0].replace('*A ENTREGAR:* ', '') : 'Ver detalle';
                 item.innerHTML = `
                     <div>
-                        <b>Fecha: ${dia.fecha}</b><br>
-                        <span style="font-size:0.8rem;">Liquidación: ${resumenTotal}</span>
+                        <b style="color: var(--text-main);">Fecha: ${dia.fecha}</b><br>
+                        <span style="font-size:0.85rem; color: var(--text-muted);">Liquidación: <b style="color: var(--title-color);">${resumenTotal}</b></span>
                     </div>
                     <div class="history-controls">
                         <span style="cursor:pointer;" onclick="reenviarCortePasado('${encodeURIComponent(dia.reporte)}')">📲</span>
@@ -412,6 +462,7 @@
 
         function reenviarCortePasado(encodedText) { window.open(`https://wa.me/?text=${encodedText}`, '_blank'); }
 
+        // --- WHATSAPP ---
         function enviarReporteVueltaWA(vueltaId) {
             const data = (vueltaId) ? vueltasHistory.find(v => v.id === vueltaId) : currentVuelta;
             const text = encodeURIComponent(`*ÓRBITA F1 - REPORTE DE VUELTA*
@@ -447,6 +498,7 @@
                 document.getElementById('corte-gasto-concepto').value = '';
                 document.getElementById('corte-obs').value = '';
                 updateHomeView();
+                updatePastDaysList(); // Actualizar lista visualmente rápido
             }
         }
     </script>
