@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Órbita F1 - Rol Local</title>
+    <style>
+        /* =========================================
+           DEFINICIÓN DE PALETAS DE COLORES (THEMES)
+           ========================================= */
+
+        :root {
+            /* Tema Predeterminado: Pop Rock 90s (Inspirado en image_1.png) */
+            --bg-main: #f5eeda; /* distressed bone cream */
+            --text-main: #000000;
+            --title-color: #d1124d; /* cherry red */
+            --btn-plus-bg: #4ae256; /* electric green */
+            --btn-minus-bg: #d1124d; /* cherry red */
+            --btn-submit-bg: #d1124d;
+            --border-color: #000000;
+            --font-family-title: 'Courier New', monospace; /* Grunge feel */
+            --font-family-body: sans-serif;
+            --border-width: 4px;
+            --button-radius: 4px;
+            --box-shadow: 6px 6px 0px #000000;
+        }
+
+        /* Tema 2: Neon Steampunk */
+        body.theme-steampunk {
+            --bg-main: #2b1f14; /* leather brown */
+            --text-main: #f5c87e; /* aged gold text */
+            --title-color: #3aeaff; /* cyan neon glow */
+            --btn-plus-bg: #3aeaff; /* cyan neon */
+            --btn-minus-bg: #ff00ff; /* magenta neon */
+            --btn-submit-bg: #3aeaff;
+            --border-color: #cd7f32; /* bronze border */
+            --font-family-title: 'Orbitron', sans-serif; /* Mechanical/ciberpunk */
+            --font-family-body: 'Orbitron', sans-serif;
+            --border-width: 2px;
+            --button-radius: 8px;
+            --box-shadow: 0 0 10px #3aeaff;
+        }
+
+        /* Tema 3: Oscuro Gótico (Inspirado en image_3.png) */
+        body.theme-gothic {
+            --bg-main: #0a0a0a; /* near black */
+            --text-main: #c4c4c4; /* silver text */
+            --title-color: #8c0a1a; /* deep crimson */
+            --btn-plus-bg: #8c0a1a; /* deep crimson */
+            --btn-minus-bg: #600711; /* deeper crimson */
+            --btn-submit-bg: #8c0a1a;
+            --border-color: #c4c4c4; /* silver border */
+            --font-family-title: 'Georgia', serif; /* Cathedral feel */
+            --font-family-body: 'Georgia', serif;
+            --border-width: 1px; /* elegant, fine lines */
+            --button-radius: 2px;
+            --box-shadow: 0 0 5px #8c0a1a;
+        }
+
+        /* Fuents Neón/Mecánicas para Steampunk */
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+        /* =========================================
+           ESTILOS GENERALES Y LAYOUT
+           ========================================= */
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: var(--font-family-body);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-family-title);
+            color: var(--title-color);
+            text-transform: uppercase;
+            text-shadow: var(--border-width) var(--border-width) 0 var(--border-color);
+        }
+
+        body.theme-gothic h1, body.theme-gothic h2, body.theme-gothic h3 {
+            text-shadow: 0 0 5px #8c0a1a;
+        }
+
+        /* Navegación (Tabs) */
+        nav {
+            margin-bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+        }
+
+        nav button {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--button-radius);
+            font-family: var(--font-family-title);
+            font-size: 1.2rem;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        nav button.active {
+            background-color: var(--btn-submit-bg);
+            color: #ffffff;
+            box-shadow: var(--box-shadow);
+        }
+
+        /* Pantallas (Views) */
+        .app-view {
+            display: none;
+            width: 100%;
+            max-width: 480px;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .app-view.active {
+            display: flex;
+        }
+
+        /* Componentes Comunes */
+        .card {
+            background-color: var(--bg-main);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--button-radius);
+            padding: 15px;
+            box-shadow: var(--box-shadow);
+        }
+
+        input, select, textarea {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            border: var(--border-width) solid var(--border-color);
+            padding: 10px;
+            font-size: 1rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Botones de Acción */
+        .btn {
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--button-radius);
+            font-family: var(--font-family-title);
+            font-size: 1.2rem;
+            padding: 15px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: none;
+        }
+
+        .btn-green {
+            background-color: var(--btn-plus-bg);
+            color: #000000;
+        }
+
+        .btn-cherry {
+            background-color: var(--btn-submit-bg);
+            color: #ffffff;
+            box-shadow: var(--box-shadow);
+        }
+
+        /* =========================================
+           LÓGICA DEL CONTADOR (IMAGE_1.PNG)
+           ========================================= */
+
+        #counter-value {
+            font-size: 6rem;
+            font-weight: bold;
+            color: var(--title-color);
+            text-shadow: calc(var(--border-width) * 1.5) calc(var(--border-width) * 1.5) 0 var(--border-color);
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        #counter-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        #counter-controls button {
+            flex: 1;
+            font-size: 2rem;
+            border-radius: 50%; /* Mantener redondeado para el [-] */
+            aspect-ratio: 1/1;
+        }
+
+        #counter-controls button#btn-plus {
+            border-radius: var(--button-radius); /* Cuadrado para [+] */
+        }
+
+        #counter-cash {
+            background-color: var(--border-color);
+            color: #ffffff;
+            font-weight: bold;
+            padding: 10px;
+            text-align: center;
+            border-radius: var(--button-radius);
+            margin-top: 10px;
+        }
+
+        /* Estilos del Historial */
+        .history-item {
+            border-bottom: var(--border-width) solid var(--border-color);
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+    </style>
+</head>
+<body id="app-body">
+
+    <h1>Órbita F1 🛰️</h1>
+
+    <select id="theme-selector" onchange="changeTheme()">
+        <option value="default">Pop Rock 90s</option>
+        <option value="theme-steampunk">Neon Steampunk</option>
+        <option value="theme-gothic">Oscuro Gótico</option>
+    </select>
+
+    <nav>
+        <button id="nav-balance" onclick="showScreen('view-balance')">BALANCE</button>
+        <button id="nav-vueltas" onclick="showScreen('view-vueltas')" style="display:none;">VUELTA ACTIVA</button>
+        <button id="nav-history" onclick="showScreen('view-history')">HISTORIAL</button>
+        <button id="nav-corte" onclick="showScreen('view-corte')">CORTE</button>
+    </nav>
+
+    <div id="view-balance" class="app-view active card">
+        <h2>Turno Local</h2>
+        <button class="btn btn-cherry" onclick="showScreen('view-route-selection')">GENERAR VUELTA</button>
+        <p>Efectivo acumulado hoy:</p>
+        <div id="balance-total-cash" class="card" style="font-size: 2rem; font-weight: bold;">$0</div>
+    </div>
+
+    <div id="view-route-selection" class="app-view card">
+        <h2>Selecciona Destino</h2>
+        <select id="route-select">
+            <option value="Huehuetoca">Huehuetoca ($15)</option>
+            <option value="Lazaro Cardenas">Lázaro Cárdenas ($14)</option>
+            <option value="Colorado">Colorado ($14)</option>
+            <option value="Compadres">Compadres ($14)</option>
+            <option value="Tetecla">Tetecla ($14)</option>
+            <option value="Pendiente 1">Pendiente 1 ($14)</option>
+            <option value="Pendiente 2">Pendiente 2 ($14)</option>
+        </select>
+        <button class="btn btn-green" onclick="generateVuelta()">EMPEZAR VUELTA</button>
+    </div>
+
+    <div id="view-vueltas" class="app-view">
+        <h2 style="text-align: center;">VUELTA ACTIVA</h2>
+        <div id="route-display" class="card" style="text-align: center; font-weight: bold;">[Ruta]</div>
+        
+        <h3 style="text-align: center;">PASAJEROS TOTALES</h3>
+        <div id="counter-value">0</div>
+        
+        <div id="counter-controls">
+            <button id="btn-plus" class="btn btn-green" onclick="incrementCounter()">+</button>
+            <button id="btn-minus" class="btn btn-cherry" onclick="decrementCounter()">-</button>
+        </div>
+        
+        <div id="counter-cash">EFECTIVO DE LA VUELTA: $0</div>
+
+        <button class="btn btn-cherry" style="margin-top:20px;" onclick="closeVuelta()">CERRAR VUELTA</button>
+    </div>
+
+    <div id="view-cierre" class="app-view card">
+        <h2>RESUMEN DE VUELTA</h2>
+        <div id="cierre-details">...</div>
+        <button class="btn btn-green" onclick="enviarReporteVueltaWA()">ENVIAR VUELTA (WA)</button>
+        <button class="btn btn-cherry" onclick="continuarAlBalance()">CONTINUAR AL BALANCE</button>
+    </div>
+
+    <div id="view-history" class="app-view card">
+        <h2>Historial de Hoy</h2>
+        <div id="history-list">
+            </div>
+    </div>
+
+    <div id="view-corte" class="app-view card">
+        <h2>CORTE DEL DÍA - ÓRBITA F1</h2>
+        <div class="history-item"><span>Ingreso Bruto (Vueltas):</span><b id="corte-bruto">$0</b></div>
+        <div class="history-item"><span>Sueldo Operador:</span><b>-$650 (Fijo)</b></div>
+        
+        <h3>Gasto Extraordinario</h3>
+        <input type="number" id="corte-gasto-extra" placeholder="Monto (ej. 150)" oninput="updateCorteFinal()">
+        <input type="text" id="corte-gasto-concepto" placeholder="Concepto (ej. Talacha)">
+
+        <h3>Observaciones</h3>
+        <textarea id="corte-obs" placeholder="Reporte de tráfico, choques, etc..."></textarea>
+
+        <div class="card" style="margin-top: 15px;">
+            LIQUIDACIÓN A ENTREGAR:
+            <div id="corte-final" style="font-size: 2.5rem; font-weight: bold; color: var(--title-color);">$0</div>
+        </div>
+
+        <button class="btn btn-cherry" onclick="enviarReporteCorteWA()">ENVIAR CORTE (WA)</button>
+    </div>
+
+    <div id="view-registration" class="app-view card" style="display:none;">
+        <h2>Registro de Turno</h2>
+        <input type="text" id="reg-operador" placeholder="Nombre Operador" value="Carlos">
+        <input type="number" id="reg-unidad" placeholder="Número de Unidad" value="15">
+        <button class="btn btn-green" onclick="showScreen('view-balance')">GUARDAR DATOS</button>
+    </div>
+
+    <script>
+        // =========================================
+        // ESTADO DE LA APLICACIÓN Y DATOS
+        // =========================================
+        const rates = {
+            "Huehuetoca": 15,
+            "Lazaro Cardenas": 14,
+            "Colorado": 14,
+            "Compadres": 14,
+            "Tetecla": 14,
+            "Pendiente 1": 14,
+            "Pendiente 2": 14
+        };
+        const sueldoFijo = 650;
+
+        let currentVuelta = null;
+        let vueltasHistory = [];
+        let totalDayCashAccumulated = 0;
+
+        // =========================================
+        // NAVEGACIÓN Y CAMBIO DE TEMA
+        // =========================================
+        function showScreen(screenId) {
+            document.querySelectorAll('.app-view').forEach(view => view.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(screenId).classList.add('active');
+            
+            const navMap = {
+                'view-balance': 'nav-balance',
+                'view-vueltas': 'nav-vueltas',
+                'view-history': 'nav-history',
+                'view-corte': 'nav-corte'
+            };
+            if (navMap[screenId]) document.getElementById(navMap[screenId]).classList.add('active');
+            
+            if (screenId === 'view-corte') updateCorteFinal();
+        }
+
+        function changeTheme() {
+            const body = document.getElementById('app-body');
+            body.className = document.getElementById('theme-selector').value;
+        }
+
+        // =========================================
+        // LÓGICA DE VUELTAS (ÓRBITA)
+        // =========================================
+        function generateVuelta() {
+            const route = document.getElementById('route-select').value;
+            currentVuelta = {
+                id: Date.now(),
+                route: route,
+                rate: rates[route],
+                startTime: new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' }),
+                passengers: 0,
+                cash: 0
+            };
+            document.getElementById('route-display').innerText = `${currentVuelta.route} ($${currentVuelta.rate}/pas.)`;
+            document.getElementById('nav-vueltas').style.display = 'block';
+            updateVueltaDisplay();
+            showScreen('view-vueltas');
+        }
+
+        function incrementCounter() {
+            currentVuelta.passengers++;
+            updateVueltaDisplay();
+        }
+
+        function decrementCounter() {
+            if (currentVuelta.passengers > 0) currentVuelta.passengers--;
+            updateVueltaDisplay();
+        }
+
+        function updateVueltaDisplay() {
+            currentVuelta.cash = currentVuelta.passengers * currentVuelta.rate;
+            document.getElementById('counter-value').innerText = currentVuelta.passengers;
+            document.getElementById('counter-cash').innerText = `EFECTIVO DE LA VUELTA: $${currentVuelta.cash}`;
+        }
+
+        function closeVuelta() {
+            currentVuelta.endTime = new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
+            vueltasHistory.push(currentVuelta);
+            totalDayCashAccumulated += currentVuelta.cash;
+            document.getElementById('nav-vueltas').style.display = 'none';
+            document.getElementById('balance-total-cash').innerText = `$${totalDayCashAccumulated}`;
+            updateCorteFinal();
+            updateHistoryList();
+
+            const summary = `
+                Ruta: ${currentVuelta.route}<br>
+                ⏰: ${currentVuelta.startTime} - ${currentVuelta.endTime}<br>
+                👥: ${currentVuelta.passengers}<br>
+                💰: $${currentVuelta.cash}
+            `;
+            document.getElementById('cierre-details').innerHTML = summary;
+            showScreen('view-cierre');
+        }
+
+        function continuarAlBalance() {
+            showScreen('view-balance');
+        }
+
+        // =========================================
+        // LÓGICA DEL HISTORIAL Y EDICIÓN
+        // =========================================
+        function updateHistoryList() {
+            const list = document.getElementById('history-list');
+            list.innerHTML = '';
+            vueltasHistory.forEach(vuelta => {
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                item.innerHTML = `
+                    <div>
+                        <b>${vuelta.route}</b> (👥${vuelta.passengers})<br>
+                        ${vuelta.startTime} - ${vuelta.endTime} | $${vuelta.cash}
+                    </div>
+                    <div class="history-controls">
+                        <button onclick="editVuelta(${vuelta.id})">🔍</button>
+                        <button onclick="enviarReporteVueltaWA(${vuelta.id})">📲</button>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function editVuelta(vueltaId) {
+            const vuelta = vueltasHistory.find(v => v.id === vueltaId);
+            const nuevosPasajeros = prompt(`Editar pasajeros de la vuelta a ${vuelta.route}:`, vuelta.passengers);
+            if (nuevosPasajeros !== null) {
+                const viejoCash = vuelta.cash;
+                vuelta.passengers = parseInt(nuevosPasajeros);
+                vuelta.cash = vuelta.passengers * vuelta.rate;
+                totalDayCashAccumulated = totalDayCashAccumulated - viejoCash + vuelta.cash;
+                document.getElementById('balance-total-cash').innerText = `$${totalDayCashAccumulated}`;
+                updateHistoryList();
+                updateCorteFinal();
+            }
+        }
+
+        // =========================================
+        // LÓGICA DEL CORTE / LIQUIDACIÓN
+        // =========================================
+        function updateCorteFinal() {
+            const gastoExtra = parseInt(document.getElementById('corte-gasto-extra').value) || 0;
+            const liquidacionFinal = totalDayCashAccumulated - sueldoFijo - gastoExtra;
+            document.getElementById('corte-bruto').innerText = `$${totalDayCashAccumulated}`;
+            document.getElementById('corte-final').innerText = `$${liquidacionFinal}`;
+        }
+
+        // =========================================
+        // GENERACIÓN DE REPORTES WHATSAPP
+        // =========================================
+        function enviarReporteVueltaWA(vueltaId) {
+            const data = (vueltaId) ? vueltasHistory.find(v => v.id === vueltaId) : currentVuelta;
+            const op = document.getElementById('reg-operador').value;
+            const unid = document.getElementById('reg-unidad').value;
+
+            const text = encodeURIComponent(`🚐 *ÓRBITA F1 - REPORTE DE VUELTA*
+🚍 *Unidad:* ${unid} | 👤 *Operador:* ${op}
+📍 *Ruta:* ${data.route}
+⏰ *Inicio:* ${data.startTime} | 🏁 *Fin:* ${data.endTime}
+👥 *Pasajeros:* ${data.passengers}
+💰 *Efectivo:* $${data.cash}`);
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+        }
+
+        function enviarReporteCorteWA() {
+            const op = document.getElementById('reg-operador').value;
+            const unid = document.getElementById('reg-unidad').value;
+            const gastoExtra = parseInt(document.getElementById('corte-gasto-extra').value) || 0;
+            const conceptoExtra = document.getElementById('corte-gasto-concepto').value || 'Gasto no detallado';
+            const observaciones = document.getElementById('corte-obs').value || 'Sin novedades';
+            const liquidacionFinal = totalDayCashAccumulated - sueldoFijo - gastoExtra;
+
+            const text = encodeURIComponent(`🚐 *ÓRBITA F1 - CORTE DEL DÍA*
+🚍 *Unidad:* ${unid} | 👤 *Operador:* ${op}
+🔄 *Vueltas Totales:* ${vueltasHistory.length}
+💰 *Ingreso Bruto:* $${totalDayCashAccumulated}
+➖ *Sueldo:* -$650
+➖ *Gasto Extraordinario:* -$${gastoExtra} (${conceptoExtra})
+💵 *LIQUIDACIÓN A ENTREGAR:* $${liquidacionFinal}
+📝 *Observaciones:* ${observaciones}`);
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+        }
+
+        // =========================================
+        // INICIO DISCRETO
+        // =========================================
+        setTimeout(() => showScreen('view-balance'), 100); 
+
+    </script>
+</body>
+</html>
