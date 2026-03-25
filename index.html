@@ -4,71 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Órbita F1 - Rol Local</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Grotesk:wght@600;700;900&display=swap" rel="stylesheet">
+
     <style>
         /* =========================================
-           PALETAS DE COLORES (Con Glassmorphism)
+           PALETAS DE COLORES (Premium)
            ========================================= */
         :root {
-            --bg-main: #f2f2f7; 
-            --card-bg: rgba(255, 255, 255, 0.85); 
+            /* Tema 1: Claro / Corporativo */
+            --bg-gradient: radial-gradient(circle at top left, #ffffff, #f2f2f7, #e5e5ea);
+            --card-bg: rgba(255, 255, 255, 0.75); 
             --text-main: #1c1c1e;
             --text-muted: #8e8e93;
             --title-color: #d1124d; 
             --btn-plus-bg: #34c759; 
             --btn-minus-bg: #ff3b30; 
             --btn-submit-bg: #d1124d;
-            --border-color: rgba(0,0,0,0.05);
+            --border-color: rgba(0,0,0,0.06);
             --border-width: 1px;
             --button-radius: 12px;
-            --card-radius: 16px;
-            --shadow: 0 4px 15px rgba(0,0,0,0.03);
-            --font-family-global: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            --row-intercalated: rgba(229, 229, 234, 0.6); 
+            --card-radius: 18px;
+            --shadow: 0 8px 20px rgba(0,0,0,0.04);
+            --font-family-global: 'Inter', -apple-system, sans-serif;
+            --font-family-display: 'Space Grotesk', monospace;
+            --row-intercalated: rgba(229, 229, 234, 0.5); 
+            --glow-color: transparent;
         }
 
         body.theme-steampunk {
-            --bg-main: #0a0806; 
-            --card-bg: rgba(20, 16, 12, 0.85);
+            /* Tema 2: Steampunk */
+            --bg-gradient: radial-gradient(circle at top right, #2a1b10, #0a0806, #000000);
+            --card-bg: rgba(20, 16, 12, 0.75);
             --text-main: #e8c396; 
             --text-muted: #8c765a;
             --title-color: #3aeaff; 
             --btn-plus-bg: #3aeaff; 
             --btn-minus-bg: #ff00ff; 
             --btn-submit-bg: #3aeaff;
-            --border-color: rgba(58, 234, 255, 0.1); 
-            --border-width: 1px;
-            --shadow: 0 4px 15px rgba(58, 234, 255, 0.05);
-            --row-intercalated: rgba(42, 32, 21, 0.6); 
+            --border-color: rgba(58, 234, 255, 0.15); 
+            --shadow: 0 8px 20px rgba(0,0,0,0.3);
+            --row-intercalated: rgba(42, 32, 21, 0.5); 
+            --glow-color: rgba(58, 234, 255, 0.4);
         }
 
         body.theme-gothic {
-            --bg-main: #050505; 
-            --card-bg: rgba(18, 18, 18, 0.85);
+            /* Tema 3: Oscuro / Gótico */
+            --bg-gradient: radial-gradient(circle at center, #1a0508, #050505, #000000);
+            --card-bg: rgba(18, 18, 18, 0.75);
             --text-main: #d4d4d4; 
             --text-muted: #666666;
-            --title-color: #8c0a1a; 
-            --btn-plus-bg: #8c0a1a; 
+            --title-color: #d1124d; /* Cambiado a rojo sangre puro */
+            --btn-plus-bg: #d1124d; 
             --btn-minus-bg: #600711; 
-            --btn-submit-bg: #8c0a1a;
-            --border-color: rgba(140, 10, 26, 0.2); 
-            --border-width: 1px; 
-            --shadow: 0 4px 15px rgba(0,0,0,0.3);
-            --row-intercalated: rgba(34, 34, 34, 0.6); 
+            --btn-submit-bg: #d1124d;
+            --border-color: rgba(209, 18, 77, 0.2); 
+            --shadow: 0 8px 20px rgba(0,0,0,0.4);
+            --row-intercalated: rgba(34, 34, 34, 0.5); 
+            --glow-color: rgba(209, 18, 77, 0.4);
         }
 
+        /* =========================================
+           ESTILOS GENERALES Y LAYOUT
+           ========================================= */
         body {
-            background-color: var(--bg-main); color: var(--text-main); font-family: var(--font-family-global);
+            background: var(--bg-gradient); color: var(--text-main); font-family: var(--font-family-global);
             margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center;
             min-height: 100vh; box-sizing: border-box; overflow-x: hidden;
             -webkit-tap-highlight-color: transparent;
+            background-attachment: fixed;
         }
 
-        #app-container { padding: 15px; width: 100%; max-width: 480px; box-sizing: border-box; }
+        #app-container { padding: 15px; width: 100%; max-width: 480px; box-sizing: border-box; z-index: 2;}
 
         #network-banner {
             background-color: #ff3b30; color: white; width: 100%; text-align: center;
-            padding: 6px 0; font-size: 0.85rem; font-weight: 800; letter-spacing: 1px;
-            display: none; position: sticky; top: 0; z-index: 10000; box-shadow: 0 2px 10px rgba(255,59,48,0.4);
+            padding: 8px 0; font-size: 0.8rem; font-weight: 800; letter-spacing: 1px;
+            display: none; position: sticky; top: 0; z-index: 10000; box-shadow: 0 4px 15px rgba(255,59,48,0.4);
         }
 
         h1, h2, h3 { color: var(--title-color); margin: 5px 0 15px 0; font-weight: 800; font-size: 1.25rem; letter-spacing: -0.5px;}
@@ -79,111 +93,140 @@
         }
 
         .header-title-group { display: flex; align-items: center; gap: 8px; }
-        .header-title { font-size: 1.3rem; font-weight: 900; color: var(--title-color); margin: 0; letter-spacing: -0.5px;}
-        .header-moon { font-size: 1.2rem; opacity: 0.9; }
+        .header-title { font-family: var(--font-family-display); font-size: 1.4rem; font-weight: 900; color: var(--title-color); margin: 0; letter-spacing: -1px;}
+        .header-moon svg { stroke: var(--title-color); fill: none; width: 22px; height: 22px; stroke-width: 2.5;}
 
-        .header-icons { display: flex; gap: 15px; font-size: 1.4rem; align-items: center; }
-        .icon-btn { cursor: pointer; user-select: none; transition: opacity 0.2s; opacity: 0.7;}
-        .icon-btn:active { opacity: 1; transform: scale(0.9);}
+        .header-icons { display: flex; gap: 18px; align-items: center; }
+        .icon-btn { cursor: pointer; user-select: none; transition: opacity 0.2s, transform 0.2s; opacity: 0.8; display: flex;}
+        .icon-btn svg { width: 24px; height: 24px; stroke: var(--text-main); }
+        .icon-btn:active { opacity: 1; transform: scale(0.85);}
 
         .app-view { display: none; width: 100%; flex-direction: column; gap: 12px; animation: fadeIn 0.3s ease-out; }
         .app-view.active { display: flex; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
         .card {
             background-color: var(--card-bg); border: var(--border-width) solid var(--border-color);
-            border-radius: var(--card-radius); padding: 20px; box-sizing: border-box; 
-            box-shadow: var(--shadow); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-radius: var(--card-radius); padding: 22px; box-sizing: border-box; 
+            box-shadow: var(--shadow); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
         }
 
         input, textarea {
             background-color: var(--row-intercalated); color: var(--text-main);
-            border: 1px solid var(--border-color); border-radius: 8px;
-            padding: 14px; font-size: 1rem; width: 100%; box-sizing: border-box;
-            font-family: var(--font-family-global); margin-bottom: 8px; font-weight: 500;
+            border: 1px solid var(--border-color); border-radius: 10px;
+            padding: 15px; font-size: 1rem; width: 100%; box-sizing: border-box;
+            font-family: var(--font-family-global); margin-bottom: 10px; font-weight: 600;
+            transition: all 0.3s;
         }
-        input:focus, textarea:focus { outline: none; border-color: var(--title-color); background-color: var(--card-bg);}
+        input:focus, textarea:focus { outline: none; border-color: var(--title-color); background-color: var(--card-bg); box-shadow: 0 0 10px rgba(0,0,0,0.05);}
 
+        /* BOTONES CON RIPPLE EFFECT */
         .btn {
             border: none; border-radius: var(--button-radius); font-family: var(--font-family-global);
-            font-size: 1.05rem; font-weight: 800; padding: 16px; cursor: pointer;
-            transition: all 0.2s; width: 100%; box-sizing: border-box; letter-spacing: 0.5px;
+            font-size: 1rem; font-weight: 800; padding: 18px; cursor: pointer;
+            transition: transform 0.1s; width: 100%; box-sizing: border-box; letter-spacing: 0.5px;
+            position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; gap: 8px;
         }
-        .btn:active { opacity: 0.7; transform: scale(0.97); }
+        .btn:active { transform: scale(0.97); }
+        .btn svg { width: 20px; height: 20px; stroke-width: 2.5; }
+        
         .btn-green { background-color: var(--btn-plus-bg); color: #ffffff; }
         .btn-cherry { background-color: var(--btn-submit-bg); color: #ffffff; }
         .btn-outline { background-color: transparent; border: 1px solid var(--text-muted); color: var(--text-main); }
         .btn-gold { background-color: rgba(255, 215, 0, 0.15); border: 1px solid #ffd700; color: #b8860b; }
+        
         body.theme-steampunk .btn-gold { color: #ffd700; }
         body.theme-steampunk .btn-green, body.theme-gothic .btn-green { color: #000 !important; }
 
-        #route-full-buttons button:nth-child(odd) { background-color: var(--card-bg); border: 1px solid var(--text-muted); }
+        /* Ripple Animation */
+        .ripple {
+            position: absolute; border-radius: 50%; transform: scale(0);
+            animation: ripple 0.6s linear; background-color: rgba(255, 255, 255, 0.3); pointer-events: none;
+        }
+        .btn-outline .ripple { background-color: rgba(0, 0, 0, 0.1); }
+        body:not(.theme-default) .btn-outline .ripple { background-color: rgba(255, 255, 255, 0.1); }
+        @keyframes ripple { to { transform: scale(4); opacity: 0; } }
+
+        #route-full-buttons button:nth-child(odd) { background-color: var(--card-bg); border: 1px solid var(--border-color); }
         #route-full-buttons button:nth-child(even) { background-color: var(--row-intercalated); border: 1px solid transparent; color: var(--text-main);}
 
         .merged-section { margin-bottom: 15px; }
-        .corte-item { display: flex; justify-content: space-between; padding: 12px 0; font-size: 0.95rem; border-bottom: 1px solid var(--border-color);}
+        .corte-item { display: flex; justify-content: space-between; padding: 12px 0; font-size: 0.95rem; border-bottom: 1px solid var(--border-color); font-weight: 600;}
         .corte-item:last-child { border-bottom: none; }
         
         .history-item-home {
             background-color: var(--card-bg); border-radius: var(--button-radius);
-            padding: 14px; display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 8px; font-size: 0.9rem; box-shadow: var(--shadow); 
+            padding: 16px; display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 10px; font-size: 0.9rem; box-shadow: var(--shadow); 
             border: var(--border-width) solid var(--border-color); backdrop-filter: blur(10px);
         }
-        .history-controls { display: flex; gap: 15px; font-size: 1.25rem; }
+        .history-controls { display: flex; gap: 12px; }
+        .history-controls .icon-action { cursor: pointer; padding: 8px; border-radius: 8px; background: var(--row-intercalated); transition: transform 0.2s;}
+        .history-controls .icon-action:active { transform: scale(0.85); }
+        .history-controls svg { width: 18px; height: 18px; stroke: var(--text-main); fill: none; stroke-width: 2.5;}
+        
         .past-day-card { border-left: 5px solid var(--title-color); }
 
+        /* Tipografía Display para Dinero */
+        .money-display { font-family: var(--font-family-display); font-size: 3.5rem; font-weight: 900; color: var(--title-color); letter-spacing: -2px; margin: 5px 0; }
+
         #route-display {
-            background-color: var(--card-bg); padding: 12px; border-radius: 10px; 
+            background-color: var(--card-bg); padding: 14px; border-radius: 12px; 
             text-align: center; font-weight: 800; font-size: 1.05rem; margin-bottom: 15px; 
             color: var(--title-color); box-shadow: var(--shadow); cursor: pointer;
             border: 1px solid var(--border-color); backdrop-filter: blur(10px);
+            display: flex; justify-content: center; align-items: center; gap: 8px;
         }
+        #route-display svg { width: 16px; height: 16px; opacity: 0.6; }
         
+        /* Número Gigante con Glow */
         #counter-value { 
-            font-size: 7.5rem; font-weight: 900; color: var(--title-color); margin: 0; 
-            text-align: center; line-height: 1; letter-spacing: -4px;
+            font-family: var(--font-family-display); font-size: 8rem; font-weight: 900; 
+            color: var(--title-color); margin: 0; text-align: center; line-height: 1; letter-spacing: -5px;
             font-variant-numeric: tabular-nums; 
+            text-shadow: 0 0 20px var(--glow-color);
+            transition: text-shadow 0.1s;
         }
+        /* Clase añadida dinámicamente al presionar + */
+        .flash-glow { text-shadow: 0 0 50px var(--title-color) !important; color: #fff !important; }
         
-        #counter-controls { display: flex; flex-direction: column; gap: 12px; align-items: center; width: 100%; margin-top: 5px; position: relative;}
-        #btn-plus { font-size: 3.5rem; border-radius: var(--card-radius); width: 100%; padding: 22px 0; box-shadow: var(--shadow); overflow: visible;}
-        #btn-minus { font-size: 1.8rem; border-radius: 12px; width: 65px; height: 65px; padding: 0; display: flex; justify-content: center; align-items: center; }
-        #counter-cash { background-color: var(--card-bg); color: var(--text-main); font-weight: 800; padding: 14px; text-align: center; border-radius: var(--button-radius); margin-top: 10px; font-size: 1.15rem; box-shadow: var(--shadow); backdrop-filter: blur(10px);}
+        #counter-controls { display: flex; flex-direction: column; gap: 15px; align-items: center; width: 100%; margin-top: 10px; position: relative;}
+        #btn-plus { font-size: 4rem; border-radius: var(--card-radius); width: 100%; padding: 25px 0; box-shadow: var(--shadow); overflow: hidden;}
+        #btn-minus { font-size: 2rem; border-radius: 14px; width: 70px; height: 70px; padding: 0; display: flex; justify-content: center; align-items: center; }
+        #counter-cash { background-color: var(--card-bg); color: var(--text-main); font-weight: 800; padding: 15px; text-align: center; border-radius: var(--button-radius); margin-top: 10px; font-size: 1.15rem; box-shadow: var(--shadow); backdrop-filter: blur(10px);}
 
-        #combo-box {
-            position: absolute; top: 10px; right: 10px; background-color: rgba(0,0,0,0.8);
-            color: #ffd700; padding: 8px 12px; border-radius: 8px; font-weight: 900;
-            font-size: 1.3rem; display: none; z-index: 10; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            pointer-events: none; letter-spacing: -1px; border: 1px solid rgba(255, 215, 0, 0.3);
+        .progress-container { width: 100%; background-color: var(--border-color); border-radius: 10px; height: 10px; overflow: hidden; margin-top: 15px; }
+        .progress-bar { height: 100%; background-color: var(--btn-plus-bg); width: 0%; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 10px var(--btn-plus-bg);}
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            display: none; justify-content: center; align-items: center; z-index: 20000;
+            opacity: 0; transition: opacity 0.25s;
         }
+        .modal-overlay.show { display: flex; opacity: 1; }
+        .modal-box {
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: var(--card-radius); padding: 30px; width: 85%; max-width: 360px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4); text-align: center;
+        }
+        .modal-buttons { display: flex; gap: 12px; margin-top: 25px; }
+
+        .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: left; }
+        .calc-item label { font-size: 0.85rem; color: var(--text-muted); font-weight: 700; }
+        .calc-item input { padding: 12px; margin-bottom: 0; font-size: 1.2rem; text-align: center; font-family: var(--font-family-display); font-weight: 700;}
 
         #toast-container {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background-color: rgba(30, 30, 30, 0.95); color: #fff; padding: 14px 24px; border-radius: 30px;
-            font-size: 0.95rem; font-weight: 700; box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%);
+            background-color: rgba(20, 20, 20, 0.95); color: #fff; padding: 16px 28px; border-radius: 30px;
+            font-size: 0.95rem; font-weight: 700; box-shadow: 0 10px 25px rgba(0,0,0,0.4);
             z-index: 9999; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
             text-align: center; white-space: nowrap; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);
         }
         #toast-container.show { opacity: 1; visibility: visible; }
 
-        .indicator { width: 8px; height: 8px; border-radius: 50%; background-color: #34c759; display: inline-block; margin-right: 6px; box-shadow: 0 0 5px rgba(52, 199, 89, 0.5);}
-        .indicator.offline { background-color: #ff3b30; box-shadow: 0 0 5px rgba(255, 59, 48, 0.5);}
-
-        /* MODAL FLOTANTE (ESTÉTICO) */
-        #modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
-            display: none; justify-content: center; align-items: center; z-index: 20000;
-            opacity: 0; transition: opacity 0.2s;
-        }
-        #modal-overlay.show { display: flex; opacity: 1; }
-        .modal-box {
-            background: var(--card-bg); border: 1px solid var(--border-color);
-            border-radius: var(--card-radius); padding: 25px; width: 85%; max-width: 320px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center;
-        }
-        .modal-buttons { display: flex; gap: 10px; margin-top: 20px; }
+        .indicator { width: 8px; height: 8px; border-radius: 50%; background-color: #34c759; display: inline-block; margin-right: 6px; box-shadow: 0 0 8px rgba(52, 199, 89, 0.6);}
+        .indicator.offline { background-color: #ff3b30; box-shadow: 0 0 8px rgba(255, 59, 48, 0.6);}
 
     </style>
 </head>
@@ -194,21 +237,30 @@
     <div id="app-container">
         <header>
             <div class="header-title-group">
-                <span class="header-moon">🌕</span>
+                <span class="header-moon">
+                    <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                </span>
                 <div class="header-title">Órbita F1</div>
             </div>
             <div class="header-icons">
-                <span class="icon-btn" id="theme-toggle-btn" onclick="cycleTheme()" title="Cambiar Estilo">○</span>
-                <span class="icon-btn" onclick="showScreen('view-registration')" title="Configuración">⚙</span>
+                <span class="icon-btn" id="theme-toggle-btn" onclick="cycleTheme()" title="Cambiar Estilo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                </span>
+                <span class="icon-btn" onclick="solicitarPin('view-registration')" title="Configuración">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                </span>
             </div>
         </header>
 
         <div id="view-home" class="app-view active">
-            <div class="merged-section" style="text-align: center; padding: 5px 0;">
-                <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem; font-weight: 700;">
-                    <span class="indicator" id="sync-indicator"></span>Efectivo acumulado hoy
+            <div class="merged-section card" style="text-align: center; padding: 25px 15px;">
+                <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">
+                    <span class="indicator" id="sync-indicator"></span>Efectivo Acumulado
                 </p>
-                <div id="balance-total-cash" style="font-size: 3.5rem; font-weight: 900; color: var(--title-color); letter-spacing: -1.5px;">$0</div>
+                <div id="balance-total-cash" class="money-display">$0</div>
+                
+                <div class="progress-container"><div class="progress-bar" id="meta-bar"></div></div>
+                <p style="font-size:0.8rem; color:var(--text-muted); text-align:right; margin:8px 0 0 0; font-weight: 700;">META: $<span id="meta-display">2500</span></p>
             </div>
 
             <div class="merged-section">
@@ -216,47 +268,58 @@
             </div>
 
             <div class="merged-section">
-                <h2 style="font-size: 1.1rem; color: var(--text-muted); margin-bottom: 12px;">Vueltas del Turno</h2>
+                <h2 style="font-size: 1.1rem; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;">Vueltas del Turno</h2>
                 <div id="history-list-today-home"></div>
             </div>
 
             <div class="merged-section card">
-                <h2>Liquidación del Turno</h2>
+                <h2 style="margin-top: 0; text-transform: uppercase; letter-spacing: 1px;">Liquidación</h2>
                 <div class="corte-item"><span style="color: var(--text-muted);">Vueltas Totales:</span><b id="corte-vueltas-count">0</b></div>
                 <div class="corte-item"><span style="color: var(--text-muted);">Ingreso Bruto:</span><b id="corte-bruto">$0</b></div>
                 <div class="corte-item"><span style="color: var(--text-muted);">Sueldo Operador:</span><b>-$650</b></div>
                 
-                <div style="margin-top: 15px;">
+                <div style="margin-top: 20px;">
                     <input type="number" id="corte-gasto-extra" placeholder="Monto extra (ej. 150)" oninput="updateHomeView()">
                     <input type="text" id="corte-gasto-concepto" placeholder="Concepto (ej. Talacha)">
                     <textarea id="corte-obs" placeholder="Observaciones generales..."></textarea>
                 </div>
 
-                <div style="margin-top: 15px; text-align: center; padding-top: 15px; border-top: 1px solid var(--border-color);">
-                    <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 800;">A ENTREGAR</span>
-                    <div id="corte-final" style="font-size: 2.8rem; font-weight: 900; color: var(--title-color); letter-spacing: -1px;">$0</div>
+                <div style="margin-top: 20px; text-align: center; padding-top: 20px; border-top: 1px solid var(--border-color);">
+                    <span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 800; letter-spacing: 2px;">A ENTREGAR</span>
+                    <div id="corte-final" class="money-display" style="font-size: 3rem;">$0</div>
                 </div>
+
+                <button class="btn btn-outline" style="margin-top: 15px; font-size: 0.95rem; padding: 14px;" onclick="abrirCalculadora()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="14.01"></line><line x1="12" y1="14" x2="12" y2="14.01"></line><line x1="8" y1="14" x2="8" y2="14.01"></line><line x1="16" y1="10" x2="16" y2="10.01"></line><line x1="12" y1="10" x2="12" y2="10.01"></line><line x1="8" y1="10" x2="8" y2="10.01"></line><line x1="16" y1="18" x2="16" y2="18.01"></line><line x1="12" y1="18" x2="12" y2="18.01"></line><line x1="8" y1="18" x2="8" y2="18.01"></line></svg>
+                    ARQUEO DE CAJA
+                </button>
 
                 <button id="btn-cerrar-turno" class="btn btn-outline wa-btn" style="margin-top: 15px; border: 2px solid var(--title-color); color: var(--title-color);" onclick="enviarReporteCorteWA()">ENVIAR Y GUARDAR DÍA</button>
             </div>
 
             <div class="merged-section" style="margin-top: 5px;">
-                <button class="btn btn-outline" style="border-style: dashed; font-size: 0.95rem;" onclick="showScreen('view-history')">CONSULTAR DÍAS ANTERIORES</button>
+                <button class="btn btn-outline" style="border-style: dashed; font-size: 0.95rem;" onclick="solicitarPin('view-history')">CONSULTAR DÍAS ANTERIORES</button>
             </div>
         </div>
 
         <div id="view-history" class="app-view">
-            <h2>Días Anteriores</h2>
+            <h2 style="text-transform: uppercase;">Días Anteriores</h2>
             <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                <button class="btn btn-gold wa-btn" style="flex: 1; font-size: 0.9rem; padding: 12px;" onclick="generarResumenAcumulado()">📊 ACUMULADO</button>
-                <button class="btn btn-green" style="flex: 1; font-size: 0.9rem; padding: 12px; background-color: #28a745;" onclick="exportarCSV()">📥 EXCEL</button>
+                <button class="btn btn-gold wa-btn" style="flex: 1; font-size: 0.9rem; padding: 14px;" onclick="generarResumenAcumulado()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                    ACUMULADO
+                </button>
+                <button class="btn btn-green" style="flex: 1; font-size: 0.9rem; padding: 14px; background-color: #28a745;" onclick="exportarCSV()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    EXCEL
+                </button>
             </div>
             <div id="history-list-past"></div>
             <button class="btn btn-cherry" style="margin-top: 20px;" onclick="showScreen('view-home')">VOLVER AL HOME</button>
         </div>
 
         <div id="view-route-full" class="app-view">
-            <h2 style="text-align: center; margin-bottom: 20px;" id="route-title">Selecciona Destino PAX</h2>
+            <h2 style="text-align: center; margin-bottom: 20px; text-transform: uppercase;" id="route-title">Destino PAX</h2>
             <div id="route-full-buttons">
                 <button class="btn btn-outline" onclick="selectRoute('Huehuetoca')">HUEHUETOCA ($15)</button>
                 <button class="btn btn-outline" onclick="selectRoute('Lazaro Cardenas')">LÁZARO CÁRDENAS ($14)</button>
@@ -270,79 +333,136 @@
         </div>
 
         <div id="view-vueltas" class="app-view">
-            <div id="combo-box">PAX <span id="combo-display">+1</span></div>
-
             <div id="route-display" onclick="openRouteSelection(true)" title="Toca para cambiar destino">
-                [Ruta] <span style="font-size:0.8rem; opacity:0.6; margin-left:5px;">✎ Cambiar</span>
+                [Ruta] 
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
             </div>
             
-            <div style="text-align: center; font-size: 0.85rem; letter-spacing: 1.5px; color: var(--text-muted); font-weight: 800;">PAX TOTALES ACTIVO</div>
+            <div style="text-align: center; font-size: 0.9rem; letter-spacing: 2px; color: var(--text-muted); font-weight: 800; text-transform: uppercase;">PAX ACTIVO</div>
             <div id="counter-value">0</div>
             
             <div id="counter-controls">
-                <button id="btn-plus" class="btn btn-green" onclick="incrementCounter()">+</button>
-                <button id="btn-minus" class="btn btn-cherry" onclick="decrementCounter()">-</button>
+                <button id="btn-plus" class="btn btn-green" onclick="incrementCounter(event)">+</button>
+                <button id="btn-minus" class="btn btn-cherry" onclick="decrementCounter(event)">-</button>
             </div>
-            <div id="counter-cash">TOTAL VUELTA: $0</div>
-            <button class="btn btn-cherry" style="margin-top:15px;" onclick="closeVuelta()">CERRAR VUELTA</button>
+            <div id="counter-cash" style="font-family: var(--font-family-display);">TOTAL: $0</div>
+            <button class="btn btn-cherry" style="margin-top:20px;" onclick="closeVuelta()">CERRAR VUELTA</button>
         </div>
 
         <div id="view-cierre" class="app-view card">
-            <h2 style="text-align: center;">Resumen PAX</h2>
-            <div id="cierre-details" style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 20px; text-align: center; color: var(--text-main);">...</div>
-            
-            <button id="btn-enviar-vuelta-individual" class="btn btn-green wa-btn" style="margin-bottom: 10px;">ENVIAR VUELTA</button>
+            <h2 style="text-align: center; text-transform: uppercase;">Resumen PAX</h2>
+            <div id="cierre-details" style="font-size: 1.15rem; line-height: 1.8; margin-bottom: 25px; text-align: center; color: var(--text-main);">...</div>
+            <button id="btn-enviar-vuelta-individual" class="btn btn-green wa-btn" style="margin-bottom: 12px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                ENVIAR VUELTA
+            </button>
             <button class="btn btn-outline" onclick="showScreen('view-home')">VOLVER AL BALANCE</button>
         </div>
 
         <div id="view-registration" class="app-view card">
-            <h2>Configuración Pro</h2>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Datos fijos para reportes:</p>
+            <h2 style="text-transform: uppercase;">Configuración</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; font-weight: 700;">Datos de Operación:</p>
             <input type="text" id="reg-operador" placeholder="Operador (ej. Carlos)" value="Carlos">
             <input type="number" id="reg-unidad" placeholder="Unidad (ej. 15)" value="15">
-            <button class="btn btn-cherry" style="margin-top: 15px;" onclick="showScreen('view-home')">GUARDAR DATOS</button>
+            
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 20px 0 10px 0; font-weight: 700;">Seguridad y Meta:</p>
+            <input type="password" id="reg-pin" placeholder="PIN de Seguridad" value="1234">
+            <input type="number" id="reg-meta" placeholder="Meta Diaria Efectivo ($)" value="2500">
+            
+            <button class="btn btn-cherry" style="margin-top: 20px;" onclick="guardarConfiguracion()">GUARDAR DATOS</button>
         </div>
     </div>
 
-    <div id="modal-overlay">
+    <div id="modal-edicion" class="modal-overlay">
         <div class="modal-box">
-            <h3 style="margin-top: 0; margin-bottom: 10px;" id="modal-title">Editar PAX</h3>
-            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">Ajusta el número de pasajeros para esta vuelta.</p>
-            <input type="number" id="modal-pax-input" style="font-size: 2rem; text-align: center; font-weight: bold; margin-bottom: 20px;" min="0">
+            <h3 style="margin-top: 0; margin-bottom: 10px; text-transform: uppercase;" id="modal-title">Editar PAX</h3>
+            <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 20px;">Ajusta el número de pasajeros.</p>
+            <input type="number" id="modal-pax-input" style="font-size: 2.5rem; text-align: center; margin-bottom: 25px; font-family: var(--font-family-display);" min="0">
             <div class="modal-buttons">
-                <button class="btn btn-outline" style="flex: 1; padding: 12px;" onclick="cerrarModal()">Cancelar</button>
-                <button class="btn btn-cherry" style="flex: 1; padding: 12px;" onclick="guardarEdicionVuelta()">Guardar</button>
+                <button class="btn btn-outline" style="flex: 1; padding: 14px;" onclick="cerrarModal('modal-edicion')">Cancelar</button>
+                <button class="btn btn-cherry" style="flex: 1; padding: 14px;" onclick="guardarEdicionVuelta()">Guardar</button>
             </div>
+        </div>
+    </div>
+
+    <div id="modal-pin" class="modal-overlay">
+        <div class="modal-box">
+            <h3 style="margin-top: 0; margin-bottom: 10px; text-transform: uppercase;">Acceso Restringido</h3>
+            <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 20px;">Ingresa el PIN de 4 dígitos.</p>
+            <input type="password" id="input-pin" style="font-size: 2rem; text-align: center; letter-spacing: 15px; font-family: var(--font-family-display); margin-bottom: 25px;" maxlength="4" inputmode="numeric">
+            <div class="modal-buttons">
+                <button class="btn btn-outline" style="flex: 1; padding: 14px;" onclick="cerrarModal('modal-pin')">Cancelar</button>
+                <button class="btn btn-cherry" style="flex: 1; padding: 14px;" onclick="validarPin()">Entrar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-calculadora" class="modal-overlay">
+        <div class="modal-box" style="max-width: 380px; padding: 25px;">
+            <h3 style="margin-top: 0; margin-bottom: 20px; text-transform: uppercase;">Arqueo de Caja</h3>
+            <div class="calc-grid">
+                <div class="calc-item"><label>$500</label><input type="number" id="calc-500" placeholder="0" inputmode="numeric" oninput="calcularCaja()"></div>
+                <div class="calc-item"><label>$200</label><input type="number" id="calc-200" placeholder="0" inputmode="numeric" oninput="calcularCaja()"></div>
+                <div class="calc-item"><label>$100</label><input type="number" id="calc-100" placeholder="0" inputmode="numeric" oninput="calcularCaja()"></div>
+                <div class="calc-item"><label>$50</label><input type="number" id="calc-50" placeholder="0" inputmode="numeric" oninput="calcularCaja()"></div>
+                <div class="calc-item"><label>$20</label><input type="number" id="calc-20" placeholder="0" inputmode="numeric" oninput="calcularCaja()"></div>
+                <div class="calc-item"><label>Monedas ($)</label><input type="number" id="calc-monedas" placeholder="0" inputmode="numeric" oninput="calcularCaja()"></div>
+            </div>
+            
+            <div style="margin-top: 20px; padding: 15px; background-color: var(--row-intercalated); border-radius: 12px; border: 1px solid var(--border-color);">
+                <p style="margin:0; font-size:0.9rem; color:var(--text-muted); font-weight: 700;">Total Físico:</p>
+                <div id="calc-total" class="money-display" style="font-size: 2.5rem; margin-top: 5px;">$0</div>
+                <div id="calc-diferencia" style="font-weight: 800; margin-top: 8px; font-size: 1.05rem; padding: 5px; border-radius: 6px;">Diferencia: $0</div>
+            </div>
+
+            <button class="btn btn-cherry" style="margin-top: 20px;" onclick="cerrarModal('modal-calculadora')">Cerrar</button>
         </div>
     </div>
 
     <div id="toast-container">Mensaje</div>
 
     <script>
-        const rates = {
-            "Huehuetoca": 15, "Lazaro Cardenas": 14, "Colorado": 14,
-            "Compadres": 14, "Tetecla": 14, "Pendiente 1": 14, "Pendiente 2": 14
-        };
+        const rates = { "Huehuetoca": 15, "Lazaro Cardenas": 14, "Colorado": 14, "Compadres": 14, "Tetecla": 14, "Pendiente 1": 14, "Pendiente 2": 14 };
         const sueldoFijo = 650;
 
-        let currentVuelta = null;
-        let vueltasHistory = [];
-        let totalDayCashAccumulated = 0;
-        
-        let comboCount = 0;
-        let comboTimer;
-        let isEditingActiveRoute = false;
-        
-        // Variables para el Modal
-        let idVueltaEditando = null;
+        let currentVuelta = null; let vueltasHistory = []; let totalDayCashAccumulated = 0;
+        let isEditingActiveRoute = false; let idVueltaEditando = null; let destinoPostPin = null; 
 
+        // RIPPLE EFFECT LOGIC
+        function createRipple(event) {
+            const button = event.currentTarget;
+            const circle = document.createElement("span");
+            const diameter = Math.max(button.clientWidth, button.clientHeight);
+            const radius = diameter / 2;
+            circle.style.width = circle.style.height = `${diameter}px`;
+            
+            const rect = button.getBoundingClientRect();
+            let x = (event.clientX || rect.left + radius) - rect.left - radius;
+            let y = (event.clientY || rect.top + radius) - rect.top - radius;
+            
+            circle.style.left = `${x}px`; circle.style.top = `${y}px`;
+            circle.classList.add("ripple");
+            
+            const existing = button.querySelector('.ripple');
+            if (existing) existing.remove();
+            
+            button.appendChild(circle);
+            setTimeout(() => circle.remove(), 600);
+        }
+        
+        // Asignar Ripple a todos los botones
+        document.querySelectorAll('.btn').forEach(btn => btn.addEventListener('mousedown', createRipple));
+        document.querySelectorAll('.btn').forEach(btn => btn.addEventListener('touchstart', createRipple, {passive: true}));
+
+        // THEMES Y SVGS
         const themes = ['theme-default', 'theme-steampunk', 'theme-gothic'];
-        const themeIcons = ['○', '◍', '●'];
-        let currentThemeIndex = 0;
-        let toastTimeout;
-        let wakeLock = null; 
+        const svgSun = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
+        const svgPlanet = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="6"/><ellipse cx="12" cy="12" rx="11" ry="3" transform="rotate(-20 12 12)"/></svg>`;
+        const svgMoon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
+        const themeIcons = [svgSun, svgPlanet, svgMoon];
+        
+        let currentThemeIndex = 0; let toastTimeout; let wakeLock = null; 
 
-        // --- SISTEMA OFFLINE INTELIGENTE ---
         function checkNetworkStatus() {
             const isOnline = navigator.onLine;
             const banner = document.getElementById('network-banner');
@@ -351,32 +471,23 @@
             const waButtons = document.querySelectorAll('.wa-btn');
 
             if (isOnline) {
-                banner.style.display = 'none';
-                indicator.className = 'indicator'; 
-                btnCerrar.innerText = "ENVIAR Y GUARDAR DÍA";
-                waButtons.forEach(btn => btn.style.opacity = '1');
+                banner.style.display = 'none'; indicator.className = 'indicator'; 
+                btnCerrar.innerHTML = "ENVIAR Y GUARDAR DÍA"; waButtons.forEach(btn => btn.style.opacity = '1');
             } else {
-                banner.style.display = 'block';
-                indicator.className = 'indicator offline'; 
-                btnCerrar.innerText = "💾 GUARDAR TURNO LOCAL (SIN SEÑAL)";
-                waButtons.forEach(btn => {
-                    if(btn.id !== 'btn-cerrar-turno') btn.style.opacity = '0.5';
-                });
+                banner.style.display = 'block'; indicator.className = 'indicator offline'; 
+                btnCerrar.innerHTML = "💾 GUARDAR LOCALMENTE";
+                waButtons.forEach(btn => { if(btn.id !== 'btn-cerrar-turno') btn.style.opacity = '0.4'; });
             }
         }
-        window.addEventListener('online', checkNetworkStatus);
-        window.addEventListener('offline', checkNetworkStatus);
+        window.addEventListener('online', checkNetworkStatus); window.addEventListener('offline', checkNetworkStatus);
 
         window.onload = () => {
             const savedTheme = localStorage.getItem('orbita_theme') || 'theme-default';
-            setTheme(savedTheme);
-            checkNetworkStatus(); 
+            setTheme(savedTheme); checkNetworkStatus(); cargarConfiguracion(); 
             
             const session = JSON.parse(localStorage.getItem('orbita_active_session'));
             if (session) {
-                vueltasHistory = session.vueltasHistory || [];
-                totalDayCashAccumulated = session.totalDayCashAccumulated || 0;
-                
+                vueltasHistory = session.vueltasHistory || []; totalDayCashAccumulated = session.totalDayCashAccumulated || 0;
                 if(session.gastosExtra) document.getElementById('corte-gasto-extra').value = session.gastosExtra;
                 if(session.gastoConcepto) document.getElementById('corte-gasto-concepto').value = session.gastoConcepto;
                 if(session.obs) document.getElementById('corte-obs').value = session.obs;
@@ -384,17 +495,44 @@
                 if (session.currentVuelta) {
                     currentVuelta = session.currentVuelta;
                     document.getElementById('route-display').innerHTML = `${currentVuelta.route} ($${currentVuelta.rate}) <span style="font-size:0.8rem; opacity:0.6; margin-left:5px;">✎ Cambiar</span>`;
-                    updateVueltaDisplay();
-                    showScreen('view-vueltas');
-                    showToast("Recuperando cuenta activa...");
-                } else {
-                    showScreen('view-home');
-                }
-            } else {
-                showScreen('view-home');
-            }
+                    updateVueltaDisplay(); showScreen('view-vueltas');
+                } else { showScreen('view-home'); }
+            } else { showScreen('view-home'); }
             updatePastDaysList();
         };
+
+        function cargarConfiguracion() {
+            const config = JSON.parse(localStorage.getItem('orbita_config')) || { pin: '1234', meta: 2500, operador: 'Carlos', unidad: 15 };
+            document.getElementById('reg-operador').value = config.operador;
+            document.getElementById('reg-unidad').value = config.unidad;
+            document.getElementById('reg-pin').value = config.pin;
+            document.getElementById('reg-meta').value = config.meta;
+            document.getElementById('meta-display').innerText = config.meta;
+            actualizarBarraMeta();
+        }
+
+        function guardarConfiguracion() {
+            const config = {
+                operador: document.getElementById('reg-operador').value,
+                unidad: document.getElementById('reg-unidad').value,
+                pin: document.getElementById('reg-pin').value || '1234',
+                meta: parseInt(document.getElementById('reg-meta').value) || 2500
+            };
+            localStorage.setItem('orbita_config', JSON.stringify(config));
+            document.getElementById('meta-display').innerText = config.meta;
+            actualizarBarraMeta(); showToast("✅ Configuración Guardada"); showScreen('view-home');
+        }
+
+        function actualizarBarraMeta() {
+            const meta = parseInt(document.getElementById('reg-meta').value) || 2500;
+            const porcentaje = Math.min((totalDayCashAccumulated / meta) * 100, 100);
+            document.getElementById('meta-bar').style.width = `${porcentaje}%`;
+            if(porcentaje >= 100 && totalDayCashAccumulated > 0) {
+                document.getElementById('meta-bar').style.backgroundColor = "#ffd700"; // Gold when reached
+            } else {
+                document.getElementById('meta-bar').style.backgroundColor = "var(--btn-plus-bg)";
+            }
+        }
 
         function saveSession() {
             const session = {
@@ -404,62 +542,70 @@
                 obs: document.getElementById('corte-obs').value
             };
             localStorage.setItem('orbita_active_session', JSON.stringify(session));
-            
-            const ind = document.getElementById('sync-indicator');
             if(navigator.onLine) {
-                ind.style.backgroundColor = "#ffd700"; 
-                setTimeout(() => { ind.style.backgroundColor = "#34c759"; }, 300); 
+                const ind = document.getElementById('sync-indicator');
+                ind.style.backgroundColor = "#ffd700"; setTimeout(() => { ind.style.backgroundColor = "#34c759"; }, 300); 
             }
         }
 
-        async function requestWakeLock() {
-            try { if ('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen'); } 
-            catch (err) { console.log('Wake Lock falló:', err.message); }
-        }
+        async function requestWakeLock() { try { if ('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen'); } catch (err) {} }
         function releaseWakeLock() { if (wakeLock !== null) wakeLock.release().then(() => { wakeLock = null; }); }
-        
-        document.addEventListener('visibilitychange', async () => {
-            if (wakeLock !== null && document.visibilityState === 'visible') requestWakeLock(); 
-        });
+        document.addEventListener('visibilitychange', async () => { if (wakeLock !== null && document.visibilityState === 'visible') requestWakeLock(); });
 
         function showToast(message) {
             const toast = document.getElementById('toast-container');
-            toast.innerText = message;
-            toast.classList.add('show');
-            clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 3000);
+            toast.innerText = message; toast.classList.add('show');
+            clearTimeout(toastTimeout); toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 3000);
         }
 
         function showScreen(screenId) {
             document.querySelectorAll('.app-view').forEach(view => view.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
-            
             if (screenId === 'view-home') { updateHomeView(); updateTodayHistoryList(); releaseWakeLock(); }
             if (screenId === 'view-vueltas') { requestWakeLock(); }
             if (screenId === 'view-history') { updatePastDaysList(); releaseWakeLock(); }
+            window.scrollTo(0,0);
             saveSession();
         }
 
-        function cycleTheme() { currentThemeIndex = (currentThemeIndex + 1) % themes.length; setTheme(themes[currentThemeIndex]); }
+        function cycleTheme() {
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length; setTheme(themes[currentThemeIndex]);
+        }
 
         function setTheme(themeClass) {
             document.getElementById('app-body').className = themeClass;
             localStorage.setItem('orbita_theme', themeClass);
             currentThemeIndex = themes.indexOf(themeClass);
             if(currentThemeIndex === -1) currentThemeIndex = 0;
-            document.getElementById('theme-toggle-btn').innerText = themeIcons[currentThemeIndex];
+            document.getElementById('theme-toggle-btn').innerHTML = themeIcons[currentThemeIndex];
         }
+
+        /* SEGURIDAD PIN */
+        function solicitarPin(destino) {
+            const config = JSON.parse(localStorage.getItem('orbita_config'));
+            if (!config || !config.pin || config.pin === "") { showScreen(destino); return; }
+            destinoPostPin = destino;
+            document.getElementById('input-pin').value = '';
+            document.getElementById('modal-pin').classList.add('show');
+            setTimeout(() => document.getElementById('input-pin').focus(), 100);
+        }
+
+        function validarPin() {
+            const config = JSON.parse(localStorage.getItem('orbita_config'));
+            const pinIngresado = document.getElementById('input-pin').value;
+            if (pinIngresado === config.pin) { cerrarModal('modal-pin'); showScreen(destinoPostPin); } 
+            else { showToast("❌ PIN Incorrecto"); document.getElementById('input-pin').value = ''; }
+        }
+
+        function cerrarModal(idModal) { document.getElementById(idModal).classList.remove('show'); }
 
         function openRouteSelection(isEditing) {
             isEditingActiveRoute = isEditing;
-            document.getElementById('route-title').innerText = isEditing ? "Cambiar Destino PAX" : "Selecciona Destino PAX";
+            document.getElementById('route-title').innerText = isEditing ? "Cambiar Destino" : "Destino PAX";
             showScreen('view-route-full');
         }
 
-        function cancelRouteSelection() {
-            if (isEditingActiveRoute) { showScreen('view-vueltas'); } 
-            else { showScreen('view-home'); }
-        }
+        function cancelRouteSelection() { if (isEditingActiveRoute) { showScreen('view-vueltas'); } else { showScreen('view-home'); } }
 
         function selectRoute(route) {
             if (isEditingActiveRoute && currentVuelta) {
@@ -467,23 +613,21 @@
             } else {
                 currentVuelta = { id: Date.now(), route: route, rate: rates[route], startTime: new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' }), passengers: 0, cash: 0 };
             }
-            document.getElementById('route-display').innerHTML = `${currentVuelta.route} ($${currentVuelta.rate}) <span style="font-size:0.8rem; opacity:0.6; margin-left:5px;">✎ Cambiar</span>`;
+            document.getElementById('route-display').innerHTML = `${currentVuelta.route} ($${currentVuelta.rate}) <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>`;
             updateVueltaDisplay(); showScreen('view-vueltas');
         }
 
-        function incrementCounter() { 
-            // Vibración Haptica sutil si el celular lo soporta
-            if (navigator.vibrate) navigator.vibrate(30);
-
+        function incrementCounter(e) { 
+            if (navigator.vibrate) navigator.vibrate(20);
             currentVuelta.passengers++; updateVueltaDisplay(); saveSession();
-            comboCount++; clearTimeout(comboTimer);
-            const comboBox = document.getElementById('combo-box');
-            document.getElementById('combo-display').innerText = `+${comboCount}`;
-            comboBox.style.display = 'block'; 
-            comboTimer = setTimeout(() => { comboCount = 0; comboBox.style.display = 'none'; }, 850); 
+            
+            // Efecto GLOW Flash
+            const valDisplay = document.getElementById('counter-value');
+            valDisplay.classList.add('flash-glow');
+            setTimeout(() => valDisplay.classList.remove('flash-glow'), 150);
         }
 
-        function decrementCounter() { 
+        function decrementCounter(e) { 
             if (navigator.vibrate) navigator.vibrate([20, 30, 20]);
             if (currentVuelta.passengers > 0) { currentVuelta.passengers--; updateVueltaDisplay(); saveSession(); }
         }
@@ -491,7 +635,7 @@
         function updateVueltaDisplay() {
             currentVuelta.cash = currentVuelta.passengers * currentVuelta.rate;
             document.getElementById('counter-value').innerText = currentVuelta.passengers;
-            document.getElementById('counter-cash').innerText = `TOTAL PAX VUELTA: $${currentVuelta.cash}`;
+            document.getElementById('counter-cash').innerText = `TOTAL: $${currentVuelta.cash}`;
         }
 
         function closeVuelta() {
@@ -500,17 +644,15 @@
             totalDayCashAccumulated += currentVuelta.cash;
             
             document.getElementById('cierre-details').innerHTML = `
-                <b style="color: var(--title-color); font-size: 1.25rem;">${currentVuelta.route}</b><br>
+                <b style="color: var(--title-color); font-size: 1.3rem; text-transform:uppercase;">${currentVuelta.route}</b><br>
                 ${currentVuelta.startTime} - ${currentVuelta.endTime}<br>
-                ${currentVuelta.passengers} PAX<br>
-                <b style="font-size: 1.15rem;">$${currentVuelta.cash}</b>
+                <span style="font-family: var(--font-family-display); font-size:1.5rem; font-weight:800;">${currentVuelta.passengers}</span> PAX<br>
+                <b style="font-family: var(--font-family-display); font-size: 1.5rem; color: var(--text-main);">$${currentVuelta.cash}</b>
             `;
             
-            // Inyectar el ID de la vuelta al botón de enviar, SIN nullificar currentVuelta todavía
             document.getElementById('btn-enviar-vuelta-individual').setAttribute('onclick', `enviarReporteVueltaWA(${currentVuelta.id})`);
-            
-            saveSession(); 
-            showScreen('view-cierre');
+            saveSession(); showScreen('view-cierre');
+            currentVuelta = null; // Clean up after showing summary
         }
 
         function updateHomeView() {
@@ -519,43 +661,37 @@
             document.getElementById('corte-bruto').innerText = `$${totalDayCashAccumulated}`;
             const gastoExtra = parseInt(document.getElementById('corte-gasto-extra').value) || 0;
             document.getElementById('corte-final').innerText = `$${totalDayCashAccumulated - sueldoFijo - gastoExtra}`;
-            saveSession(); 
+            actualizarBarraMeta(); saveSession(); 
         }
 
         function updateTodayHistoryList() {
             const list = document.getElementById('history-list-today-home');
             list.innerHTML = '';
-            if (vueltasHistory.length === 0) { list.innerHTML = '<p style="font-size: 0.9rem; color: var(--text-muted); text-align: center; margin:0;">Aún no hay vueltas registradas.</p>'; return; }
+            if (vueltasHistory.length === 0) { list.innerHTML = '<p style="font-size: 0.95rem; color: var(--text-muted); text-align: center; margin:0; font-weight:600;">Sin vueltas registradas.</p>'; return; }
             vueltasHistory.forEach(vuelta => {
                 const item = document.createElement('div');
                 item.className = 'history-item-home';
                 item.innerHTML = `
                     <div>
-                        <b style="color: var(--title-color);">${vuelta.route}</b> (PAX: ${vuelta.passengers})<br>
-                        <span style="font-size:0.85rem; color: var(--text-muted);">${vuelta.startTime} | <b style="color: var(--text-main);">$${vuelta.cash}</b></span>
+                        <b style="color: var(--title-color); font-size:1rem; text-transform:uppercase;">${vuelta.route}</b> (PAX: <b style="font-family:var(--font-family-display);">${vuelta.passengers}</b>)<br>
+                        <span style="font-size:0.85rem; color: var(--text-muted);">${vuelta.startTime} | <b style="color: var(--text-main); font-family:var(--font-family-display);">$${vuelta.cash}</b></span>
                     </div>
                     <div class="history-controls">
-                        <span style="cursor:pointer;" onclick="abrirModalEdicion(${vuelta.id})">✎</span>
-                        <span style="cursor:pointer;" class="wa-btn" onclick="enviarReporteVueltaWA(${vuelta.id})">📲</span>
+                        <div class="icon-action" onclick="abrirModalEdicion(${vuelta.id})"><svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></div>
+                        <div class="icon-action wa-btn" onclick="enviarReporteVueltaWA(${vuelta.id})"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></div>
                     </div>
                 `;
                 list.appendChild(item);
             });
         }
 
-        // --- SISTEMA DEL MODAL FLOTANTE ESTÉTICO ---
         function abrirModalEdicion(id) {
             idVueltaEditando = id;
             const vuelta = vueltasHistory.find(v => v.id === id);
             document.getElementById('modal-title').innerText = `Editar ${vuelta.route}`;
             document.getElementById('modal-pax-input').value = vuelta.passengers;
-            document.getElementById('modal-overlay').classList.add('show');
-            document.getElementById('modal-pax-input').focus();
-        }
-
-        function cerrarModal() {
-            document.getElementById('modal-overlay').classList.remove('show');
-            idVueltaEditando = null;
+            document.getElementById('modal-edicion').classList.add('show');
+            setTimeout(() => document.getElementById('modal-pax-input').focus(), 100);
         }
 
         function guardarEdicionVuelta() {
@@ -566,15 +702,36 @@
                 vuelta.passengers = parseInt(nuevos);
                 vuelta.cash = vuelta.passengers * vuelta.rate;
                 totalDayCashAccumulated += vuelta.cash;
-                
-                updateHomeView(); 
-                updateTodayHistoryList(); 
-                showToast("✅ Vuelta actualizada correctamente"); 
-                saveSession();
-                cerrarModal();
-            } else {
-                showToast("⚠️ Ingresa un número válido de PAX");
-            }
+                updateHomeView(); updateTodayHistoryList(); showToast("✅ PAX Actualizados"); saveSession(); cerrarModal('modal-edicion');
+            } else { showToast("⚠️ Número inválido"); }
+        }
+
+        /* ARQUEO DE CAJA */
+        function abrirCalculadora() {
+            document.querySelectorAll('.calc-grid input').forEach(inp => inp.value = '');
+            calcularCaja();
+            document.getElementById('modal-calculadora').classList.add('show');
+        }
+
+        function calcularCaja() {
+            const v500 = (parseInt(document.getElementById('calc-500').value) || 0) * 500;
+            const v200 = (parseInt(document.getElementById('calc-200').value) || 0) * 200;
+            const v100 = (parseInt(document.getElementById('calc-100').value) || 0) * 100;
+            const v50 = (parseInt(document.getElementById('calc-50').value) || 0) * 50;
+            const v20 = (parseInt(document.getElementById('calc-20').value) || 0) * 20;
+            const vMonedas = parseInt(document.getElementById('calc-monedas').value) || 0;
+            
+            const totalFisico = v500 + v200 + v100 + v50 + v20 + vMonedas;
+            document.getElementById('calc-total').innerText = `$${totalFisico}`;
+
+            const gastoEx = parseInt(document.getElementById('corte-gasto-extra').value) || 0;
+            const totalAEntregar = totalDayCashAccumulated - sueldoFijo - gastoEx;
+            const diferencia = totalFisico - totalAEntregar;
+
+            const difEl = document.getElementById('calc-diferencia');
+            if(diferencia === 0) { difEl.innerText = "Caja Cuadrada Exacta ✅"; difEl.style.color = "var(--btn-plus-bg)"; difEl.style.backgroundColor = "rgba(52, 199, 89, 0.1)";}
+            else if(diferencia > 0) { difEl.innerText = `Sobra: +$${diferencia}`; difEl.style.color = "var(--title-color)"; difEl.style.backgroundColor = "var(--border-color)";}
+            else { difEl.innerText = `Falta: -$${Math.abs(diferencia)}`; difEl.style.color = "var(--btn-minus-bg)"; difEl.style.backgroundColor = "rgba(255, 59, 48, 0.1)";}
         }
 
         function guardarCorteEnMemoria(textoCorte, datosBrutos) {
@@ -587,36 +744,32 @@
 
         function exportarCSV() {
             let pasados = JSON.parse(localStorage.getItem('orbita_cortes_pasados')) || [];
-            if(pasados.length === 0) { showToast("No hay datos para exportar a Excel."); return; }
+            if(pasados.length === 0) { showToast("No hay datos para exportar."); return; }
             let csvContent = "data:text/csv;charset=utf-8,";
             csvContent += "Fecha,Vueltas,Ingreso Bruto,Sueldo Operador,Gastos Extra,Concepto Gasto,Liquidacion Final\n";
-            pasados.forEach(dia => {
-                if(dia.datos) csvContent += `${dia.fecha},${dia.datos.vueltas},${dia.datos.bruto},650,${dia.datos.gastoExtra},"${dia.datos.concepto}",${dia.datos.liquidacion}\n`;
-            });
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
+            pasados.forEach(dia => { if(dia.datos) csvContent += `${dia.fecha},${dia.datos.vueltas},${dia.datos.bruto},650,${dia.datos.gastoExtra},"${dia.datos.concepto}",${dia.datos.liquidacion}\n`; });
+            const encodedUri = encodeURI(csvContent); const link = document.createElement("a");
             link.setAttribute("href", encodedUri); link.setAttribute("download", "OrbitaF1_Cortes.csv");
-            document.body.appendChild(link); link.click(); document.body.removeChild(link);
-            showToast("✅ Archivo Excel descargado");
+            document.body.appendChild(link); link.click(); document.body.removeChild(link); showToast("✅ Excel Descargado");
         }
 
         function updatePastDaysList() {
             const list = document.getElementById('history-list-past');
             list.innerHTML = '';
             let pasados = JSON.parse(localStorage.getItem('orbita_cortes_pasados')) || [];
-            if (pasados.length === 0) { list.innerHTML = '<p style="font-size: 0.9rem; opacity: 0.5; text-align:center;">Aún no hay días guardados.</p>'; return; }
+            if (pasados.length === 0) { list.innerHTML = '<p style="font-size: 0.95rem; opacity: 0.5; text-align:center; font-weight:600;">Sin cortes guardados.</p>'; return; }
             pasados.forEach(dia => {
                 const item = document.createElement('div');
                 item.className = 'history-item-home past-day-card';
                 let resumenTotal = dia.datos ? `$${dia.datos.liquidacion}` : 'Ver detalle';
                 item.innerHTML = `
                     <div>
-                        <b style="color: var(--text-main);">Fecha: ${dia.fecha}</b><br>
-                        <span style="font-size:0.85rem; color: var(--text-muted);">Liquidación: <b style="color: var(--title-color);">${resumenTotal}</b></span>
+                        <b style="color: var(--text-main); font-size:1rem;">${dia.fecha}</b><br>
+                        <span style="font-size:0.85rem; color: var(--text-muted); font-weight:700;">LIQUIDACIÓN: <b style="color: var(--title-color); font-family:var(--font-family-display); font-size:1.1rem;">${resumenTotal}</b></span>
                     </div>
                     <div class="history-controls">
-                        <span style="cursor:pointer;" class="wa-btn" onclick="reenviarCortePasado('${encodeURIComponent(dia.reporte)}')">📲</span>
-                        <span style="cursor:pointer; color: var(--btn-minus-bg);" onclick="borrarCortePasado(${dia.id})">🗑️</span>
+                        <div class="icon-action wa-btn" onclick="reenviarCortePasado('${encodeURIComponent(dia.reporte)}')"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></div>
+                        <div class="icon-action" style="background:rgba(255,59,48,0.1);" onclick="borrarCortePasado(${dia.id})"><svg style="stroke:var(--btn-minus-bg);" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></div>
                     </div>
                 `;
                 list.appendChild(item);
@@ -624,18 +777,18 @@
         }
 
         function borrarCortePasado(id) {
-            if(confirm("¿Estás seguro de que quieres borrar este corte del historial?")) {
+            if(confirm("¿Seguro de borrar este corte del historial?")) {
                 let pasados = JSON.parse(localStorage.getItem('orbita_cortes_pasados')) || [];
                 pasados = pasados.filter(dia => dia.id !== id);
                 localStorage.setItem('orbita_cortes_pasados', JSON.stringify(pasados));
-                updatePastDaysList(); showToast("Corte eliminado de la memoria");
+                updatePastDaysList(); showToast("🗑️ Corte eliminado");
             }
         }
 
         function generarResumenAcumulado() {
-            if(!navigator.onLine) { showToast("📵 Necesitas internet para enviar el reporte."); return; }
+            if(!navigator.onLine) { showToast("📵 Necesitas internet."); return; }
             let pasados = JSON.parse(localStorage.getItem('orbita_cortes_pasados')) || [];
-            if (pasados.length === 0) { showToast("No hay días guardados para sumar."); return; }
+            if (pasados.length === 0) { showToast("No hay días guardados."); return; }
             let totalAcumulado = 0;
             pasados.forEach(dia => { if(dia.datos) totalAcumulado += dia.datos.liquidacion; });
             const texto = encodeURIComponent(`*ÓRBITA F1 - RESUMEN ACUMULADO*
@@ -649,19 +802,14 @@ _Generado automáticamente desde la App_`);
         }
 
         function reenviarCortePasado(encodedText) { 
-            if(!navigator.onLine) { showToast("📵 Necesitas internet para enviar WhatsApp."); return; }
+            if(!navigator.onLine) { showToast("📵 Necesitas internet."); return; }
             window.open(`https://wa.me/?text=${encodedText}`, '_blank'); 
         }
 
-        // --- FORMATO DE WHATSAPP CON LÍNEAS SEPARADORAS Y NEGRITAS ---
         function enviarReporteVueltaWA(vueltaId) {
-            if(!navigator.onLine) { showToast("📵 Necesitas internet para enviar WhatsApp."); return; }
-            
-            // Busca la vuelta, si no, agarra la que se acaba de cerrar y aún está en memoria
+            if(!navigator.onLine) { showToast("📵 Necesitas internet."); return; }
             const data = (vueltaId) ? vueltasHistory.find(v => v.id === vueltaId) : currentVuelta;
-            
-            if(!data) { showToast("⚠️ Error: No se encontró la información de la vuelta."); return; }
-
+            if(!data) { showToast("⚠️ Error de información."); return; }
             const text = encodeURIComponent(`*ÓRBITA F1 - REPORTE DE VUELTA*
 -------------------------
 *UNIDAD:* ${document.getElementById('reg-unidad').value} | *OPERADOR:* ${document.getElementById('reg-operador').value}
@@ -675,8 +823,7 @@ _Generado automáticamente desde la App_`);
         }
 
         function enviarReporteCorteWA() {
-            if(vueltasHistory.length === 0) { showToast("⚠️ No puedes cerrar un turno en ceros."); return; }
-
+            if(vueltasHistory.length === 0) { showToast("⚠️ Turno vacío."); return; }
             const gastoEx = parseInt(document.getElementById('corte-gasto-extra').value) || 0;
             const conc = document.getElementById('corte-gasto-concepto').value || 'Ninguno';
             const obs = document.getElementById('corte-obs').value || 'Todo en orden';
@@ -707,9 +854,9 @@ _Generado automáticamente desde la App_`);
             updateHomeView(); updateTodayHistoryList();
             
             if(!navigator.onLine) {
-                showToast("💾 Turno cerrado y guardado LOCALMENTE (Sin Señal).");
+                showToast("💾 Guardado LOCALMENTE (Sin Señal).");
             } else {
-                showToast("✅ Turno cerrado y cuenta reiniciada.");
+                showToast("✅ Turno cerrado.");
                 setTimeout(() => { window.open(`https://wa.me/?text=${encodeURIComponent(textoLimpio)}`, '_blank'); }, 500);
             }
         }
