@@ -9,14 +9,13 @@
            PALETAS DE COLORES (Ultra Minimalistas)
            ========================================= */
         :root {
-            /* Tema 1: Claro / Corporativo (☀️) */
-            --bg-main: #f2f2f7; /* Apple gray background */
+            --bg-main: #f2f2f7; 
             --card-bg: #ffffff;
             --text-main: #1c1c1e;
             --text-muted: #8e8e93;
             --title-color: #d1124d; 
-            --btn-plus-bg: #34c759; /* Modern green */
-            --btn-minus-bg: #ff3b30; /* Modern red */
+            --btn-plus-bg: #34c759; 
+            --btn-minus-bg: #ff3b30; 
             --btn-submit-bg: #d1124d;
             --border-color: transparent;
             --border-width: 0px;
@@ -27,7 +26,6 @@
         }
 
         body.theme-steampunk {
-            /* Tema 2: Steampunk / Neón (🪐) */
             --bg-main: #0a0806; 
             --card-bg: #14100c;
             --text-main: #e8c396; 
@@ -42,7 +40,6 @@
         }
 
         body.theme-gothic {
-            /* Tema 3: Oscuro / Gótico (🌙) */
             --bg-main: #000000; 
             --card-bg: #0c0c0c;
             --text-main: #d4d4d4; 
@@ -63,7 +60,7 @@
             background-color: var(--bg-main); color: var(--text-main); font-family: var(--font-family-global);
             margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center;
             min-height: 100vh; box-sizing: border-box; overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent; /* Quita el brillo azul al tocar en móviles */
+            -webkit-tap-highlight-color: transparent;
         }
 
         h1, h2, h3 { color: var(--title-color); margin: 5px 0 15px 0; font-weight: 700; font-size: 1.3rem; }
@@ -104,18 +101,14 @@
         .btn-cherry { background-color: var(--btn-submit-bg); color: #ffffff; }
         .btn-outline { background-color: var(--card-bg); border: 1px solid var(--text-muted); color: var(--text-main); }
         
-        body:not(.theme-default) .btn-green { color: #000; } /* Ajuste de contraste para Steampunk/Gótico */
+        body:not(.theme-default) .btn-green { color: #000; }
 
         #route-full-buttons { display: flex; flex-direction: column; gap: 12px; width: 100%; }
 
         #counter-value { font-size: 7.5rem; font-weight: 800; color: var(--title-color); margin: 0; text-align: center; line-height: 1; letter-spacing: -3px;}
         #counter-controls { display: flex; flex-direction: column; gap: 15px; align-items: center; width: 100%; margin-top: 10px;}
         
-        #btn-plus { 
-            font-size: 3.5rem; border-radius: var(--card-radius); width: 100%; padding: 25px 0; 
-            overflow: visible; box-shadow: var(--shadow);
-        }
-        
+        #btn-plus { font-size: 3.5rem; border-radius: var(--card-radius); width: 100%; padding: 25px 0; box-shadow: var(--shadow); }
         #btn-minus { font-size: 2rem; border-radius: 12px; width: 70px; height: 70px; padding: 0; display: flex; justify-content: center; align-items: center; }
         
         #counter-cash { background-color: var(--card-bg); color: var(--text-main); font-weight: 700; padding: 15px; text-align: center; border-radius: var(--button-radius); margin-top: 10px; font-size: 1.2rem; box-shadow: var(--shadow);}
@@ -132,7 +125,6 @@
         .history-controls { display: flex; gap: 18px; font-size: 1.4rem; }
         .past-day-card { border-left: 5px solid var(--title-color); }
 
-        /* Módulo de Cambio de Ruta */
         #route-display {
             background-color: var(--card-bg); padding: 12px; border-radius: 10px; 
             text-align: center; font-weight: 700; font-size: 1.1rem; margin-bottom: 15px; 
@@ -141,17 +133,22 @@
         }
         #route-display:active { border-color: var(--title-color); }
 
-        /* Animación Combo */
+        /* Animación Combo Random */
         .floating-combo {
-            position: absolute; font-size: 2.5rem; font-weight: 900; color: #ffd700;
+            position: fixed; /* Fixed para que flote sobre todo */
+            font-size: 3rem; 
+            font-weight: 900; 
+            color: #ffd700;
             text-shadow: 2px 2px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000, 1px 1px 0px #000;
-            pointer-events: none; animation: floatCoin 0.6s ease-out forwards; z-index: 100;
+            pointer-events: none; 
+            animation: floatCoinRandom 0.7s ease-out forwards; 
+            z-index: 9999;
         }
 
-        @keyframes floatCoin {
-            0% { opacity: 1; transform: translate(-50%, -50%) scale(0.8); }
-            50% { transform: translate(-50%, -100%) scale(1.2); }
-            100% { opacity: 0; transform: translate(-50%, -150%) scale(1); }
+        @keyframes floatCoinRandom {
+            0% { opacity: 1; transform: scale(0.5) translateY(0); }
+            50% { transform: scale(1.3) translateY(-40px); }
+            100% { opacity: 0; transform: scale(1) translateY(-80px); }
         }
 
     </style>
@@ -167,6 +164,7 @@
     </header>
 
     <div id="view-home" class="app-view active">
+        
         <div class="merged-section" style="text-align: center; padding: 10px 0;">
             <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; font-weight: 600;">Efectivo acumulado hoy</p>
             <div id="balance-total-cash" style="font-size: 3.5rem; font-weight: 800; color: var(--title-color); letter-spacing: -1px;">$0</div>
@@ -177,7 +175,10 @@
         </div>
 
         <div class="merged-section">
-            <button class="btn btn-outline" onclick="showScreen('view-history')">VER HISTORIAL Y PASADOS</button>
+            <h2 style="font-size: 1.1rem; color: var(--text-muted);">Vueltas del Turno</h2>
+            <div id="history-list-today-home">
+                <p style="font-size: 0.9rem; color: var(--text-muted); text-align: center;">Aún no hay vueltas cerradas.</p>
+            </div>
         </div>
 
         <div class="merged-section card">
@@ -199,15 +200,15 @@
 
             <button class="btn btn-outline" style="margin-top: 20px;" onclick="enviarReporteCorteWA()">ENVIAR CORTE Y GUARDAR DÍA</button>
         </div>
+
+        <div class="merged-section" style="margin-top: 10px;">
+            <button class="btn btn-outline" style="border-style: dashed;" onclick="showScreen('view-history')">VER DÍAS ANTERIORES</button>
+        </div>
     </div>
 
     <div id="view-history" class="app-view">
-        <h2>Historial de Hoy</h2>
-        <div id="history-list-today" style="margin-bottom: 25px;"></div>
-
-        <h2>Días Anteriores</h2>
+        <h2>Historial de Días Anteriores</h2>
         <div id="history-list-past"></div>
-
         <button class="btn btn-cherry" style="margin-top: 20px;" onclick="showScreen('view-home')">VOLVER AL BALANCE</button>
     </div>
 
@@ -234,7 +235,7 @@
         <div id="counter-value">0</div>
         
         <div id="counter-controls">
-            <button id="btn-plus" class="btn btn-green" onclick="incrementCounter(event)">+</button>
+            <button id="btn-plus" class="btn btn-green" onclick="incrementCounter()">+</button>
             <button id="btn-minus" class="btn btn-cherry" onclick="decrementCounter()">-</button>
         </div>
         <div id="counter-cash">TOTAL: $0</div>
@@ -250,7 +251,7 @@
 
     <div id="view-registration" class="app-view card">
         <h2>Configuración</h2>
-        <p style="font-size: 0.9rem; color: var(--text-muted);">Datos fijos para reportes de WhatsApp:</p>
+        <p style="font-size: 0.9rem; color: var(--text-muted);">Datos fijos para reportes:</p>
         <input type="text" id="reg-operador" placeholder="Operador (ej. Carlos)" value="Carlos">
         <input type="number" id="reg-unidad" placeholder="Unidad (ej. 15)" value="15">
         <button class="btn btn-cherry" style="margin-top: 15px;" onclick="showScreen('view-home')">GUARDAR</button>
@@ -270,10 +271,7 @@
         let comboCount = 0;
         let comboTimer;
 
-        // Lógica de Cambio de Ruta
         let isEditingActiveRoute = false;
-
-        // Lógica del Tema Unificado
         const themes = ['theme-default', 'theme-steampunk', 'theme-gothic'];
         const themeIcons = ['☀️', '🪐', '🌙'];
         let currentThemeIndex = 0;
@@ -282,13 +280,17 @@
             const savedTheme = localStorage.getItem('orbita_theme') || 'theme-default';
             setTheme(savedTheme);
             updatePastDaysList();
+            updateTodayHistoryList();
         };
 
         function showScreen(screenId) {
             document.querySelectorAll('.app-view').forEach(view => view.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
-            if (screenId === 'view-home') updateHomeView();
-            if (screenId === 'view-history') { updateTodayHistoryList(); updatePastDaysList(); }
+            if (screenId === 'view-home') {
+                updateHomeView();
+                updateTodayHistoryList(); // Se actualiza en el home
+            }
+            if (screenId === 'view-history') { updatePastDaysList(); }
         }
 
         function cycleTheme() {
@@ -299,13 +301,11 @@
         function setTheme(themeClass) {
             document.getElementById('app-body').className = themeClass;
             localStorage.setItem('orbita_theme', themeClass);
-            
             currentThemeIndex = themes.indexOf(themeClass);
             if(currentThemeIndex === -1) currentThemeIndex = 0;
             document.getElementById('theme-toggle-btn').innerText = themeIcons[currentThemeIndex];
         }
 
-        // --- FUNCIONES DE SELECCIÓN DE RUTA ---
         function openRouteSelection(isEditing) {
             isEditingActiveRoute = isEditing;
             document.getElementById('route-title').innerText = isEditing ? "Cambiar Destino" : "Selecciona Destino";
@@ -313,21 +313,16 @@
         }
 
         function cancelRouteSelection() {
-            if (isEditingActiveRoute) {
-                showScreen('view-vueltas'); // Regresar al contador sin cambios
-            } else {
-                showScreen('view-home'); // Canceló generar vuelta nueva
-            }
+            if (isEditingActiveRoute) { showScreen('view-vueltas'); } 
+            else { showScreen('view-home'); }
         }
 
         function selectRoute(route) {
             if (isEditingActiveRoute && currentVuelta) {
-                // Solo actualizar destino y tarifa de la vuelta actual
                 currentVuelta.route = route;
                 currentVuelta.rate = rates[route];
                 isEditingActiveRoute = false;
             } else {
-                // Generar vuelta completamente nueva
                 currentVuelta = {
                     id: Date.now(), route: route, rate: rates[route],
                     startTime: new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' }),
@@ -339,8 +334,7 @@
             showScreen('view-vueltas');
         }
 
-        // --- CONTADOR Y COMBOS ---
-        function incrementCounter(e) { 
+        function incrementCounter() { 
             currentVuelta.passengers++; 
             updateVueltaDisplay(); 
 
@@ -348,19 +342,20 @@
             clearTimeout(comboTimer);
             comboTimer = setTimeout(() => { comboCount = 0; }, 800); 
 
+            // Crear el floater
             const floater = document.createElement('div');
             floater.className = 'floating-combo';
             floater.innerText = `+${comboCount}`;
 
-            const btn = document.getElementById('btn-plus');
-            let x = btn.offsetWidth / 2;
-            let y = btn.offsetHeight / 2;
-            if (e && e.offsetX) { x = e.offsetX; y = e.offsetY; }
+            // Posición Aleatoria en la pantalla (dejando margen)
+            const randomX = Math.floor(Math.random() * 60) + 20; // Entre 20vw y 80vw
+            const randomY = Math.floor(Math.random() * 40) + 20; // Entre 20vh y 60vh
 
-            floater.style.left = `${x}px`;
-            floater.style.top = `${y}px`;
-            btn.appendChild(floater);
-            setTimeout(() => floater.remove(), 600);
+            floater.style.left = `${randomX}vw`;
+            floater.style.top = `${randomY}vh`;
+
+            document.body.appendChild(floater);
+            setTimeout(() => floater.remove(), 700);
         }
 
         function decrementCounter() { if (currentVuelta.passengers > 0) currentVuelta.passengers--; updateVueltaDisplay(); }
@@ -385,7 +380,6 @@
             showScreen('view-cierre');
         }
 
-        // --- HOME Y HISTORIAL ---
         function updateHomeView() {
             document.getElementById('balance-total-cash').innerText = `$${totalDayCashAccumulated}`;
             document.getElementById('corte-vueltas-count').innerText = vueltasHistory.length;
@@ -395,9 +389,12 @@
         }
 
         function updateTodayHistoryList() {
-            const list = document.getElementById('history-list-today');
+            const list = document.getElementById('history-list-today-home');
             list.innerHTML = '';
-            if (vueltasHistory.length === 0) { list.innerHTML = '<p style="font-size: 0.9rem; opacity: 0.5;">No hay vueltas hoy.</p>'; return; }
+            if (vueltasHistory.length === 0) { 
+                list.innerHTML = '<p style="font-size: 0.9rem; color: var(--text-muted); text-align: center;">Aún no hay vueltas cerradas.</p>'; 
+                return; 
+            }
             vueltasHistory.forEach(vuelta => {
                 const item = document.createElement('div');
                 item.className = 'history-item-home';
@@ -428,7 +425,6 @@
             }
         }
 
-        // --- ALMACENAMIENTO DE DÍAS ---
         function guardarCorteEnMemoria(textoCorte) {
             let pasados = JSON.parse(localStorage.getItem('orbita_cortes_pasados')) || [];
             const fecha = new Date().toLocaleDateString('es-MX');
@@ -462,7 +458,6 @@
 
         function reenviarCortePasado(encodedText) { window.open(`https://wa.me/?text=${encodedText}`, '_blank'); }
 
-        // --- WHATSAPP ---
         function enviarReporteVueltaWA(vueltaId) {
             const data = (vueltaId) ? vueltasHistory.find(v => v.id === vueltaId) : currentVuelta;
             const text = encodeURIComponent(`*ÓRBITA F1 - REPORTE DE VUELTA*
@@ -498,7 +493,7 @@
                 document.getElementById('corte-gasto-concepto').value = '';
                 document.getElementById('corte-obs').value = '';
                 updateHomeView();
-                updatePastDaysList(); // Actualizar lista visualmente rápido
+                updateTodayHistoryList();
             }
         }
     </script>
