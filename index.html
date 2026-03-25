@@ -8,9 +8,7 @@
         /* =========================================
            PALETAS DE COLORES (Minimalistas)
            ========================================= */
-
         :root {
-            /* Tema 1: Claro / Pop Rock (☀️) */
             --bg-main: #fcfcfc;
             --text-main: #222222;
             --title-color: #d1124d; 
@@ -24,7 +22,6 @@
         }
 
         body.theme-steampunk {
-            /* Tema 2: Steampunk / Neón (🪐) */
             --bg-main: #1a1511; 
             --text-main: #e8c396; 
             --title-color: #3aeaff; 
@@ -37,7 +34,6 @@
         }
 
         body.theme-gothic {
-            /* Tema 3: Oscuro / Gótico (🌙) */
             --bg-main: #0a0a0a; 
             --text-main: #d4d4d4; 
             --title-color: #8c0a1a; 
@@ -52,223 +48,93 @@
         /* =========================================
            ESTILOS GENERALES Y LAYOUT
            ========================================= */
-
         body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            font-family: var(--font-family-global);
-            margin: 0;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            box-sizing: border-box;
+            background-color: var(--bg-main); color: var(--text-main); font-family: var(--font-family-global);
+            margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh; box-sizing: border-box; overflow-x: hidden;
         }
 
-        h1, h2, h3 {
-            color: var(--title-color);
-            margin: 10px 0;
-            font-weight: 600;
-        }
+        h1, h2, h3 { color: var(--title-color); margin: 10px 0; font-weight: 600; }
 
-        /* Barra Superior (Top Bar) */
         header {
-            width: 100%;
-            max-width: 480px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: var(--border-width) solid var(--border-color);
-            padding-bottom: 15px;
-            margin-bottom: 20px;
+            width: 100%; max-width: 480px; display: flex; justify-content: space-between;
+            align-items: center; border-bottom: var(--border-width) solid var(--border-color);
+            padding-bottom: 15px; margin-bottom: 20px;
         }
 
-        .header-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--title-color);
-            margin: 0;
-        }
+        .header-title { font-size: 1.2rem; font-weight: bold; color: var(--title-color); margin: 0; }
+        .header-icons { display: flex; gap: 15px; font-size: 1.4rem; }
+        .icon-btn { cursor: pointer; user-select: none; transition: transform 0.2s; }
+        .icon-btn:active { transform: scale(0.9); }
 
-        .header-icons {
-            display: flex;
-            gap: 15px;
-            font-size: 1.4rem;
-        }
+        .app-view { display: none; width: 100%; max-width: 480px; flex-direction: column; gap: 15px; }
+        .app-view.active { display: flex; }
 
-        .icon-btn {
-            cursor: pointer;
-            user-select: none;
-            transition: transform 0.2s;
-        }
-        
-        .icon-btn:active {
-            transform: scale(0.9);
-        }
-
-        /* Pantallas (Views) */
-        .app-view {
-            display: none;
-            width: 100%;
-            max-width: 480px;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .app-view.active {
-            display: flex;
-        }
-
-        /* Componentes Comunes */
         .card {
-            background-color: transparent;
-            border: var(--border-width) solid var(--border-color);
-            border-radius: var(--button-radius);
-            padding: 15px;
-            box-sizing: border-box;
+            background-color: transparent; border: var(--border-width) solid var(--border-color);
+            border-radius: var(--button-radius); padding: 15px; box-sizing: border-box;
         }
 
         input, textarea {
-            background-color: transparent;
-            color: var(--text-main);
-            border: var(--border-width) solid var(--border-color);
-            border-radius: var(--button-radius);
-            padding: 12px;
-            font-size: 1rem;
-            width: 100%;
-            box-sizing: border-box;
-            font-family: var(--font-family-global);
-            margin-bottom: 10px;
+            background-color: transparent; color: var(--text-main);
+            border: var(--border-width) solid var(--border-color); border-radius: var(--button-radius);
+            padding: 12px; font-size: 1rem; width: 100%; box-sizing: border-box;
+            font-family: var(--font-family-global); margin-bottom: 10px;
         }
+        input:focus, textarea:focus { outline: none; border-color: var(--title-color); }
 
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: var(--title-color);
-        }
-
-        /* Botones de Acción MÓVIL */
         .btn {
-            border: none;
-            border-radius: var(--button-radius);
-            font-family: var(--font-family-global);
-            font-size: 1.1rem;
-            font-weight: 600;
-            padding: 15px;
-            cursor: pointer;
-            transition: opacity 0.2s;
-            width: 100%;
-            box-sizing: border-box;
+            border: none; border-radius: var(--button-radius); font-family: var(--font-family-global);
+            font-size: 1.1rem; font-weight: 600; padding: 15px; cursor: pointer;
+            transition: opacity 0.2s; width: 100%; box-sizing: border-box; position: relative;
         }
+        .btn:active { opacity: 0.8; }
+        .btn-green { background-color: var(--btn-plus-bg); color: #ffffff; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+        .btn-cherry { background-color: var(--btn-submit-bg); color: #ffffff; }
+        .btn-outline { background-color: transparent; border: var(--border-width) solid var(--border-color); color: var(--text-main); }
 
-        .btn:active {
-            opacity: 0.8;
+        #route-full-buttons { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+
+        #counter-value { font-size: 7rem; font-weight: bold; color: var(--title-color); margin: 5px 0; text-align: center; }
+        #counter-controls { display: flex; flex-direction: column; gap: 15px; align-items: center; width: 100%; }
+        
+        #btn-plus { 
+            font-size: 3rem; border-radius: var(--button-radius); width: 80%; padding: 20px 0; 
+            overflow: visible; /* Necesario para la animación de combo */
         }
+        
+        #btn-minus { font-size: 2rem; border-radius: 12px; width: 60px; height: 60px; padding: 0; display: flex; justify-content: center; align-items: center; }
+        #counter-cash { border: var(--border-width) solid var(--border-color); color: var(--text-main); font-weight: bold; padding: 12px; text-align: center; border-radius: var(--button-radius); margin-top: 15px; }
 
-        .btn-green {
-            background-color: var(--btn-plus-bg);
-            color: #ffffff;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-        }
-
-        .btn-cherry {
-            background-color: var(--btn-submit-bg);
-            color: #ffffff;
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            border: var(--border-width) solid var(--border-color);
-            color: var(--text-main);
-        }
-
-        /* =========================================
-           UI SELECCIÓN DE RUTA (FULL SCREEN)
-           ========================================= */
-        #route-full-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            width: 100%;
-        }
-
-        /* =========================================
-           LÓGICA DEL CONTADOR AJUSTADO (MÓVIL)
-           ========================================= */
-        #counter-value {
-            font-size: 7rem;
-            font-weight: bold;
-            color: var(--title-color);
-            margin: 5px 0;
-            text-align: center;
-        }
-
-        #counter-controls {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: center;
-            width: 100%;
-        }
-
-        #btn-plus {
-            font-size: 3rem;
-            border-radius: var(--button-radius);
-            width: 80%;
-            padding: 20px 0;
-        }
-
-        #btn-minus {
-            font-size: 2rem;
-            border-radius: 12px;
-            width: 60px;
-            height: 60px;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #counter-cash {
-            border: var(--border-width) solid var(--border-color);
-            color: var(--text-main);
-            font-weight: bold;
-            padding: 12px;
-            text-align: center;
-            border-radius: var(--button-radius);
-            margin-top: 15px;
-        }
-
-        /* =========================================
-           SECCIONES DEL HOME
-           ========================================= */
-        .merged-section {
-            margin-bottom: 20px;
-        }
-
-        .corte-item {
-            display: flex;
-            justify-content: space-between;
-            border-bottom: var(--border-width) solid var(--border-color);
-            padding: 10px 0;
-            font-size: 0.95rem;
-        }
-
+        .merged-section { margin-bottom: 20px; }
+        .corte-item { display: flex; justify-content: space-between; border-bottom: var(--border-width) solid var(--border-color); padding: 10px 0; font-size: 0.95rem; }
+        
         .history-item-home {
-            border: var(--border-width) solid var(--border-color);
-            border-radius: var(--button-radius);
-            padding: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
+            border: var(--border-width) solid var(--border-color); border-radius: var(--button-radius);
+            padding: 12px; display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 8px; font-size: 0.9rem;
+        }
+        .history-controls { display: flex; gap: 15px; font-size: 1.3rem; }
+        .past-day-card { border-left: 4px solid var(--title-color); margin-bottom: 10px; }
+
+        /* =========================================
+           ANIMACIÓN TIPO MARIO BROS (COMBO)
+           ========================================= */
+        .floating-combo {
+            position: absolute;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #ffd700; /* Dorado brillante */
+            text-shadow: 2px 2px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000, 1px 1px 0px #000;
+            pointer-events: none; /* Para no bloquear clics */
+            animation: floatCoin 0.6s ease-out forwards;
+            z-index: 100;
         }
 
-        .history-controls {
-            display: flex;
-            gap: 15px;
-            font-size: 1.3rem;
+        @keyframes floatCoin {
+            0% { opacity: 1; transform: translate(-50%, -50%) scale(0.8); }
+            50% { transform: translate(-50%, -100%) scale(1.2); }
+            100% { opacity: 0; transform: translate(-50%, -150%) scale(1); }
         }
 
     </style>
@@ -286,7 +152,6 @@
     </header>
 
     <div id="view-home" class="app-view active">
-        
         <div class="merged-section" style="text-align: center;">
             <p style="margin: 0; color: var(--text-main); font-size: 0.9rem;">Efectivo acumulado hoy</p>
             <div id="balance-total-cash" style="font-size: 3rem; font-weight: bold; color: var(--title-color);">$0</div>
@@ -296,6 +161,10 @@
             <button class="btn btn-cherry" onclick="showScreen('view-route-full')">GENERAR VUELTA</button>
         </div>
 
+        <div class="merged-section">
+            <button class="btn btn-outline" onclick="showScreen('view-history')">VER HISTORIAL Y DÍAS PASADOS</button>
+        </div>
+
         <div class="merged-section card">
             <h2 style="margin-top:0; font-size: 1.1rem;">Liquidación del Turno</h2>
             <div class="corte-item"><span>Vueltas Totales:</span><b id="corte-vueltas-count">0</b></div>
@@ -303,7 +172,7 @@
             <div class="corte-item"><span>Sueldo Operador:</span><b>-$650</b></div>
             
             <div style="margin-top: 15px;">
-                <input type="number" id="corte-gasto-extra" placeholder="Monto extra (ej. 150)" oninput="updateMergedView()">
+                <input type="number" id="corte-gasto-extra" placeholder="Monto extra (ej. 150)" oninput="updateHomeView()">
                 <input type="text" id="corte-gasto-concepto" placeholder="Concepto del gasto (ej. Talacha)">
                 <textarea id="corte-obs" placeholder="Observaciones (tráfico, novedades...)"></textarea>
             </div>
@@ -313,15 +182,18 @@
                 <div id="corte-final" style="font-size: 2.2rem; font-weight: bold; color: var(--title-color);">$0</div>
             </div>
 
-            <button class="btn btn-outline" style="margin-top: 15px;" onclick="enviarReporteCorteWA()">ENVIAR CORTE</button>
+            <button class="btn btn-outline" style="margin-top: 15px;" onclick="enviarReporteCorteWA()">ENVIAR CORTE Y GUARDAR DÍA</button>
         </div>
+    </div>
 
-        <div class="merged-section">
-            <h2 style="font-size: 1.1rem;">Historial de Vueltas</h2>
-            <div id="history-list-home">
-                </div>
-        </div>
+    <div id="view-history" class="app-view">
+        <h2 style="margin-bottom: 0;">Historial de Hoy</h2>
+        <div id="history-list-today" style="margin-bottom: 20px;"></div>
 
+        <h2 style="margin-bottom: 0;">Días Anteriores</h2>
+        <div id="history-list-past"></div>
+
+        <button class="btn btn-cherry" style="margin-top: 20px;" onclick="showScreen('view-home')">VOLVER AL HOME</button>
     </div>
 
     <div id="view-route-full" class="app-view">
@@ -341,16 +213,14 @@
     <div id="view-vueltas" class="app-view">
         <div id="route-display" style="text-align: center; font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; color: var(--title-color);">[Ruta]</div>
         
-        <div style="text-align: center; font-size: 0.9rem; letter-spacing: 1px;">PASAJEROS</div>
+        <div style="text-align: center; font-size: 0.9rem; letter-spacing: 1px;">PAX TOTALES</div>
         <div id="counter-value">0</div>
         
         <div id="counter-controls">
-            <button id="btn-plus" class="btn btn-green" onclick="incrementCounter()">+</button>
+            <button id="btn-plus" class="btn btn-green" onclick="incrementCounter(event)">+</button>
             <button id="btn-minus" class="btn btn-cherry" onclick="decrementCounter()">-</button>
         </div>
-        
         <div id="counter-cash">TOTAL: $0</div>
-
         <button class="btn btn-cherry" style="margin-top:25px;" onclick="closeVuelta()">CERRAR VUELTA</button>
     </div>
 
@@ -363,7 +233,6 @@
 
     <div id="view-registration" class="app-view card">
         <h2 style="margin-top: 0;">Configuración</h2>
-        <p style="font-size: 0.9rem;">Datos fijos para reportes de WhatsApp:</p>
         <input type="text" id="reg-operador" placeholder="Operador (ej. Carlos)" value="Carlos">
         <input type="number" id="reg-unidad" placeholder="Unidad (ej. 15)" value="15">
         <button class="btn btn-cherry" style="margin-top: 15px;" onclick="showScreen('view-home')">GUARDAR</button>
@@ -379,15 +248,27 @@
         let currentVuelta = null;
         let vueltasHistory = [];
         let totalDayCashAccumulated = 0;
+        
+        // Variables para el combo de clics
+        let comboCount = 0;
+        let comboTimer;
+
+        window.onload = () => {
+            const savedTheme = localStorage.getItem('orbita_theme') || 'default';
+            setTheme(savedTheme);
+            updatePastDaysList();
+        };
 
         function showScreen(screenId) {
             document.querySelectorAll('.app-view').forEach(view => view.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
-            if (screenId === 'view-home') updateMergedView();
+            if (screenId === 'view-home') updateHomeView();
+            if (screenId === 'view-history') { updateTodayHistoryList(); updatePastDaysList(); }
         }
 
         function setTheme(theme) {
             document.getElementById('app-body').className = theme === 'default' ? '' : theme;
+            localStorage.setItem('orbita_theme', theme);
         }
 
         function generateVuelta(route) {
@@ -401,15 +282,40 @@
             showScreen('view-vueltas');
         }
 
-        function incrementCounter() {
-            currentVuelta.passengers++;
-            updateVueltaDisplay();
+        function incrementCounter(e) { 
+            currentVuelta.passengers++; 
+            updateVueltaDisplay(); 
+
+            // Lógica del Combo
+            comboCount++;
+            clearTimeout(comboTimer);
+            comboTimer = setTimeout(() => { comboCount = 0; }, 800); // Se reinicia el combo tras 0.8s sin clics
+
+            // Crear el elemento flotante
+            const floater = document.createElement('div');
+            floater.className = 'floating-combo';
+            floater.innerText = `+${comboCount}`;
+
+            const btn = document.getElementById('btn-plus');
+            
+            // Posicionar donde se hizo el clic o en el centro si no hay coordenadas
+            let x = btn.offsetWidth / 2;
+            let y = btn.offsetHeight / 2;
+            if (e && e.offsetX) {
+                x = e.offsetX;
+                y = e.offsetY;
+            }
+
+            floater.style.left = `${x}px`;
+            floater.style.top = `${y}px`;
+
+            btn.appendChild(floater);
+
+            // Eliminarlo después de la animación
+            setTimeout(() => floater.remove(), 600);
         }
 
-        function decrementCounter() {
-            if (currentVuelta.passengers > 0) currentVuelta.passengers--;
-            updateVueltaDisplay();
-        }
+        function decrementCounter() { if (currentVuelta.passengers > 0) currentVuelta.passengers--; updateVueltaDisplay(); }
 
         function updateVueltaDisplay() {
             currentVuelta.cash = currentVuelta.passengers * currentVuelta.rate;
@@ -425,28 +331,30 @@
             document.getElementById('cierre-details').innerHTML = `
                 <b>${currentVuelta.route}</b><br>
                 ${currentVuelta.startTime} - ${currentVuelta.endTime}<br>
-                ${currentVuelta.passengers} pasajeros<br>
+                ${currentVuelta.passengers} PAX<br>
                 <b>$${currentVuelta.cash}</b>
             `;
             showScreen('view-cierre');
         }
 
-        function updateMergedView() {
+        function updateHomeView() {
             document.getElementById('balance-total-cash').innerText = `$${totalDayCashAccumulated}`;
             document.getElementById('corte-vueltas-count').innerText = vueltasHistory.length;
             document.getElementById('corte-bruto').innerText = `$${totalDayCashAccumulated}`;
-            
             const gastoExtra = parseInt(document.getElementById('corte-gasto-extra').value) || 0;
             document.getElementById('corte-final').innerText = `$${totalDayCashAccumulated - sueldoFijo - gastoExtra}`;
+        }
 
-            const list = document.getElementById('history-list-home');
+        function updateTodayHistoryList() {
+            const list = document.getElementById('history-list-today');
             list.innerHTML = '';
+            if (vueltasHistory.length === 0) { list.innerHTML = '<p style="font-size: 0.9rem; opacity: 0.7;">No hay vueltas hoy.</p>'; return; }
             vueltasHistory.forEach(vuelta => {
                 const item = document.createElement('div');
                 item.className = 'history-item-home';
                 item.innerHTML = `
                     <div>
-                        <b>${vuelta.route}</b> (P:${vuelta.passengers})<br>
+                        <b>${vuelta.route}</b> (PAX:${vuelta.passengers})<br>
                         <span style="font-size:0.8rem;">${vuelta.startTime} | $${vuelta.cash}</span>
                     </div>
                     <div class="history-controls">
@@ -460,15 +368,49 @@
 
         function editVuelta(vueltaId) {
             const vuelta = vueltasHistory.find(v => v.id === vueltaId);
-            const nuevos = prompt(`Pasajeros en ${vuelta.route}:`, vuelta.passengers);
+            const nuevos = prompt(`Editar PAX en ${vuelta.route}:`, vuelta.passengers);
             if (nuevos !== null && !isNaN(nuevos)) {
                 totalDayCashAccumulated -= vuelta.cash;
                 vuelta.passengers = parseInt(nuevos);
                 vuelta.cash = vuelta.passengers * vuelta.rate;
                 totalDayCashAccumulated += vuelta.cash;
-                updateMergedView();
+                updateHomeView();
+                updateTodayHistoryList();
             }
         }
+
+        function guardarCorteEnMemoria(textoCorte) {
+            let pasados = JSON.parse(localStorage.getItem('orbita_cortes_pasados')) || [];
+            const fecha = new Date().toLocaleDateString('es-MX');
+            pasados.unshift({ fecha: fecha, reporte: textoCorte, id: Date.now() });
+            if (pasados.length > 15) pasados.pop();
+            localStorage.setItem('orbita_cortes_pasados', JSON.stringify(pasados));
+        }
+
+        function updatePastDaysList() {
+            const list = document.getElementById('history-list-past');
+            list.innerHTML = '';
+            let pasados = JSON.parse(localStorage.getItem('orbita_cortes_pasados')) || [];
+            if (pasados.length === 0) { list.innerHTML = '<p style="font-size: 0.9rem; opacity: 0.7;">Aún no hay días guardados.</p>'; return; }
+            pasados.forEach(dia => {
+                const item = document.createElement('div');
+                item.className = 'history-item-home past-day-card';
+                let aEntregar = dia.reporte.match(/\*A ENTREGAR:\* \$[0-9]+/);
+                let resumenTotal = aEntregar ? aEntregar[0].replace('*A ENTREGAR:* ', '') : 'Ver detalle';
+                item.innerHTML = `
+                    <div>
+                        <b>Fecha: ${dia.fecha}</b><br>
+                        <span style="font-size:0.8rem;">Liquidación: ${resumenTotal}</span>
+                    </div>
+                    <div class="history-controls">
+                        <span style="cursor:pointer;" onclick="reenviarCortePasado('${encodeURIComponent(dia.reporte)}')">📲</span>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function reenviarCortePasado(encodedText) { window.open(`https://wa.me/?text=${encodedText}`, '_blank'); }
 
         function enviarReporteVueltaWA(vueltaId) {
             const data = (vueltaId) ? vueltasHistory.find(v => v.id === vueltaId) : currentVuelta;
@@ -476,7 +418,7 @@
 *Unidad:* ${document.getElementById('reg-unidad').value} | *Operador:* ${document.getElementById('reg-operador').value}
 *Ruta:* ${data.route}
 *Inicio:* ${data.startTime} | *Fin:* ${data.endTime}
-*Pasajeros:* ${data.passengers}
+*PAX:* ${data.passengers}
 *Efectivo:* $${data.cash}`);
             window.open(`https://wa.me/?text=${text}`, '_blank');
         }
@@ -486,15 +428,26 @@
             const conc = document.getElementById('corte-gasto-concepto').value || 'Gasto no detallado';
             const obs = document.getElementById('corte-obs').value || 'Sin novedades';
             
-            const text = encodeURIComponent(`*ÓRBITA F1 - CORTE DEL DÍA*
+            const textoLimpio = `*ÓRBITA F1 - CORTE DEL DÍA*
 *Unidad:* ${document.getElementById('reg-unidad').value} | *Operador:* ${document.getElementById('reg-operador').value}
 *Vueltas Totales:* ${vueltasHistory.length}
 *Ingreso Bruto:* $${totalDayCashAccumulated}
 *Sueldo:* -$650
 *Gasto Extra:* -$${gastoEx} (${conc})
 *A ENTREGAR:* $${totalDayCashAccumulated - sueldoFijo - gastoEx}
-*Observaciones:* ${obs}`);
-            window.open(`https://wa.me/?text=${text}`, '_blank');
+*Observaciones:* ${obs}`;
+
+            guardarCorteEnMemoria(textoLimpio);
+            window.open(`https://wa.me/?text=${encodeURIComponent(textoLimpio)}`, '_blank');
+            
+            if(confirm("¿Quieres reiniciar el contador a cero para un nuevo turno?")) {
+                vueltasHistory = [];
+                totalDayCashAccumulated = 0;
+                document.getElementById('corte-gasto-extra').value = '';
+                document.getElementById('corte-gasto-concepto').value = '';
+                document.getElementById('corte-obs').value = '';
+                updateHomeView();
+            }
         }
     </script>
 </body>
