@@ -6,57 +6,54 @@
     <title>Órbita F1 - Rol Local</title>
     <style>
         /* =========================================
-           PALETAS DE COLORES (Ultra Minimalistas)
+           PALETAS DE COLORES (Con Glassmorphism)
            ========================================= */
         :root {
-            /* Tema 1: Claro / Corporativo Pro (🌕 Claro) */
-            --bg-main: #f2f2f7; /* Apple gray background */
-            --card-bg: #ffffff;
+            --bg-main: #f2f2f7; 
+            --card-bg: rgba(255, 255, 255, 0.85); /* Efecto cristal */
             --text-main: #1c1c1e;
             --text-muted: #8e8e93;
-            --title-color: #d1124d; /* Cherry Red */
-            --btn-plus-bg: #34c759; /* Green */
-            --btn-minus-bg: #ff3b30; /* Red */
+            --title-color: #d1124d; 
+            --btn-plus-bg: #34c759; 
+            --btn-minus-bg: #ff3b30; 
             --btn-submit-bg: #d1124d;
-            --border-color: transparent;
-            --border-width: 0px;
+            --border-color: rgba(0,0,0,0.05);
+            --border-width: 1px;
             --button-radius: 12px;
             --card-radius: 16px;
-            --shadow: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow: 0 4px 15px rgba(0,0,0,0.03);
             --font-family-global: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            --row-intercalated: #fafafa;
+            --row-intercalated: rgba(229, 229, 234, 0.6); 
         }
 
         body.theme-steampunk {
-            /* Tema 2: Steampunk / Neón (🌕 Steampunk) */
             --bg-main: #0a0806; 
-            --card-bg: #14100c;
+            --card-bg: rgba(20, 16, 12, 0.85);
             --text-main: #e8c396; 
             --text-muted: #8c765a;
             --title-color: #3aeaff; 
             --btn-plus-bg: #3aeaff; 
             --btn-minus-bg: #ff00ff; 
             --btn-submit-bg: #3aeaff;
-            --border-color: #33271c; 
+            --border-color: rgba(58, 234, 255, 0.1); 
             --border-width: 1px;
-            --shadow: 0 4px 12px rgba(58, 234, 255, 0.03);
-            --row-intercalated: #1a1511;
+            --shadow: 0 4px 15px rgba(58, 234, 255, 0.05);
+            --row-intercalated: rgba(42, 32, 21, 0.6); 
         }
 
         body.theme-gothic {
-            /* Tema 3: Oscuro / Gótico (🌕 Gótico) */
-            --bg-main: #000000; 
-            --card-bg: #0c0c0c;
+            --bg-main: #050505; 
+            --card-bg: rgba(18, 18, 18, 0.85);
             --text-main: #d4d4d4; 
-            --text-muted: #555555;
+            --text-muted: #666666;
             --title-color: #8c0a1a; 
             --btn-plus-bg: #8c0a1a; 
             --btn-minus-bg: #600711; 
             --btn-submit-bg: #8c0a1a;
-            --border-color: #222222; 
+            --border-color: rgba(140, 10, 26, 0.2); 
             --border-width: 1px; 
-            --shadow: 0 4px 12px rgba(0,0,0,0.4);
-            --row-intercalated: #111111;
+            --shadow: 0 4px 15px rgba(0,0,0,0.3);
+            --row-intercalated: rgba(34, 34, 34, 0.6); 
         }
 
         /* =========================================
@@ -64,226 +61,246 @@
            ========================================= */
         body {
             background-color: var(--bg-main); color: var(--text-main); font-family: var(--font-family-global);
-            margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center;
+            margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center;
             min-height: 100vh; box-sizing: border-box; overflow-x: hidden;
             -webkit-tap-highlight-color: transparent;
         }
 
-        h1, h2, h3 { color: var(--title-color); margin: 5px 0 15px 0; font-weight: 700; font-size: 1.25rem; }
+        #app-container { padding: 15px; width: 100%; max-width: 480px; box-sizing: border-box; }
+
+        /* BANNER OFFLINE */
+        #network-banner {
+            background-color: #ff3b30; color: white; width: 100%; text-align: center;
+            padding: 6px 0; font-size: 0.85rem; font-weight: 800; letter-spacing: 1px;
+            display: none; position: sticky; top: 0; z-index: 10000; box-shadow: 0 2px 10px rgba(255,59,48,0.4);
+        }
+
+        h1, h2, h3 { color: var(--title-color); margin: 5px 0 15px 0; font-weight: 800; font-size: 1.25rem; letter-spacing: -0.5px;}
 
         header {
-            width: 100%; max-width: 480px; display: flex; justify-content: space-between;
-            align-items: center; padding: 10px 0; margin-bottom: 10px;
+            width: 100%; display: flex; justify-content: space-between;
+            align-items: center; padding: 5px 0 15px 0; margin-bottom: 5px;
         }
 
         .header-title-group { display: flex; align-items: center; gap: 8px; }
-        .header-title { font-size: 1.25rem; font-weight: 800; color: var(--title-color); margin: 0; letter-spacing: -0.5px;}
-        .header-moon { font-size: 1.1rem; opacity: 0.9; }
+        .header-title { font-size: 1.3rem; font-weight: 900; color: var(--title-color); margin: 0; letter-spacing: -0.5px;}
+        .header-moon { font-size: 1.2rem; opacity: 0.9; }
 
-        .header-icons { display: flex; gap: 15px; font-size: 1.3rem; align-items: center; }
-        .icon-btn { cursor: pointer; user-select: none; transition: opacity 0.2s; opacity: 0.7; font-weight: bold;}
-        .icon-btn:active { opacity: 1;}
+        .header-icons { display: flex; gap: 15px; font-size: 1.4rem; align-items: center; }
+        .icon-btn { cursor: pointer; user-select: none; transition: opacity 0.2s; opacity: 0.7;}
+        .icon-btn:active { opacity: 1; transform: scale(0.9);}
 
-        .app-view { display: none; width: 100%; max-width: 480px; flex-direction: column; gap: 12px; }
+        /* ANIMACIÓN FADE-IN PARA PESTAÑAS */
+        .app-view { display: none; width: 100%; flex-direction: column; gap: 12px; animation: fadeIn 0.3s ease-out; }
         .app-view.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* EFECTO CRISTAL (GLASSMORPHISM) EN TARJETAS */
         .card {
             background-color: var(--card-bg); border: var(--border-width) solid var(--border-color);
-            border-radius: var(--card-radius); padding: 18px; box-sizing: border-box; box-shadow: var(--shadow);
+            border-radius: var(--card-radius); padding: 20px; box-sizing: border-box; 
+            box-shadow: var(--shadow); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
         }
 
         input, textarea {
-            background-color: var(--bg-main); color: var(--text-main);
-            border: none; border-radius: 8px;
+            background-color: var(--row-intercalated); color: var(--text-main);
+            border: 1px solid var(--border-color); border-radius: 8px;
             padding: 14px; font-size: 1rem; width: 100%; box-sizing: border-box;
-            font-family: var(--font-family-global); margin-bottom: 8px;
+            font-family: var(--font-family-global); margin-bottom: 8px; font-weight: 500;
         }
-        input:focus, textarea:focus { outline: 2px solid var(--title-color); }
+        input:focus, textarea:focus { outline: none; border-color: var(--title-color); background-color: var(--card-bg);}
 
         .btn {
             border: none; border-radius: var(--button-radius); font-family: var(--font-family-global);
-            font-size: 1.05rem; font-weight: 700; padding: 15px; cursor: pointer;
-            transition: opacity 0.2s, transform 0.1s; width: 100%; box-sizing: border-box; position: relative;
+            font-size: 1.05rem; font-weight: 800; padding: 16px; cursor: pointer;
+            transition: all 0.2s; width: 100%; box-sizing: border-box; letter-spacing: 0.5px;
         }
-        .btn:active { opacity: 0.7; transform: scale(0.98); }
+        .btn:active { opacity: 0.7; transform: scale(0.97); }
         .btn-green { background-color: var(--btn-plus-bg); color: #ffffff; }
         .btn-cherry { background-color: var(--btn-submit-bg); color: #ffffff; }
-        .btn-outline { background-color: var(--card-bg); border: 1px solid var(--text-muted); color: var(--text-main); }
-        
-        /* Ajuste Contraste Textos Botones Temas Oscuros */
-        body.theme-steampunk .btn-green, body.theme-steampunk .btn-plus-display,
-        body.theme-gothic .btn-green, body.theme-gothic .btn-plus-display { color: #000 !important; }
+        .btn-outline { background-color: transparent; border: 1px solid var(--text-muted); color: var(--text-main); }
+        .btn-gold { background-color: rgba(255, 215, 0, 0.15); border: 1px solid #ffd700; color: #b8860b; }
+        body.theme-steampunk .btn-gold { color: #ffd700; }
+        body.theme-steampunk .btn-green, body.theme-gothic .btn-green { color: #000 !important; }
 
-        #counter-cash { background-color: var(--card-bg); color: var(--text-main); font-weight: 700; padding: 12px; text-align: center; border-radius: var(--button-radius); margin-top: 8px; font-size: 1.1rem; box-shadow: var(--shadow);}
+        /* Rutas Intercaladas */
+        #route-full-buttons button:nth-child(odd) { background-color: var(--card-bg); border: 1px solid var(--text-muted); }
+        #route-full-buttons button:nth-child(even) { background-color: var(--row-intercalated); border: 1px solid transparent; color: var(--text-main);}
 
-        /* Fila Intercalada Selección Ruta */
-        #route-full-buttons button:nth-child(even) { background-color: var(--row-intercalated); }
-
-        /* Estilos Elementos Home */
-        .merged-section { margin-bottom: 12px; }
-        .corte-item { display: flex; justify-content: space-between; padding: 10px 0; font-size: 0.95rem; border-bottom: 1px solid var(--bg-main);}
+        .merged-section { margin-bottom: 15px; }
+        .corte-item { display: flex; justify-content: space-between; padding: 12px 0; font-size: 0.95rem; border-bottom: 1px solid var(--border-color);}
         .corte-item:last-child { border-bottom: none; }
         
         .history-item-home {
             background-color: var(--card-bg); border-radius: var(--button-radius);
-            padding: 12px; display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 8px; font-size: 0.9rem; box-shadow: var(--shadow); border: var(--border-width) solid var(--border-color);
+            padding: 14px; display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 8px; font-size: 0.9rem; box-shadow: var(--shadow); 
+            border: var(--border-width) solid var(--border-color); backdrop-filter: blur(10px);
         }
         .history-controls { display: flex; gap: 15px; font-size: 1.25rem; }
-        .past-day-card { border-left: 4px solid var(--title-color); }
+        .past-day-card { border-left: 5px solid var(--title-color); }
 
-        /* Elementos del Contador */
+        /* Contador Activo Pro */
         #route-display {
-            background-color: var(--card-bg); padding: 10px; border-radius: 8px; 
-            text-align: center; font-weight: 700; font-size: 1rem; margin-bottom: 12px; 
+            background-color: var(--card-bg); padding: 12px; border-radius: 10px; 
+            text-align: center; font-weight: 800; font-size: 1.05rem; margin-bottom: 15px; 
             color: var(--title-color); box-shadow: var(--shadow); cursor: pointer;
-            border: 1px solid transparent; transition: border 0.2s;
+            border: 1px solid var(--border-color); backdrop-filter: blur(10px);
         }
-        #route-display:active { border-color: var(--title-color); }
         
-        #counter-value { font-size: 7rem; font-weight: 800; color: var(--title-color); margin: 0; text-align: center; line-height: 1; letter-spacing: -3px;}
+        /* Número Gigante con fuente tabular para que no brinque */
+        #counter-value { 
+            font-size: 7.5rem; font-weight: 900; color: var(--title-color); margin: 0; 
+            text-align: center; line-height: 1; letter-spacing: -4px;
+            font-variant-numeric: tabular-nums; /* Evita que los números cambien de ancho */
+        }
+        
         #counter-controls { display: flex; flex-direction: column; gap: 12px; align-items: center; width: 100%; margin-top: 5px; position: relative;}
-        
-        #btn-plus { font-size: 3.5rem; border-radius: var(--card-radius); width: 100%; padding: 20px 0; box-shadow: var(--shadow); overflow: visible;}
-        #btn-minus { font-size: 1.8rem; border-radius: 10px; width: 60px; height: 60px; padding: 0; display: flex; justify-content: center; align-items: center; }
+        #btn-plus { font-size: 3.5rem; border-radius: var(--card-radius); width: 100%; padding: 22px 0; box-shadow: var(--shadow); overflow: visible;}
+        #btn-minus { font-size: 1.8rem; border-radius: 12px; width: 65px; height: 65px; padding: 0; display: flex; justify-content: center; align-items: center; }
+        #counter-cash { background-color: var(--card-bg); color: var(--text-main); font-weight: 800; padding: 14px; text-align: center; border-radius: var(--button-radius); margin-top: 10px; font-size: 1.15rem; box-shadow: var(--shadow); backdrop-filter: blur(10px);}
 
-        /* =========================================
-           COMBO PAX FIJO (PROFESIONAL)
-           ========================================= */
         #combo-box {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: rgba(0,0,0,0.8);
-            color: #ffd700; /* Gold */
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-weight: 900;
-            font-size: 1.3rem;
-            display: none; /* Oculto por defecto */
-            z-index: 10;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-            pointer-events: none;
-            letter-spacing: -1px;
+            position: absolute; top: 10px; right: 10px; background-color: rgba(0,0,0,0.8);
+            color: #ffd700; padding: 8px 12px; border-radius: 8px; font-weight: 900;
+            font-size: 1.3rem; display: none; z-index: 10; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            pointer-events: none; letter-spacing: -1px; border: 1px solid rgba(255, 215, 0, 0.3);
         }
+
+        /* TOAST NOTIFICATION */
+        #toast-container {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background-color: rgba(30, 30, 30, 0.95); color: #fff; padding: 14px 24px; border-radius: 30px;
+            font-size: 0.95rem; font-weight: 700; box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            z-index: 9999; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
+            text-align: center; white-space: nowrap; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);
+        }
+        #toast-container.show { opacity: 1; visibility: visible; }
+
+        .indicator { width: 8px; height: 8px; border-radius: 50%; background-color: #34c759; display: inline-block; margin-right: 6px; box-shadow: 0 0 5px rgba(52, 199, 89, 0.5);}
+        .indicator.offline { background-color: #ff3b30; box-shadow: 0 0 5px rgba(255, 59, 48, 0.5);}
 
     </style>
 </head>
 <body id="app-body" class="theme-default">
 
-    <header>
-        <div class="header-title-group">
-            <span class="header-moon">🌕</span>
-            <div class="header-title">Órbita F1</div>
-        </div>
-        <div class="header-icons">
-            <span class="icon-btn" id="theme-toggle-btn" onclick="cycleTheme()" title="Cambiar Estilo">○</span>
-            <span class="icon-btn" onclick="showScreen('view-registration')" title="Configuración">⚙</span>
-        </div>
-    </header>
+    <div id="network-banner">📵 MODO OFFLINE - SIN CONEXIÓN A INTERNET</div>
 
-    <div id="view-home" class="app-view active">
-        
-        <div class="merged-section" style="text-align: center; padding: 5px 0;">
-            <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem; font-weight: 600;">Efectivo acumulado hoy</p>
-            <div id="balance-total-cash" style="font-size: 3.2rem; font-weight: 800; color: var(--title-color); letter-spacing: -1px;">$0</div>
-        </div>
+    <div id="app-container">
+        <header>
+            <div class="header-title-group">
+                <span class="header-moon">🌕</span>
+                <div class="header-title">Órbita F1</div>
+            </div>
+            <div class="header-icons">
+                <span class="icon-btn" id="theme-toggle-btn" onclick="cycleTheme()" title="Cambiar Estilo">○</span>
+                <span class="icon-btn" onclick="showScreen('view-registration')" title="Configuración">⚙</span>
+            </div>
+        </header>
 
-        <div class="merged-section">
-            <button class="btn btn-cherry" onclick="openRouteSelection(false)">GENERAR VUELTA</button>
-        </div>
+        <div id="view-home" class="app-view active">
+            <div class="merged-section" style="text-align: center; padding: 5px 0;">
+                <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem; font-weight: 700;">
+                    <span class="indicator" id="sync-indicator"></span>Efectivo acumulado hoy
+                </p>
+                <div id="balance-total-cash" style="font-size: 3.5rem; font-weight: 900; color: var(--title-color); letter-spacing: -1.5px;">$0</div>
+            </div>
 
-        <div class="merged-section">
-            <h2 style="font-size: 1.05rem; color: var(--text-muted); margin-bottom: 10px;">Vueltas del Turno</h2>
-            <div id="history-list-today-home">
-                <p style="font-size: 0.9rem; color: var(--text-muted); text-align: center;">Aún no hay vueltas.</p>
+            <div class="merged-section">
+                <button class="btn btn-cherry" onclick="openRouteSelection(false)">GENERAR VUELTA</button>
+            </div>
+
+            <div class="merged-section">
+                <h2 style="font-size: 1.1rem; color: var(--text-muted); margin-bottom: 12px;">Vueltas del Turno</h2>
+                <div id="history-list-today-home"></div>
+            </div>
+
+            <div class="merged-section card">
+                <h2>Liquidación del Turno</h2>
+                <div class="corte-item"><span style="color: var(--text-muted);">Vueltas Totales:</span><b id="corte-vueltas-count">0</b></div>
+                <div class="corte-item"><span style="color: var(--text-muted);">Ingreso Bruto:</span><b id="corte-bruto">$0</b></div>
+                <div class="corte-item"><span style="color: var(--text-muted);">Sueldo Operador:</span><b>-$650</b></div>
+                
+                <div style="margin-top: 15px;">
+                    <input type="number" id="corte-gasto-extra" placeholder="Monto extra (ej. 150)" oninput="updateHomeView()">
+                    <input type="text" id="corte-gasto-concepto" placeholder="Concepto (ej. Talacha)">
+                    <textarea id="corte-obs" placeholder="Observaciones generales..."></textarea>
+                </div>
+
+                <div style="margin-top: 15px; text-align: center; padding-top: 15px; border-top: 1px solid var(--border-color);">
+                    <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 800;">A ENTREGAR</span>
+                    <div id="corte-final" style="font-size: 2.8rem; font-weight: 900; color: var(--title-color); letter-spacing: -1px;">$0</div>
+                </div>
+
+                <button id="btn-cerrar-turno" class="btn btn-outline wa-btn" style="margin-top: 15px; border: 2px solid var(--title-color); color: var(--title-color);" onclick="enviarReporteCorteWA()">ENVIAR Y GUARDAR DÍA</button>
+            </div>
+
+            <div class="merged-section" style="margin-top: 5px;">
+                <button class="btn btn-outline" style="border-style: dashed; font-size: 0.95rem;" onclick="showScreen('view-history')">CONSULTAR DÍAS ANTERIORES</button>
             </div>
         </div>
 
-        <div class="merged-section card">
-            <h2>Liquidación del Turno Pro</h2>
-            <div class="corte-item"><span style="color: var(--text-muted);">Vueltas Totales:</span><b id="corte-vueltas-count">0</b></div>
-            <div class="corte-item"><span style="color: var(--text-muted);">Ingreso Bruto:</span><b id="corte-bruto">$0</b></div>
-            <div class="corte-item"><span style="color: var(--text-muted);">Sueldo Operador:</span><b>-$650</b></div>
+        <div id="view-history" class="app-view">
+            <h2>Días Anteriores</h2>
+            <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                <button class="btn btn-gold wa-btn" style="flex: 1; font-size: 0.9rem; padding: 12px;" onclick="generarResumenAcumulado()">📊 ACUMULADO</button>
+                <button class="btn btn-green" style="flex: 1; font-size: 0.9rem; padding: 12px; background-color: #28a745;" onclick="exportarCSV()">📥 EXCEL (CSV)</button>
+            </div>
+            <div id="history-list-past"></div>
+            <button class="btn btn-cherry" style="margin-top: 20px;" onclick="showScreen('view-home')">VOLVER AL HOME</button>
+        </div>
+
+        <div id="view-route-full" class="app-view">
+            <h2 style="text-align: center; margin-bottom: 20px;" id="route-title">Selecciona Destino PAX</h2>
+            <div id="route-full-buttons">
+                <button class="btn btn-outline" onclick="selectRoute('Huehuetoca')">HUEHUETOCA ($15)</button>
+                <button class="btn btn-outline" onclick="selectRoute('Lazaro Cardenas')">LÁZARO CÁRDENAS ($14)</button>
+                <button class="btn btn-outline" onclick="selectRoute('Colorado')">COLORADO ($14)</button>
+                <button class="btn btn-outline" onclick="selectRoute('Compadres')">COMPADRES ($14)</button>
+                <button class="btn btn-outline" onclick="selectRoute('Tetecla')">TETECLA ($14)</button>
+                <button class="btn btn-outline" onclick="selectRoute('Pendiente 1')">PENDIENTE 1 ($14)</button>
+                <button class="btn btn-outline" onclick="selectRoute('Pendiente 2')">PENDIENTE 2 ($14)</button>
+            </div>
+            <button class="btn btn-cherry" style="margin-top: 20px;" onclick="cancelRouteSelection()">CANCELAR</button>
+        </div>
+
+        <div id="view-vueltas" class="app-view">
+            <div id="combo-box">PAX <span id="combo-display">+1</span></div>
+
+            <div id="route-display" onclick="openRouteSelection(true)" title="Toca para cambiar destino">
+                [Ruta] <span style="font-size:0.8rem; opacity:0.6; margin-left:5px;">✎ Cambiar</span>
+            </div>
             
-            <div style="margin-top: 15px;">
-                <input type="number" id="corte-gasto-extra" placeholder="Monto extra (ej. 150)" oninput="updateHomeView()">
-                <input type="text" id="corte-gasto-concepto" placeholder="Concepto (ej. Talacha)">
-                <textarea id="corte-obs" placeholder="Observaciones generales..."></textarea>
+            <div style="text-align: center; font-size: 0.85rem; letter-spacing: 1.5px; color: var(--text-muted); font-weight: 800;">PAX TOTALES ACTIVO</div>
+            <div id="counter-value">0</div>
+            
+            <div id="counter-controls">
+                <button id="btn-plus" class="btn btn-green" onclick="incrementCounter()">+</button>
+                <button id="btn-minus" class="btn btn-cherry" onclick="decrementCounter()">-</button>
             </div>
-
-            <div style="margin-top: 15px; text-align: center; padding-top: 15px; border-top: 1px solid var(--bg-main);">
-                <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700;">A ENTREGAR</span>
-                <div id="corte-final" style="font-size: 2.6rem; font-weight: 800; color: var(--title-color); letter-spacing: -1px;">$0</div>
-            </div>
-
-            <button class="btn btn-outline" style="margin-top: 15px;" onclick="enviarReporteCorteWA()">ENVIAR CORTE Y GUARDAR DÍA</button>
+            <div id="counter-cash">TOTAL VUELTA: $0</div>
+            <button class="btn btn-cherry" style="margin-top:15px;" onclick="closeVuelta()">CERRAR VUELTA</button>
         </div>
 
-        <div class="merged-section" style="margin-top: 5px;">
-            <button class="btn btn-outline" style="border-style: dashed; font-size: 0.95rem; padding: 12px;" onclick="showScreen('view-history')">CONSULTAR DÍAS ANTERIORES</button>
+        <div id="view-cierre" class="app-view card">
+            <h2 style="text-align: center;">Resumen PAX</h2>
+            <div id="cierre-details" style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 20px; text-align: center; color: var(--text-main);">...</div>
+            <button class="btn btn-green wa-btn" style="margin-bottom: 10px;" onclick="enviarReporteVueltaWA()">ENVIAR VUELTA WA</button>
+            <button class="btn btn-outline" onclick="showScreen('view-home')">VOLVER AL BALANCE</button>
+        </div>
+
+        <div id="view-registration" class="app-view card">
+            <h2>Configuración Pro</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Datos fijos para reportes:</p>
+            <input type="text" id="reg-operador" placeholder="Operador (ej. Carlos)" value="Carlos">
+            <input type="number" id="reg-unidad" placeholder="Unidad (ej. 15)" value="15">
+            <button class="btn btn-cherry" style="margin-top: 15px;" onclick="showScreen('view-home')">GUARDAR DATOS</button>
         </div>
     </div>
 
-    <div id="view-history" class="app-view">
-        <h2>Historial de Días Anteriores Pro</h2>
-        <div id="history-list-past"></div>
-        <button class="btn btn-cherry" style="margin-top: 20px;" onclick="showScreen('view-home')">VOLVER AL HOME</button>
-    </div>
-
-    <div id="view-route-full" class="app-view">
-        <h2 style="text-align: center; margin-bottom: 20px;" id="route-title">Selecciona Destino PAX</h2>
-        <div id="route-full-buttons">
-            <button class="btn btn-outline" onclick="selectRoute('Huehuetoca')">HUEHUETOCA ($15)</button>
-            <button class="btn btn-outline" onclick="selectRoute('Lazaro Cardenas')">LÁZARO CÁRDENAS ($14)</button>
-            <button class="btn btn-outline" onclick="selectRoute('Colorado')">COLORADO ($14)</button>
-            <button class="btn btn-outline" onclick="selectRoute('Compadres')">COMPADRES ($14)</button>
-            <button class="btn btn-outline" onclick="selectRoute('Tetecla')">TETECLA ($14)</button>
-            <button class="btn btn-outline" onclick="selectRoute('Pendiente 1')">PENDIENTE 1 ($14)</button>
-            <button class="btn btn-outline" onclick="selectRoute('Pendiente 2')">PENDIENTE 2 ($14)</button>
-        </div>
-        <button class="btn btn-cherry" style="margin-top: 20px;" onclick="cancelRouteSelection()">CANCELAR</button>
-    </div>
-
-    <div id="view-vueltas" class="app-view">
-        <div id="combo-box">
-            PAX <span id="combo-display">+1</span>
-        </div>
-
-        <div id="route-display" onclick="openRouteSelection(true)" title="Toca para cambiar de destino">
-            [Ruta] <span style="font-size:0.8rem; opacity:0.6; margin-left:5px;">✎ Cambiar</span>
-        </div>
-        
-        <div style="text-align: center; font-size: 0.8rem; letter-spacing: 1px; color: var(--text-muted); font-weight: 700;">PAX TOTALES ACTIVO</div>
-        <div id="counter-value">0</div>
-        
-        <div id="counter-controls">
-            <button id="btn-plus" class="btn btn-green" onclick="incrementCounter()">+</button>
-            <button id="btn-minus" class="btn btn-cherry" onclick="decrementCounter()">-</button>
-        </div>
-        <div id="counter-cash">TOTAL VUELTA: $0</div>
-        <button class="btn btn-cherry" style="margin-top:15px;" onclick="closeVuelta()">CERRAR VUELTA</button>
-    </div>
-
-    <div id="view-cierre" class="app-view card">
-        <h2 style="text-align: center;">Resumen PAX</h2>
-        <div id="cierre-details" style="font-size: 1.05rem; line-height: 1.7; margin-bottom: 20px; text-align: center; color: var(--text-main);">...</div>
-        <button class="btn btn-green" style="margin-bottom: 10px;" onclick="enviarReporteVueltaWA()">ENVIAR VUELTA WA</button>
-        <button class="btn btn-outline" onclick="showScreen('view-home')">VOLVER AL BALANCE</button>
-    </div>
-
-    <div id="view-registration" class="app-view card">
-        <h2>Configuración Pro</h2>
-        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Datos fijos para reportes:</p>
-        <input type="text" id="reg-operador" placeholder="Operador (ej. Carlos)" value="Carlos">
-        <input type="number" id="reg-unidad" placeholder="Unidad (ej. 15)" value="15">
-        <button class="btn btn-cherry" style="margin-top: 15px;" onclick="showScreen('view-home')">GUARDAR DATOS Pro</button>
-    </div>
+    <div id="toast-container">Mensaje</div>
 
     <script>
-        // =========================================
-        // ESTADO DE LA APLICACIÓN Y DATOS
-        // =========================================
         const rates = {
             "Huehuetoca": 15, "Lazaro Cardenas": 14, "Colorado": 14,
             "Compadres": 14, "Tetecla": 14, "Pendiente 1": 14, "Pendiente 2": 14
@@ -294,37 +311,115 @@
         let vueltasHistory = [];
         let totalDayCashAccumulated = 0;
         
-        // Variables Combo PAX
         let comboCount = 0;
         let comboTimer;
-
-        // Variables Cambio Ruta
         let isEditingActiveRoute = false;
 
-        // Variables Tema Interactivos Unificado
         const themes = ['theme-default', 'theme-steampunk', 'theme-gothic'];
-        const themeIcons = ['○', '◍', '●']; // Minimal Pro
+        const themeIcons = ['○', '◍', '●'];
         let currentThemeIndex = 0;
+        let toastTimeout;
+        let wakeLock = null; 
+
+        // --- SISTEMA OFFLINE INTELIGENTE ---
+        function checkNetworkStatus() {
+            const isOnline = navigator.onLine;
+            const banner = document.getElementById('network-banner');
+            const indicator = document.getElementById('sync-indicator');
+            const btnCerrar = document.getElementById('btn-cerrar-turno');
+            const waButtons = document.querySelectorAll('.wa-btn');
+
+            if (isOnline) {
+                banner.style.display = 'none';
+                indicator.className = 'indicator'; // Verde
+                btnCerrar.innerText = "ENVIAR Y GUARDAR DÍA";
+                waButtons.forEach(btn => btn.style.opacity = '1');
+            } else {
+                banner.style.display = 'block';
+                indicator.className = 'indicator offline'; // Rojo
+                btnCerrar.innerText = "💾 GUARDAR TURNO LOCAL (SIN SEÑAL)";
+                waButtons.forEach(btn => {
+                    if(btn.id !== 'btn-cerrar-turno') btn.style.opacity = '0.5'; // Atenuar botones de WA
+                });
+            }
+        }
+        window.addEventListener('online', checkNetworkStatus);
+        window.addEventListener('offline', checkNetworkStatus);
 
         window.onload = () => {
             const savedTheme = localStorage.getItem('orbita_theme') || 'theme-default';
             setTheme(savedTheme);
+            checkNetworkStatus(); // Checar señal al abrir
+            
+            const session = JSON.parse(localStorage.getItem('orbita_active_session'));
+            if (session) {
+                vueltasHistory = session.vueltasHistory || [];
+                totalDayCashAccumulated = session.totalDayCashAccumulated || 0;
+                
+                if(session.gastosExtra) document.getElementById('corte-gasto-extra').value = session.gastosExtra;
+                if(session.gastoConcepto) document.getElementById('corte-gasto-concepto').value = session.gastoConcepto;
+                if(session.obs) document.getElementById('corte-obs').value = session.obs;
+
+                if (session.currentVuelta) {
+                    currentVuelta = session.currentVuelta;
+                    document.getElementById('route-display').innerHTML = `${currentVuelta.route} ($${currentVuelta.rate}) <span style="font-size:0.8rem; opacity:0.6; margin-left:5px;">✎ Cambiar</span>`;
+                    updateVueltaDisplay();
+                    showScreen('view-vueltas');
+                    showToast("Recuperando cuenta activa...");
+                } else {
+                    showScreen('view-home');
+                }
+            } else {
+                showScreen('view-home');
+            }
             updatePastDaysList();
-            updateTodayHistoryList();
         };
+
+        function saveSession() {
+            const session = {
+                vueltasHistory, totalDayCashAccumulated, currentVuelta,
+                gastosExtra: document.getElementById('corte-gasto-extra').value,
+                gastoConcepto: document.getElementById('corte-gasto-concepto').value,
+                obs: document.getElementById('corte-obs').value
+            };
+            localStorage.setItem('orbita_active_session', JSON.stringify(session));
+            
+            const ind = document.getElementById('sync-indicator');
+            if(navigator.onLine) {
+                ind.style.backgroundColor = "#ffd700"; 
+                setTimeout(() => { ind.style.backgroundColor = "#34c759"; }, 300); 
+            }
+        }
+
+        async function requestWakeLock() {
+            try { if ('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen'); } 
+            catch (err) { console.log('Wake Lock falló:', err.message); }
+        }
+        function releaseWakeLock() { if (wakeLock !== null) wakeLock.release().then(() => { wakeLock = null; }); }
+        
+        document.addEventListener('visibilitychange', async () => {
+            if (wakeLock !== null && document.visibilityState === 'visible') requestWakeLock(); 
+        });
+
+        function showToast(message) {
+            const toast = document.getElementById('toast-container');
+            toast.innerText = message;
+            toast.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 3000);
+        }
 
         function showScreen(screenId) {
             document.querySelectorAll('.app-view').forEach(view => view.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
-            if (screenId === 'view-home') { updateHomeView(); updateTodayHistoryList(); }
-            if (screenId === 'view-history') { updatePastDaysList(); }
+            
+            if (screenId === 'view-home') { updateHomeView(); updateTodayHistoryList(); releaseWakeLock(); }
+            if (screenId === 'view-vueltas') { requestWakeLock(); }
+            if (screenId === 'view-history') { updatePastDaysList(); releaseWakeLock(); }
+            saveSession();
         }
 
-        // --- TEMA INTERACTIVO (Gesto Unificado) ---
-        function cycleTheme() {
-            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
-            setTheme(themes[currentThemeIndex]);
-        }
+        function cycleTheme() { currentThemeIndex = (currentThemeIndex + 1) % themes.length; setTheme(themes[currentThemeIndex]); }
 
         function setTheme(themeClass) {
             document.getElementById('app-body').className = themeClass;
@@ -334,7 +429,6 @@
             document.getElementById('theme-toggle-btn').innerText = themeIcons[currentThemeIndex];
         }
 
-        // --- FUNCIONES SELECCIÓN RUTA (PANTALLA COMPLETA + INTERCALADO) ---
         function openRouteSelection(isEditing) {
             isEditingActiveRoute = isEditing;
             document.getElementById('route-title').innerText = isEditing ? "Cambiar Destino PAX" : "Selecciona Destino PAX";
@@ -348,43 +442,26 @@
 
         function selectRoute(route) {
             if (isEditingActiveRoute && currentVuelta) {
-                currentVuelta.route = route;
-                currentVuelta.rate = rates[route];
-                isEditingActiveRoute = false;
+                currentVuelta.route = route; currentVuelta.rate = rates[route]; isEditingActiveRoute = false;
             } else {
-                currentVuelta = {
-                    id: Date.now(), route: route, rate: rates[route],
-                    startTime: new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' }),
-                    passengers: 0, cash: 0
-                };
+                currentVuelta = { id: Date.now(), route: route, rate: rates[route], startTime: new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' }), passengers: 0, cash: 0 };
             }
             document.getElementById('route-display').innerHTML = `${currentVuelta.route} ($${currentVuelta.rate}) <span style="font-size:0.8rem; opacity:0.6; margin-left:5px;">✎ Cambiar</span>`;
-            updateVueltaDisplay();
-            showScreen('view-vueltas');
+            updateVueltaDisplay(); showScreen('view-vueltas');
         }
 
-        // --- CONTADOR PAX + COMBO FIJO ACTIVO ---
         function incrementCounter() { 
-            currentVuelta.passengers++; 
-            updateVueltaDisplay(); 
-
-            // Lógica Combo FIJO
-            comboCount++;
-            clearTimeout(comboTimer);
-            
+            currentVuelta.passengers++; updateVueltaDisplay(); saveSession();
+            comboCount++; clearTimeout(comboTimer);
             const comboBox = document.getElementById('combo-box');
-            const comboDisplay = document.getElementById('combo-display');
-            
-            comboDisplay.innerText = `+${comboCount}`;
-            comboBox.style.display = 'block'; // Mostrar recuadro fijo
-
-            comboTimer = setTimeout(() => { 
-                comboCount = 0; 
-                comboBox.style.display = 'none'; // Ocultar
-            }, 850); 
+            document.getElementById('combo-display').innerText = `+${comboCount}`;
+            comboBox.style.display = 'block'; 
+            comboTimer = setTimeout(() => { comboCount = 0; comboBox.style.display = 'none'; }, 850); 
         }
 
-        function decrementCounter() { if (currentVuelta.passengers > 0) currentVuelta.passengers--; updateVueltaDisplay(); }
+        function decrementCounter() { 
+            if (currentVuelta.passengers > 0) { currentVuelta.passengers--; updateVueltaDisplay(); saveSession(); }
+        }
 
         function updateVueltaDisplay() {
             currentVuelta.cash = currentVuelta.passengers * currentVuelta.rate;
@@ -403,25 +480,22 @@
                 ${currentVuelta.passengers} PAX<br>
                 <b style="font-size: 1.15rem;">$${currentVuelta.cash}</b>
             `;
-            showScreen('view-cierre');
+            currentVuelta = null; saveSession(); showScreen('view-cierre');
         }
 
-        // --- HOME Y HISTORIAL (NUEVA ESTRUCTURA FUSIONADA) ---
         function updateHomeView() {
             document.getElementById('balance-total-cash').innerText = `$${totalDayCashAccumulated}`;
             document.getElementById('corte-vueltas-count').innerText = vueltasHistory.length;
             document.getElementById('corte-bruto').innerText = `$${totalDayCashAccumulated}`;
             const gastoExtra = parseInt(document.getElementById('corte-gasto-extra').value) || 0;
             document.getElementById('corte-final').innerText = `$${totalDayCashAccumulated - sueldoFijo - gastoExtra}`;
+            saveSession(); 
         }
 
         function updateTodayHistoryList() {
             const list = document.getElementById('history-list-today-home');
             list.innerHTML = '';
-            if (vueltasHistory.length === 0) { 
-                list.innerHTML = '<p style="font-size: 0.9rem; color: var(--text-muted); text-align: center;">Aún no hay vueltas.</p>'; 
-                return; 
-            }
+            if (vueltasHistory.length === 0) { list.innerHTML = '<p style="font-size: 0.9rem; color: var(--text-muted); text-align: center; margin:0;">Aún no hay vueltas registradas.</p>'; return; }
             vueltasHistory.forEach(vuelta => {
                 const item = document.createElement('div');
                 item.className = 'history-item-home';
@@ -432,7 +506,7 @@
                     </div>
                     <div class="history-controls">
                         <span style="cursor:pointer;" onclick="editVuelta(${vuelta.id})">✎</span>
-                        <span style="cursor:pointer;" onclick="enviarReporteVueltaWA(${vuelta.id})">📲</span>
+                        <span style="cursor:pointer;" class="wa-btn" onclick="enviarReporteVueltaWA(${vuelta.id})">📲</span>
                     </div>
                 `;
                 list.appendChild(item);
@@ -447,47 +521,106 @@
                 vuelta.passengers = parseInt(nuevos);
                 vuelta.cash = vuelta.passengers * vuelta.rate;
                 totalDayCashAccumulated += vuelta.cash;
-                updateHomeView();
-                updateTodayHistoryList();
+                updateHomeView(); updateTodayHistoryList(); showToast("Vuelta actualizada"); saveSession();
             }
         }
 
-        // --- ALMACENAMIENTO DÍAS PASADOS (LocalStorage Discreto) ---
-        function guardarCorteEnMemoria(textoCorte) {
+        // --- MANEJO DE HISTORIAL Y EXCEL ---
+        function guardarCorteEnMemoria(textoCorte, datosBrutos) {
             let pasados = JSON.parse(localStorage.getItem('orbita_cortes_pasados')) || [];
             const fecha = new Date().toLocaleDateString('es-MX');
-            pasados.unshift({ fecha: fecha, reporte: textoCorte, id: Date.now() });
-            if (pasados.length > 15) pasados.pop();
+            
+            // Guardamos el reporte visual Y los datos limpios para el Excel
+            pasados.unshift({ 
+                fecha: fecha, 
+                reporte: textoCorte, 
+                datos: datosBrutos, // Para el CSV
+                id: Date.now() 
+            });
+            
+            if (pasados.length > 30) pasados.pop(); // Guarda hasta 1 mes
             localStorage.setItem('orbita_cortes_pasados', JSON.stringify(pasados));
+        }
+
+        function exportarCSV() {
+            let pasados = JSON.parse(localStorage.getItem('orbita_cortes_pasados')) || [];
+            if(pasados.length === 0) { showToast("No hay datos para exportar a Excel."); return; }
+
+            // Cabeceras del CSV
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Fecha,Vueltas,Ingreso Bruto,Sueldo Operador,Gastos Extra,Concepto Gasto,Liquidacion Final\n";
+
+            pasados.forEach(dia => {
+                if(dia.datos) {
+                    csvContent += `${dia.fecha},${dia.datos.vueltas},${dia.datos.bruto},650,${dia.datos.gastoExtra},"${dia.datos.concepto}",${dia.datos.liquidacion}\n`;
+                }
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "OrbitaF1_Cortes.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast("✅ Archivo Excel descargado");
         }
 
         function updatePastDaysList() {
             const list = document.getElementById('history-list-past');
             list.innerHTML = '';
             let pasados = JSON.parse(localStorage.getItem('orbita_cortes_pasados')) || [];
-            if (pasados.length === 0) { list.innerHTML = '<p style="font-size: 0.9rem; opacity: 0.5;">Aún no hay días guardados.</p>'; return; }
+            if (pasados.length === 0) { list.innerHTML = '<p style="font-size: 0.9rem; opacity: 0.5; text-align:center;">Aún no hay días guardados.</p>'; return; }
             pasados.forEach(dia => {
                 const item = document.createElement('div');
                 item.className = 'history-item-home past-day-card';
-                let aEntregar = dia.reporte.match(/\*A ENTREGAR:\* \$[0-9]+/);
-                let resumenTotal = aEntregar ? aEntregar[0].replace('*A ENTREGAR:* ', '') : 'Ver detalle';
+                let resumenTotal = dia.datos ? `$${dia.datos.liquidacion}` : 'Ver detalle';
                 item.innerHTML = `
                     <div>
                         <b style="color: var(--text-main);">Fecha: ${dia.fecha}</b><br>
                         <span style="font-size:0.85rem; color: var(--text-muted);">Liquidación: <b style="color: var(--title-color);">${resumenTotal}</b></span>
                     </div>
                     <div class="history-controls">
-                        <span style="cursor:pointer;" onclick="reenviarCortePasado('${encodeURIComponent(dia.reporte)}')">📲</span>
+                        <span style="cursor:pointer;" class="wa-btn" onclick="reenviarCortePasado('${encodeURIComponent(dia.reporte)}')">📲</span>
+                        <span style="cursor:pointer; color: var(--btn-minus-bg);" onclick="borrarCortePasado(${dia.id})">🗑️</span>
                     </div>
                 `;
                 list.appendChild(item);
             });
         }
 
-        function reenviarCortePasado(encodedText) { window.open(`https://wa.me/?text=${encodedText}`, '_blank'); }
+        function borrarCortePasado(id) {
+            if(confirm("¿Estás seguro de que quieres borrar este corte del historial?")) {
+                let pasados = JSON.parse(localStorage.getItem('orbita_cortes_pasados')) || [];
+                pasados = pasados.filter(dia => dia.id !== id);
+                localStorage.setItem('orbita_cortes_pasados', JSON.stringify(pasados));
+                updatePastDaysList(); showToast("Corte eliminado de la memoria");
+            }
+        }
 
-        // --- REPORTES WHATSAPP (PAX Pro, Sin Emojis) ---
+        function generarResumenAcumulado() {
+            if(!navigator.onLine) { showToast("📵 Necesitas internet para enviar el reporte."); return; }
+            let pasados = JSON.parse(localStorage.getItem('orbita_cortes_pasados')) || [];
+            if (pasados.length === 0) { showToast("No hay días guardados para sumar."); return; }
+
+            let totalAcumulado = 0;
+            pasados.forEach(dia => { if(dia.datos) totalAcumulado += dia.datos.liquidacion; });
+
+            const texto = encodeURIComponent(`*ÓRBITA F1 - RESUMEN ACUMULADO*
+*Días procesados:* ${pasados.length}
+*TOTAL A ENTREGAR:* $${totalAcumulado}
+
+_(Generado automáticamente desde la App)_`);
+            window.open(`https://wa.me/?text=${texto}`, '_blank');
+        }
+
+        function reenviarCortePasado(encodedText) { 
+            if(!navigator.onLine) { showToast("📵 Necesitas internet para enviar WhatsApp."); return; }
+            window.open(`https://wa.me/?text=${encodedText}`, '_blank'); 
+        }
+
         function enviarReporteVueltaWA(vueltaId) {
+            if(!navigator.onLine) { showToast("📵 Necesitas internet para enviar WhatsApp."); return; }
             const data = (vueltaId) ? vueltasHistory.find(v => v.id === vueltaId) : currentVuelta;
             const text = encodeURIComponent(`*ÓRBITA F1 - REPORTE DE VUELTA*
 *Unidad:* ${document.getElementById('reg-unidad').value} | *Operador:* ${document.getElementById('reg-operador').value}
@@ -499,9 +632,12 @@
         }
 
         function enviarReporteCorteWA() {
+            if(vueltasHistory.length === 0) { showToast("⚠️ No puedes cerrar un turno en ceros."); return; }
+
             const gastoEx = parseInt(document.getElementById('corte-gasto-extra').value) || 0;
             const conc = document.getElementById('corte-gasto-concepto').value || 'Gasto no detallado';
             const obs = document.getElementById('corte-obs').value || 'Sin novedades';
+            const liquidacionFinal = totalDayCashAccumulated - sueldoFijo - gastoEx;
             
             const textoLimpio = `*ÓRBITA F1 - CORTE DEL DÍA*
 *Unidad:* ${document.getElementById('reg-unidad').value} | *Operador:* ${document.getElementById('reg-operador').value}
@@ -509,23 +645,40 @@
 *Ingreso Bruto:* $${totalDayCashAccumulated}
 *Sueldo:* -$650
 *Gasto Extra:* -$${gastoEx} (${conc})
-*A ENTREGAR:* $${totalDayCashAccumulated - sueldoFijo - gastoEx}
+*A ENTREGAR:* $${liquidacionFinal}
 *Observaciones:* ${obs}`;
 
-            guardarCorteEnMemoria(textoLimpio);
-            window.open(`https://wa.me/?text=${encodeURIComponent(textoLimpio)}`, '_blank');
+            // Datos limpios para el CSV
+            const datosBrutos = {
+                vueltas: vueltasHistory.length,
+                bruto: totalDayCashAccumulated,
+                gastoExtra: gastoEx,
+                concepto: conc,
+                liquidacion: liquidacionFinal
+            };
+
+            guardarCorteEnMemoria(textoLimpio, datosBrutos);
             
-            if(confirm("¿Reiniciar contador Pro a cero para un nuevo turno de PAX?")) {
-                vueltasHistory = [];
-                totalDayCashAccumulated = 0;
-                document.getElementById('corte-gasto-extra').value = '';
-                document.getElementById('corte-gasto-concepto').value = '';
-                document.getElementById('corte-obs').value = '';
-                updateHomeView();
-                updateTodayHistoryList();
-                updatePastDaysList(); // Actualizar lista pasados
+            // RESETEO AUTOMÁTICO Y LIMPIEZA DE SESIÓN
+            vueltasHistory = []; totalDayCashAccumulated = 0;
+            document.getElementById('corte-gasto-extra').value = '';
+            document.getElementById('corte-gasto-concepto').value = '';
+            document.getElementById('corte-obs').value = '';
+            localStorage.removeItem('orbita_active_session'); 
+            
+            updateHomeView(); updateTodayHistoryList();
+            
+            if(!navigator.onLine) {
+                showToast("💾 Turno cerrado y guardado LOCALMENTE (Sin Señal).");
+            } else {
+                showToast("✅ Turno cerrado y cuenta reiniciada.");
+                setTimeout(() => { window.open(`https://wa.me/?text=${encodeURIComponent(textoLimpio)}`, '_blank'); }, 500);
             }
         }
+        
+        document.getElementById('corte-gasto-extra').addEventListener('input', saveSession);
+        document.getElementById('corte-gasto-concepto').addEventListener('input', saveSession);
+        document.getElementById('corte-obs').addEventListener('input', saveSession);
     </script>
 </body>
 </html>
