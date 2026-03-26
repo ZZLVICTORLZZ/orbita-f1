@@ -14,7 +14,6 @@
            PALETAS DE COLORES (Premium)
            ========================================= */
         :root {
-            /* Tema 1: Claro / Corporativo */
             --bg-gradient: radial-gradient(circle at top left, #ffffff, #f2f2f7, #e5e5ea);
             --card-bg: rgba(255, 255, 255, 0.75); 
             --text-main: #1c1c1e;
@@ -32,10 +31,10 @@
             --font-family-display: 'Space Grotesk', monospace;
             --row-intercalated: rgba(229, 229, 234, 0.5); 
             --glow-color: transparent;
+            --bottom-bar-bg: rgba(255, 255, 255, 0.85);
         }
 
         body.theme-steampunk {
-            /* Tema 2: Steampunk */
             --bg-gradient: radial-gradient(circle at top right, #2a1b10, #0a0806, #000000);
             --card-bg: rgba(20, 16, 12, 0.75);
             --text-main: #e8c396; 
@@ -48,15 +47,15 @@
             --shadow: 0 8px 20px rgba(0,0,0,0.3);
             --row-intercalated: rgba(42, 32, 21, 0.5); 
             --glow-color: rgba(58, 234, 255, 0.4);
+            --bottom-bar-bg: rgba(20, 16, 12, 0.9);
         }
 
         body.theme-gothic {
-            /* Tema 3: Oscuro / Gótico */
             --bg-gradient: radial-gradient(circle at center, #1a0508, #050505, #000000);
             --card-bg: rgba(18, 18, 18, 0.75);
             --text-main: #d4d4d4; 
             --text-muted: #666666;
-            --title-color: #d1124d; /* Cambiado a rojo sangre puro */
+            --title-color: #d1124d; 
             --btn-plus-bg: #d1124d; 
             --btn-minus-bg: #600711; 
             --btn-submit-bg: #d1124d;
@@ -64,20 +63,18 @@
             --shadow: 0 8px 20px rgba(0,0,0,0.4);
             --row-intercalated: rgba(34, 34, 34, 0.5); 
             --glow-color: rgba(209, 18, 77, 0.4);
+            --bottom-bar-bg: rgba(18, 18, 18, 0.9);
         }
 
-        /* =========================================
-           ESTILOS GENERALES Y LAYOUT
-           ========================================= */
         body {
             background: var(--bg-gradient); color: var(--text-main); font-family: var(--font-family-global);
             margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center;
             min-height: 100vh; box-sizing: border-box; overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
-            background-attachment: fixed;
+            -webkit-tap-highlight-color: transparent; background-attachment: fixed;
         }
 
-        #app-container { padding: 15px; width: 100%; max-width: 480px; box-sizing: border-box; z-index: 2;}
+        /* Padding inferior extra para que la barra flotante no tape contenido */
+        #app-container { padding: 15px 15px 100px 15px; width: 100%; max-width: 480px; box-sizing: border-box; z-index: 2; position: relative;}
 
         #network-banner {
             background-color: #ff3b30; color: white; width: 100%; text-align: center;
@@ -120,7 +117,6 @@
         }
         input:focus, textarea:focus { outline: none; border-color: var(--title-color); background-color: var(--card-bg); box-shadow: 0 0 10px rgba(0,0,0,0.05);}
 
-        /* BOTONES CON RIPPLE EFFECT */
         .btn {
             border: none; border-radius: var(--button-radius); font-family: var(--font-family-global);
             font-size: 1rem; font-weight: 800; padding: 18px; cursor: pointer;
@@ -138,7 +134,6 @@
         body.theme-steampunk .btn-gold { color: #ffd700; }
         body.theme-steampunk .btn-green, body.theme-gothic .btn-green { color: #000 !important; }
 
-        /* Ripple Animation */
         .ripple {
             position: absolute; border-radius: 50%; transform: scale(0);
             animation: ripple 0.6s linear; background-color: rgba(255, 255, 255, 0.3); pointer-events: none;
@@ -146,6 +141,20 @@
         .btn-outline .ripple { background-color: rgba(0, 0, 0, 0.1); }
         body:not(.theme-default) .btn-outline .ripple { background-color: rgba(255, 255, 255, 0.1); }
         @keyframes ripple { to { transform: scale(4); opacity: 0; } }
+
+        /* STICKY BOTTOM BAR */
+        .bottom-action-bar {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%;
+            background-color: var(--bottom-bar-bg);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            padding: 15px 20px; box-sizing: border-box;
+            border-top: var(--border-width) solid var(--border-color);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000; box-shadow: 0 -10px 30px rgba(0,0,0,0.08);
+            animation: slideUp 0.4s ease-out;
+        }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
         #route-full-buttons button:nth-child(odd) { background-color: var(--card-bg); border: 1px solid var(--border-color); }
         #route-full-buttons button:nth-child(even) { background-color: var(--row-intercalated); border: 1px solid transparent; color: var(--text-main);}
@@ -164,10 +173,8 @@
         .history-controls .icon-action { cursor: pointer; padding: 8px; border-radius: 8px; background: var(--row-intercalated); transition: transform 0.2s;}
         .history-controls .icon-action:active { transform: scale(0.85); }
         .history-controls svg { width: 18px; height: 18px; stroke: var(--text-main); fill: none; stroke-width: 2.5;}
-        
         .past-day-card { border-left: 5px solid var(--title-color); }
 
-        /* Tipografía Display para Dinero */
         .money-display { font-family: var(--font-family-display); font-size: 3.5rem; font-weight: 900; color: var(--title-color); letter-spacing: -2px; margin: 5px 0; }
 
         #route-display {
@@ -179,24 +186,17 @@
         }
         #route-display svg { width: 16px; height: 16px; opacity: 0.6; }
         
-        /* Número Gigante con Glow */
         #counter-value { 
             font-family: var(--font-family-display); font-size: 8rem; font-weight: 900; 
             color: var(--title-color); margin: 0; text-align: center; line-height: 1; letter-spacing: -5px;
-            font-variant-numeric: tabular-nums; 
-            text-shadow: 0 0 20px var(--glow-color);
-            transition: text-shadow 0.1s;
+            font-variant-numeric: tabular-nums; text-shadow: 0 0 20px var(--glow-color); transition: text-shadow 0.1s;
         }
-        /* Clase añadida dinámicamente al presionar + */
         .flash-glow { text-shadow: 0 0 50px var(--title-color) !important; color: #fff !important; }
         
         #counter-controls { display: flex; flex-direction: column; gap: 15px; align-items: center; width: 100%; margin-top: 10px; position: relative;}
         #btn-plus { font-size: 4rem; border-radius: var(--card-radius); width: 100%; padding: 25px 0; box-shadow: var(--shadow); overflow: hidden;}
         #btn-minus { font-size: 2rem; border-radius: 14px; width: 70px; height: 70px; padding: 0; display: flex; justify-content: center; align-items: center; }
         #counter-cash { background-color: var(--card-bg); color: var(--text-main); font-weight: 800; padding: 15px; text-align: center; border-radius: var(--button-radius); margin-top: 10px; font-size: 1.15rem; box-shadow: var(--shadow); backdrop-filter: blur(10px);}
-
-        .progress-container { width: 100%; background-color: var(--border-color); border-radius: 10px; height: 10px; overflow: hidden; margin-top: 15px; }
-        .progress-bar { height: 100%; background-color: var(--btn-plus-bg); width: 0%; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 10px var(--btn-plus-bg);}
 
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -211,10 +211,6 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.4); text-align: center;
         }
         .modal-buttons { display: flex; gap: 12px; margin-top: 25px; }
-
-        .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: left; }
-        .calc-item label { font-size: 0.85rem; color: var(--text-muted); font-weight: 700; }
-        .calc-item input { padding: 12px; margin-bottom: 0; font-size: 1.2rem; text-align: center; font-family: var(--font-family-display); font-weight: 700;}
 
         #toast-container {
             position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%);
@@ -258,13 +254,6 @@
                     <span class="indicator" id="sync-indicator"></span>Efectivo Acumulado
                 </p>
                 <div id="balance-total-cash" class="money-display">$0</div>
-                
-                <div class="progress-container"><div class="progress-bar" id="meta-bar"></div></div>
-                <p style="font-size:0.8rem; color:var(--text-muted); text-align:right; margin:8px 0 0 0; font-weight: 700;">META: $<span id="meta-display">2500</span></p>
-            </div>
-
-            <div class="merged-section">
-                <button class="btn btn-cherry" onclick="openRouteSelection(false)">GENERAR VUELTA</button>
             </div>
 
             <div class="merged-section">
@@ -289,16 +278,18 @@
                     <div id="corte-final" class="money-display" style="font-size: 3rem;">$0</div>
                 </div>
 
-                <button class="btn btn-outline" style="margin-top: 15px; font-size: 0.95rem; padding: 14px;" onclick="abrirCalculadora()">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="14.01"></line><line x1="12" y1="14" x2="12" y2="14.01"></line><line x1="8" y1="14" x2="8" y2="14.01"></line><line x1="16" y1="10" x2="16" y2="10.01"></line><line x1="12" y1="10" x2="12" y2="10.01"></line><line x1="8" y1="10" x2="8" y2="10.01"></line><line x1="16" y1="18" x2="16" y2="18.01"></line><line x1="12" y1="18" x2="12" y2="18.01"></line><line x1="8" y1="18" x2="8" y2="18.01"></line></svg>
-                    ARQUEO DE CAJA
-                </button>
-
                 <button id="btn-cerrar-turno" class="btn btn-outline wa-btn" style="margin-top: 15px; border: 2px solid var(--title-color); color: var(--title-color);" onclick="enviarReporteCorteWA()">ENVIAR Y GUARDAR DÍA</button>
             </div>
 
             <div class="merged-section" style="margin-top: 5px;">
                 <button class="btn btn-outline" style="border-style: dashed; font-size: 0.95rem;" onclick="solicitarPin('view-history')">CONSULTAR DÍAS ANTERIORES</button>
+            </div>
+
+            <div class="bottom-action-bar">
+                <button class="btn btn-cherry" style="max-width: 450px;" onclick="openRouteSelection(false)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                    GENERAR VUELTA
+                </button>
             </div>
         </div>
 
@@ -365,11 +356,15 @@
             <input type="text" id="reg-operador" placeholder="Operador (ej. Carlos)" value="Carlos">
             <input type="number" id="reg-unidad" placeholder="Unidad (ej. 15)" value="15">
             
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 20px 0 10px 0; font-weight: 700;">Seguridad y Meta:</p>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 20px 0 10px 0; font-weight: 700;">Seguridad y Extras:</p>
             <input type="password" id="reg-pin" placeholder="PIN de Seguridad" value="1234">
-            <input type="number" id="reg-meta" placeholder="Meta Diaria Efectivo ($)" value="2500">
             
-            <button class="btn btn-cherry" style="margin-top: 20px;" onclick="guardarConfiguracion()">GUARDAR DATOS</button>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 15px; padding: 0 5px;">
+                <span style="font-size: 0.95rem; color: var(--text-main); font-weight:700;">Efectos de Sonido</span>
+                <input type="checkbox" id="reg-sonidos" checked style="width:auto; transform: scale(1.4); margin: 0;">
+            </div>
+            
+            <button class="btn btn-cherry" style="margin-top: 25px;" onclick="guardarConfiguracion()">GUARDAR DATOS</button>
         </div>
     </div>
 
@@ -397,28 +392,6 @@
         </div>
     </div>
 
-    <div id="modal-calculadora" class="modal-overlay">
-        <div class="modal-box" style="max-width: 380px; padding: 25px;">
-            <h3 style="margin-top: 0; margin-bottom: 20px; text-transform: uppercase;">Arqueo de Caja</h3>
-            <div class="calc-grid">
-                <div class="calc-item"><label>$500</label><input type="number" id="calc-500" placeholder="0" inputmode="numeric" oninput="calcularCaja()"></div>
-                <div class="calc-item"><label>$200</label><input type="number" id="calc-200" placeholder="0" inputmode="numeric" oninput="calcularCaja()"></div>
-                <div class="calc-item"><label>$100</label><input type="number" id="calc-100" placeholder="0" inputmode="numeric" oninput="calcularCaja()"></div>
-                <div class="calc-item"><label>$50</label><input type="number" id="calc-50" placeholder="0" inputmode="numeric" oninput="calcularCaja()"></div>
-                <div class="calc-item"><label>$20</label><input type="number" id="calc-20" placeholder="0" inputmode="numeric" oninput="calcularCaja()"></div>
-                <div class="calc-item"><label>Monedas ($)</label><input type="number" id="calc-monedas" placeholder="0" inputmode="numeric" oninput="calcularCaja()"></div>
-            </div>
-            
-            <div style="margin-top: 20px; padding: 15px; background-color: var(--row-intercalated); border-radius: 12px; border: 1px solid var(--border-color);">
-                <p style="margin:0; font-size:0.9rem; color:var(--text-muted); font-weight: 700;">Total Físico:</p>
-                <div id="calc-total" class="money-display" style="font-size: 2.5rem; margin-top: 5px;">$0</div>
-                <div id="calc-diferencia" style="font-weight: 800; margin-top: 8px; font-size: 1.05rem; padding: 5px; border-radius: 6px;">Diferencia: $0</div>
-            </div>
-
-            <button class="btn btn-cherry" style="margin-top: 20px;" onclick="cerrarModal('modal-calculadora')">Cerrar</button>
-        </div>
-    </div>
-
     <div id="toast-container">Mensaje</div>
 
     <script>
@@ -428,33 +401,70 @@
         let currentVuelta = null; let vueltasHistory = []; let totalDayCashAccumulated = 0;
         let isEditingActiveRoute = false; let idVueltaEditando = null; let destinoPostPin = null; 
 
-        // RIPPLE EFFECT LOGIC
+        /* MOTOR DE SONIDO (WEB AUDIO API) */
+        let audioCtx = null;
+        let sonidosActivados = true;
+
+        function initAudio() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+        }
+
+        function playTick() {
+            if(!sonidosActivados) return;
+            initAudio();
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.05);
+            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+            osc.connect(gainNode); gainNode.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+        }
+
+        function playKaching() {
+            if(!sonidosActivados) return;
+            initAudio();
+            // Nota 1 (Ching!)
+            let osc1 = audioCtx.createOscillator(); let gain1 = audioCtx.createGain();
+            osc1.type = 'square'; osc1.frequency.setValueAtTime(1000, audioCtx.currentTime);
+            gain1.gain.setValueAtTime(0.1, audioCtx.currentTime); gain1.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+            osc1.connect(gain1); gain1.connect(audioCtx.destination);
+            osc1.start(); osc1.stop(audioCtx.currentTime + 0.15);
+            
+            // Nota 2 (Ching!)
+            setTimeout(() => {
+                if(audioCtx.state === 'suspended') audioCtx.resume();
+                let osc2 = audioCtx.createOscillator(); let gain2 = audioCtx.createGain();
+                osc2.type = 'square'; osc2.frequency.setValueAtTime(1500, audioCtx.currentTime);
+                gain2.gain.setValueAtTime(0.15, audioCtx.currentTime); gain2.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
+                osc2.connect(gain2); gain2.connect(audioCtx.destination);
+                osc2.start(); osc2.stop(audioCtx.currentTime + 0.4);
+            }, 100);
+        }
+
+        // RIPPLE EFFECT
         function createRipple(event) {
             const button = event.currentTarget;
             const circle = document.createElement("span");
             const diameter = Math.max(button.clientWidth, button.clientHeight);
             const radius = diameter / 2;
             circle.style.width = circle.style.height = `${diameter}px`;
-            
             const rect = button.getBoundingClientRect();
             let x = (event.clientX || rect.left + radius) - rect.left - radius;
             let y = (event.clientY || rect.top + radius) - rect.top - radius;
-            
             circle.style.left = `${x}px`; circle.style.top = `${y}px`;
             circle.classList.add("ripple");
-            
             const existing = button.querySelector('.ripple');
             if (existing) existing.remove();
-            
             button.appendChild(circle);
             setTimeout(() => circle.remove(), 600);
         }
-        
-        // Asignar Ripple a todos los botones
         document.querySelectorAll('.btn').forEach(btn => btn.addEventListener('mousedown', createRipple));
         document.querySelectorAll('.btn').forEach(btn => btn.addEventListener('touchstart', createRipple, {passive: true}));
 
-        // THEMES Y SVGS
         const themes = ['theme-default', 'theme-steampunk', 'theme-gothic'];
         const svgSun = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
         const svgPlanet = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="6"/><ellipse cx="12" cy="12" rx="11" ry="3" transform="rotate(-20 12 12)"/></svg>`;
@@ -494,7 +504,7 @@
 
                 if (session.currentVuelta) {
                     currentVuelta = session.currentVuelta;
-                    document.getElementById('route-display').innerHTML = `${currentVuelta.route} ($${currentVuelta.rate}) <span style="font-size:0.8rem; opacity:0.6; margin-left:5px;">✎ Cambiar</span>`;
+                    document.getElementById('route-display').innerHTML = `${currentVuelta.route} ($${currentVuelta.rate}) <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>`;
                     updateVueltaDisplay(); showScreen('view-vueltas');
                 } else { showScreen('view-home'); }
             } else { showScreen('view-home'); }
@@ -502,13 +512,12 @@
         };
 
         function cargarConfiguracion() {
-            const config = JSON.parse(localStorage.getItem('orbita_config')) || { pin: '1234', meta: 2500, operador: 'Carlos', unidad: 15 };
+            const config = JSON.parse(localStorage.getItem('orbita_config')) || { pin: '1234', operador: 'Carlos', unidad: 15, sonidos: true };
             document.getElementById('reg-operador').value = config.operador;
             document.getElementById('reg-unidad').value = config.unidad;
             document.getElementById('reg-pin').value = config.pin;
-            document.getElementById('reg-meta').value = config.meta;
-            document.getElementById('meta-display').innerText = config.meta;
-            actualizarBarraMeta();
+            sonidosActivados = config.sonidos !== undefined ? config.sonidos : true;
+            document.getElementById('reg-sonidos').checked = sonidosActivados;
         }
 
         function guardarConfiguracion() {
@@ -516,22 +525,11 @@
                 operador: document.getElementById('reg-operador').value,
                 unidad: document.getElementById('reg-unidad').value,
                 pin: document.getElementById('reg-pin').value || '1234',
-                meta: parseInt(document.getElementById('reg-meta').value) || 2500
+                sonidos: document.getElementById('reg-sonidos').checked
             };
+            sonidosActivados = config.sonidos;
             localStorage.setItem('orbita_config', JSON.stringify(config));
-            document.getElementById('meta-display').innerText = config.meta;
-            actualizarBarraMeta(); showToast("✅ Configuración Guardada"); showScreen('view-home');
-        }
-
-        function actualizarBarraMeta() {
-            const meta = parseInt(document.getElementById('reg-meta').value) || 2500;
-            const porcentaje = Math.min((totalDayCashAccumulated / meta) * 100, 100);
-            document.getElementById('meta-bar').style.width = `${porcentaje}%`;
-            if(porcentaje >= 100 && totalDayCashAccumulated > 0) {
-                document.getElementById('meta-bar').style.backgroundColor = "#ffd700"; // Gold when reached
-            } else {
-                document.getElementById('meta-bar').style.backgroundColor = "var(--btn-plus-bg)";
-            }
+            showToast("✅ Configuración Guardada"); showScreen('view-home');
         }
 
         function saveSession() {
@@ -564,8 +562,7 @@
             if (screenId === 'view-home') { updateHomeView(); updateTodayHistoryList(); releaseWakeLock(); }
             if (screenId === 'view-vueltas') { requestWakeLock(); }
             if (screenId === 'view-history') { updatePastDaysList(); releaseWakeLock(); }
-            window.scrollTo(0,0);
-            saveSession();
+            window.scrollTo({top: 0, behavior: 'smooth'}); saveSession();
         }
 
         function cycleTheme() {
@@ -580,7 +577,6 @@
             document.getElementById('theme-toggle-btn').innerHTML = themeIcons[currentThemeIndex];
         }
 
-        /* SEGURIDAD PIN */
         function solicitarPin(destino) {
             const config = JSON.parse(localStorage.getItem('orbita_config'));
             if (!config || !config.pin || config.pin === "") { showScreen(destino); return; }
@@ -619,12 +615,12 @@
 
         function incrementCounter(e) { 
             if (navigator.vibrate) navigator.vibrate(20);
+            playTick(); // Efecto de sonido sintetizado
+            
             currentVuelta.passengers++; updateVueltaDisplay(); saveSession();
             
-            // Efecto GLOW Flash
             const valDisplay = document.getElementById('counter-value');
-            valDisplay.classList.add('flash-glow');
-            setTimeout(() => valDisplay.classList.remove('flash-glow'), 150);
+            valDisplay.classList.add('flash-glow'); setTimeout(() => valDisplay.classList.remove('flash-glow'), 150);
         }
 
         function decrementCounter(e) { 
@@ -652,7 +648,7 @@
             
             document.getElementById('btn-enviar-vuelta-individual').setAttribute('onclick', `enviarReporteVueltaWA(${currentVuelta.id})`);
             saveSession(); showScreen('view-cierre');
-            currentVuelta = null; // Clean up after showing summary
+            currentVuelta = null; 
         }
 
         function updateHomeView() {
@@ -661,7 +657,7 @@
             document.getElementById('corte-bruto').innerText = `$${totalDayCashAccumulated}`;
             const gastoExtra = parseInt(document.getElementById('corte-gasto-extra').value) || 0;
             document.getElementById('corte-final').innerText = `$${totalDayCashAccumulated - sueldoFijo - gastoExtra}`;
-            actualizarBarraMeta(); saveSession(); 
+            saveSession(); 
         }
 
         function updateTodayHistoryList() {
@@ -704,34 +700,6 @@
                 totalDayCashAccumulated += vuelta.cash;
                 updateHomeView(); updateTodayHistoryList(); showToast("✅ PAX Actualizados"); saveSession(); cerrarModal('modal-edicion');
             } else { showToast("⚠️ Número inválido"); }
-        }
-
-        /* ARQUEO DE CAJA */
-        function abrirCalculadora() {
-            document.querySelectorAll('.calc-grid input').forEach(inp => inp.value = '');
-            calcularCaja();
-            document.getElementById('modal-calculadora').classList.add('show');
-        }
-
-        function calcularCaja() {
-            const v500 = (parseInt(document.getElementById('calc-500').value) || 0) * 500;
-            const v200 = (parseInt(document.getElementById('calc-200').value) || 0) * 200;
-            const v100 = (parseInt(document.getElementById('calc-100').value) || 0) * 100;
-            const v50 = (parseInt(document.getElementById('calc-50').value) || 0) * 50;
-            const v20 = (parseInt(document.getElementById('calc-20').value) || 0) * 20;
-            const vMonedas = parseInt(document.getElementById('calc-monedas').value) || 0;
-            
-            const totalFisico = v500 + v200 + v100 + v50 + v20 + vMonedas;
-            document.getElementById('calc-total').innerText = `$${totalFisico}`;
-
-            const gastoEx = parseInt(document.getElementById('corte-gasto-extra').value) || 0;
-            const totalAEntregar = totalDayCashAccumulated - sueldoFijo - gastoEx;
-            const diferencia = totalFisico - totalAEntregar;
-
-            const difEl = document.getElementById('calc-diferencia');
-            if(diferencia === 0) { difEl.innerText = "Caja Cuadrada Exacta ✅"; difEl.style.color = "var(--btn-plus-bg)"; difEl.style.backgroundColor = "rgba(52, 199, 89, 0.1)";}
-            else if(diferencia > 0) { difEl.innerText = `Sobra: +$${diferencia}`; difEl.style.color = "var(--title-color)"; difEl.style.backgroundColor = "var(--border-color)";}
-            else { difEl.innerText = `Falta: -$${Math.abs(diferencia)}`; difEl.style.color = "var(--btn-minus-bg)"; difEl.style.backgroundColor = "rgba(255, 59, 48, 0.1)";}
         }
 
         function guardarCorteEnMemoria(textoCorte, datosBrutos) {
@@ -822,27 +790,41 @@ _Generado automáticamente desde la App_`);
             window.open(`https://wa.me/?text=${text}`, '_blank');
         }
 
+        /* CORTE DETALLADO (Total PAX y Desglose por vuelta) */
         function enviarReporteCorteWA() {
             if(vueltasHistory.length === 0) { showToast("⚠️ Turno vacío."); return; }
+            
             const gastoEx = parseInt(document.getElementById('corte-gasto-extra').value) || 0;
             const conc = document.getElementById('corte-gasto-concepto').value || 'Ninguno';
             const obs = document.getElementById('corte-obs').value || 'Todo en orden';
             const liquidacionFinal = totalDayCashAccumulated - sueldoFijo - gastoEx;
             
+            let totalPax = vueltasHistory.reduce((sum, v) => sum + v.passengers, 0);
+            
+            let desgloseVueltas = "";
+            vueltasHistory.forEach((v, index) => {
+                desgloseVueltas += `${index + 1}. ${v.route} - ${v.passengers} PAX - $${v.cash}\n`;
+            });
+
             const textoLimpio = `*ÓRBITA F1 - CORTE DEL DÍA*
 -------------------------
 *UNIDAD:* ${document.getElementById('reg-unidad').value} | *OPERADOR:* ${document.getElementById('reg-operador').value}
 -------------------------
 *VUELTAS TOTALES:* ${vueltasHistory.length}
+*PAX TOTALES:* ${totalPax}
 *INGRESO BRUTO:* $${totalDayCashAccumulated}
 *SUELDO:* -$650
 *GASTO EXTRA:* -$${gastoEx} (${conc})
 -------------------------
 *A ENTREGAR:* $${liquidacionFinal}
 -------------------------
+*DESGLOSE POR VUELTA:*
+${desgloseVueltas}-------------------------
 *OBSERVACIONES:* ${obs}`;
 
             const datosBrutos = { vueltas: vueltasHistory.length, bruto: totalDayCashAccumulated, gastoExtra: gastoEx, concepto: conc, liquidacion: liquidacionFinal };
+            
+            playKaching(); // Efecto de Caja Registradora
             guardarCorteEnMemoria(textoLimpio, datosBrutos);
             
             vueltasHistory = []; totalDayCashAccumulated = 0; currentVuelta = null;
