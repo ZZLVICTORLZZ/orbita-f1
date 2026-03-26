@@ -11,7 +11,7 @@
 
     <style>
         /* =========================================
-           PALETAS DE COLORES (Premium)
+           PALETAS DE COLORES (Premium Glassmorphism)
            ========================================= */
         :root {
             --bg-gradient: radial-gradient(circle at top left, #ffffff, #f2f2f7, #e5e5ea);
@@ -73,7 +73,6 @@
             -webkit-tap-highlight-color: transparent; background-attachment: fixed;
         }
 
-        /* Padding inferior extra para que la barra flotante no tape contenido */
         #app-container { padding: 15px 15px 100px 15px; width: 100%; max-width: 480px; box-sizing: border-box; z-index: 2; position: relative;}
 
         #network-banner {
@@ -142,7 +141,6 @@
         body:not(.theme-default) .btn-outline .ripple { background-color: rgba(255, 255, 255, 0.1); }
         @keyframes ripple { to { transform: scale(4); opacity: 0; } }
 
-        /* STICKY BOTTOM BAR */
         .bottom-action-bar {
             position: fixed;
             bottom: 0; left: 0; width: 100%;
@@ -265,7 +263,7 @@
                 <h2 style="margin-top: 0; text-transform: uppercase; letter-spacing: 1px;">Liquidación</h2>
                 <div class="corte-item"><span style="color: var(--text-muted);">Vueltas Totales:</span><b id="corte-vueltas-count">0</b></div>
                 <div class="corte-item"><span style="color: var(--text-muted);">Ingreso Bruto:</span><b id="corte-bruto">$0</b></div>
-                <div class="corte-item"><span style="color: var(--text-muted);">Sueldo Operador:</span><b>-$650</b></div>
+                <div class="corte-item"><span style="color: var(--text-muted);">Sueldo Operador:</span><b id="corte-sueldo-display">-$650</b></div>
                 
                 <div style="margin-top: 20px;">
                     <input type="number" id="corte-gasto-extra" placeholder="Monto extra (ej. 150)" oninput="updateHomeView()">
@@ -356,8 +354,9 @@
             <input type="text" id="reg-operador" placeholder="Operador (ej. Carlos)" value="Carlos">
             <input type="number" id="reg-unidad" placeholder="Unidad (ej. 15)" value="15">
             
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 20px 0 10px 0; font-weight: 700;">Seguridad y Extras:</p>
-            <input type="password" id="reg-pin" placeholder="PIN de Seguridad" value="1234">
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 20px 0 10px 0; font-weight: 700;">Seguridad y Finanzas:</p>
+            <input type="password" id="reg-pin" placeholder="PIN Maestro" value="280902">
+            <input type="number" id="reg-sueldo" placeholder="Sueldo Base Operador ($)" value="650">
             
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 15px; padding: 0 5px;">
                 <span style="font-size: 0.95rem; color: var(--text-main); font-weight:700;">Efectos de Sonido</span>
@@ -383,8 +382,8 @@
     <div id="modal-pin" class="modal-overlay">
         <div class="modal-box">
             <h3 style="margin-top: 0; margin-bottom: 10px; text-transform: uppercase;">Acceso Restringido</h3>
-            <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 20px;">Ingresa el PIN de 4 dígitos.</p>
-            <input type="password" id="input-pin" style="font-size: 2rem; text-align: center; letter-spacing: 15px; font-family: var(--font-family-display); margin-bottom: 25px;" maxlength="4" inputmode="numeric">
+            <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 20px;">Ingresa tu PIN maestro.</p>
+            <input type="password" id="input-pin" style="font-size: 2rem; text-align: center; letter-spacing: 15px; font-family: var(--font-family-display); margin-bottom: 25px;" maxlength="6" inputmode="numeric">
             <div class="modal-buttons">
                 <button class="btn btn-outline" style="flex: 1; padding: 14px;" onclick="cerrarModal('modal-pin')">Cancelar</button>
                 <button class="btn btn-cherry" style="flex: 1; padding: 14px;" onclick="validarPin()">Entrar</button>
@@ -396,7 +395,6 @@
 
     <script>
         const rates = { "Huehuetoca": 15, "Lazaro Cardenas": 14, "Colorado": 14, "Compadres": 14, "Tetecla": 14, "Pendiente 1": 14, "Pendiente 2": 14 };
-        const sueldoFijo = 650;
 
         let currentVuelta = null; let vueltasHistory = []; let totalDayCashAccumulated = 0;
         let isEditingActiveRoute = false; let idVueltaEditando = null; let destinoPostPin = null; 
@@ -427,14 +425,12 @@
         function playKaching() {
             if(!sonidosActivados) return;
             initAudio();
-            // Nota 1 (Ching!)
             let osc1 = audioCtx.createOscillator(); let gain1 = audioCtx.createGain();
             osc1.type = 'square'; osc1.frequency.setValueAtTime(1000, audioCtx.currentTime);
             gain1.gain.setValueAtTime(0.1, audioCtx.currentTime); gain1.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
             osc1.connect(gain1); gain1.connect(audioCtx.destination);
             osc1.start(); osc1.stop(audioCtx.currentTime + 0.15);
             
-            // Nota 2 (Ching!)
             setTimeout(() => {
                 if(audioCtx.state === 'suspended') audioCtx.resume();
                 let osc2 = audioCtx.createOscillator(); let gain2 = audioCtx.createGain();
@@ -512,10 +508,11 @@
         };
 
         function cargarConfiguracion() {
-            const config = JSON.parse(localStorage.getItem('orbita_config')) || { pin: '1234', operador: 'Carlos', unidad: 15, sonidos: true };
+            const config = JSON.parse(localStorage.getItem('orbita_config')) || { pin: '280902', operador: 'Carlos', unidad: 15, sonidos: true, sueldo: 650 };
             document.getElementById('reg-operador').value = config.operador;
             document.getElementById('reg-unidad').value = config.unidad;
             document.getElementById('reg-pin').value = config.pin;
+            document.getElementById('reg-sueldo').value = config.sueldo;
             sonidosActivados = config.sonidos !== undefined ? config.sonidos : true;
             document.getElementById('reg-sonidos').checked = sonidosActivados;
         }
@@ -524,7 +521,8 @@
             const config = {
                 operador: document.getElementById('reg-operador').value,
                 unidad: document.getElementById('reg-unidad').value,
-                pin: document.getElementById('reg-pin').value || '1234',
+                pin: document.getElementById('reg-pin').value || '280902',
+                sueldo: parseInt(document.getElementById('reg-sueldo').value) || 0,
                 sonidos: document.getElementById('reg-sonidos').checked
             };
             sonidosActivados = config.sonidos;
@@ -615,7 +613,7 @@
 
         function incrementCounter(e) { 
             if (navigator.vibrate) navigator.vibrate(20);
-            playTick(); // Efecto de sonido sintetizado
+            playTick(); 
             
             currentVuelta.passengers++; updateVueltaDisplay(); saveSession();
             
@@ -652,11 +650,16 @@
         }
 
         function updateHomeView() {
+            const config = JSON.parse(localStorage.getItem('orbita_config')) || { sueldo: 650 };
+            const sueldoActual = config.sueldo;
+
             document.getElementById('balance-total-cash').innerText = `$${totalDayCashAccumulated}`;
             document.getElementById('corte-vueltas-count').innerText = vueltasHistory.length;
             document.getElementById('corte-bruto').innerText = `$${totalDayCashAccumulated}`;
+            document.getElementById('corte-sueldo-display').innerText = `-$${sueldoActual}`;
+            
             const gastoExtra = parseInt(document.getElementById('corte-gasto-extra').value) || 0;
-            document.getElementById('corte-final').innerText = `$${totalDayCashAccumulated - sueldoFijo - gastoExtra}`;
+            document.getElementById('corte-final').innerText = `$${totalDayCashAccumulated - sueldoActual - gastoExtra}`;
             saveSession(); 
         }
 
@@ -715,7 +718,7 @@
             if(pasados.length === 0) { showToast("No hay datos para exportar."); return; }
             let csvContent = "data:text/csv;charset=utf-8,";
             csvContent += "Fecha,Vueltas,Ingreso Bruto,Sueldo Operador,Gastos Extra,Concepto Gasto,Liquidacion Final\n";
-            pasados.forEach(dia => { if(dia.datos) csvContent += `${dia.fecha},${dia.datos.vueltas},${dia.datos.bruto},650,${dia.datos.gastoExtra},"${dia.datos.concepto}",${dia.datos.liquidacion}\n`; });
+            pasados.forEach(dia => { if(dia.datos) csvContent += `${dia.fecha},${dia.datos.vueltas},${dia.datos.bruto},${dia.datos.sueldoBase},${dia.datos.gastoExtra},"${dia.datos.concepto}",${dia.datos.liquidacion}\n`; });
             const encodedUri = encodeURI(csvContent); const link = document.createElement("a");
             link.setAttribute("href", encodedUri); link.setAttribute("download", "OrbitaF1_Cortes.csv");
             document.body.appendChild(link); link.click(); document.body.removeChild(link); showToast("✅ Excel Descargado");
@@ -774,10 +777,31 @@ _Generado automáticamente desde la App_`);
             window.open(`https://wa.me/?text=${encodedText}`, '_blank'); 
         }
 
-        function enviarReporteVueltaWA(vueltaId) {
+        /* LECTURA GPS (ANTI-TRAMPAS) */
+        function obtenerUbicacion() {
+            return new Promise((resolve) => {
+                if (!navigator.geolocation) {
+                    resolve("No soportado por el dispositivo"); return;
+                }
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude; const lon = position.coords.longitude;
+                        resolve(`https://www.google.com/maps?q=${lat},${lon}`);
+                    },
+                    (error) => { resolve("Permiso denegado / Apagado"); },
+                    { enableHighAccuracy: true, timeout: 6000, maximumAge: 0 }
+                );
+            });
+        }
+
+        async function enviarReporteVueltaWA(vueltaId) {
             if(!navigator.onLine) { showToast("📵 Necesitas internet."); return; }
             const data = (vueltaId) ? vueltasHistory.find(v => v.id === vueltaId) : currentVuelta;
             if(!data) { showToast("⚠️ Error de información."); return; }
+            
+            showToast("📍 Obteniendo ubicación GPS...");
+            const linkUbicacion = await obtenerUbicacion();
+
             const text = encodeURIComponent(`*ÓRBITA F1 - REPORTE DE VUELTA*
 -------------------------
 *UNIDAD:* ${document.getElementById('reg-unidad').value} | *OPERADOR:* ${document.getElementById('reg-operador').value}
@@ -786,18 +810,23 @@ _Generado automáticamente desde la App_`);
 *INICIO:* ${data.startTime} | *FIN:* ${data.endTime}
 -------------------------
 *PAX:* ${data.passengers}
-*EFECTIVO:* $${data.cash}`);
+*EFECTIVO:* $${data.cash}
+-------------------------
+📍 *UBICACIÓN:* ${linkUbicacion}`);
             window.open(`https://wa.me/?text=${text}`, '_blank');
         }
 
-        /* CORTE DETALLADO (Total PAX y Desglose por vuelta) */
-        function enviarReporteCorteWA() {
+        /* CORTE DETALLADO + GPS */
+        async function enviarReporteCorteWA() {
             if(vueltasHistory.length === 0) { showToast("⚠️ Turno vacío."); return; }
             
+            const config = JSON.parse(localStorage.getItem('orbita_config')) || { sueldo: 650 };
+            const sueldoActual = config.sueldo;
+
             const gastoEx = parseInt(document.getElementById('corte-gasto-extra').value) || 0;
             const conc = document.getElementById('corte-gasto-concepto').value || 'Ninguno';
             const obs = document.getElementById('corte-obs').value || 'Todo en orden';
-            const liquidacionFinal = totalDayCashAccumulated - sueldoFijo - gastoEx;
+            const liquidacionFinal = totalDayCashAccumulated - sueldoActual - gastoEx;
             
             let totalPax = vueltasHistory.reduce((sum, v) => sum + v.passengers, 0);
             
@@ -806,6 +835,13 @@ _Generado automáticamente desde la App_`);
                 desgloseVueltas += `${index + 1}. ${v.route} - ${v.passengers} PAX - $${v.cash}\n`;
             });
 
+            // Si hay internet, buscar GPS
+            let linkUbicacion = "Modo Offline (Sin coordenadas)";
+            if(navigator.onLine) {
+                showToast("📍 Registrando GPS de cierre...");
+                linkUbicacion = await obtenerUbicacion();
+            }
+
             const textoLimpio = `*ÓRBITA F1 - CORTE DEL DÍA*
 -------------------------
 *UNIDAD:* ${document.getElementById('reg-unidad').value} | *OPERADOR:* ${document.getElementById('reg-operador').value}
@@ -813,18 +849,20 @@ _Generado automáticamente desde la App_`);
 *VUELTAS TOTALES:* ${vueltasHistory.length}
 *PAX TOTALES:* ${totalPax}
 *INGRESO BRUTO:* $${totalDayCashAccumulated}
-*SUELDO:* -$650
+*SUELDO:* -$${sueldoActual}
 *GASTO EXTRA:* -$${gastoEx} (${conc})
 -------------------------
 *A ENTREGAR:* $${liquidacionFinal}
 -------------------------
 *DESGLOSE POR VUELTA:*
 ${desgloseVueltas}-------------------------
+📍 *UBICACIÓN DE CIERRE:* ${linkUbicacion}
+-------------------------
 *OBSERVACIONES:* ${obs}`;
 
-            const datosBrutos = { vueltas: vueltasHistory.length, bruto: totalDayCashAccumulated, gastoExtra: gastoEx, concepto: conc, liquidacion: liquidacionFinal };
+            const datosBrutos = { vueltas: vueltasHistory.length, bruto: totalDayCashAccumulated, sueldoBase: sueldoActual, gastoExtra: gastoEx, concepto: conc, liquidacion: liquidacionFinal };
             
-            playKaching(); // Efecto de Caja Registradora
+            playKaching(); 
             guardarCorteEnMemoria(textoLimpio, datosBrutos);
             
             vueltasHistory = []; totalDayCashAccumulated = 0; currentVuelta = null;
