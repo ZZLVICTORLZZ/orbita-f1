@@ -1,7 +1,7 @@
 {
   "name": "Órbita F1",
-  "short_name": "Órbita F1",
-  "start_url": "./",
+  "short_name": "Órbita",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#1a0508",
   "theme_color": "#d1124d",
