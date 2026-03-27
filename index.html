@@ -324,10 +324,15 @@
     </div>
 
     <div id="app-container">
-        <header>
+      <header>
             <div class="header-title-group">
-                <span class="header-moon">
-                    <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                <span class="header-moon" style="display: flex; align-items: center; margin-right: 2px;">
+                    <svg viewBox="0 0 100 100" width="32" height="32" xmlns="http://www.w3.org/2000/svg" style="stroke: var(--title-color); fill: none;">
+                        <ellipse cx="50" cy="50" rx="42" ry="14" transform="rotate(-25 50 50)" stroke-width="6"/>
+                        <circle cx="50" cy="50" r="26" fill="var(--card-bg)" stroke-width="6"/>
+                        <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="var(--title-color)" stroke="none" font-family="var(--font-family-display)" font-size="28" font-weight="900" letter-spacing="-1px">F1</text>
+                        <path d="M 8 50 A 42 14 0 0 0 92 50" transform="rotate(-25 50 50)" stroke-width="6" stroke-linecap="round"/>
+                    </svg>
                 </span>
                 <div class="header-title">Órbita F1</div>
             </div>
