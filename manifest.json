@@ -1,0 +1,16 @@
+{
+  "name": "Órbita F1",
+  "short_name": "Órbita F1",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#1a0508",
+  "theme_color": "#d1124d",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
