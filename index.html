@@ -1047,6 +1047,14 @@ ${desgloseVueltas}-------------------------
         document.getElementById('corte-gasto-extra').addEventListener('input', saveSession);
         document.getElementById('corte-gasto-concepto').addEventListener('input', saveSession);
         document.getElementById('corte-obs').addEventListener('input', saveSession);
+        // ACTIVADOR DE INSTALACIÓN DE LA APP
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Motor de App Instalable activo', reg))
+                    .catch(err => console.log('Fallo en el motor', err));
+            });
+        }
     </script>
 </body>
 </html>
