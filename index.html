@@ -11,7 +11,7 @@
 
     <style>
         /* =========================================
-           PALETAS DE COLORES (Premium)
+           PALETAS DE COLORES (Premium Glassmorphism)
            ========================================= */
         :root {
             --bg-gradient: radial-gradient(circle at top left, #ffffff, #f2f2f7, #e5e5ea);
@@ -32,6 +32,7 @@
             --row-intercalated: rgba(229, 229, 234, 0.5); 
             --glow-color: transparent;
             --bottom-bar-bg: rgba(255, 255, 255, 0.85);
+            --inner-shadow: inset 0 3px 6px rgba(0,0,0,0.08); /* Profundidad 3D */
         }
 
         body.theme-steampunk {
@@ -48,6 +49,7 @@
             --row-intercalated: rgba(42, 32, 21, 0.5); 
             --glow-color: rgba(58, 234, 255, 0.4);
             --bottom-bar-bg: rgba(20, 16, 12, 0.9);
+            --inner-shadow: inset 0 3px 8px rgba(0,0,0,0.5);
         }
 
         body.theme-gothic {
@@ -64,6 +66,7 @@
             --row-intercalated: rgba(34, 34, 34, 0.5); 
             --glow-color: rgba(209, 18, 77, 0.4);
             --bottom-bar-bg: rgba(18, 18, 18, 0.9);
+            --inner-shadow: inset 0 3px 8px rgba(0,0,0,0.7);
         }
 
         body {
@@ -107,19 +110,20 @@
             box-shadow: var(--shadow); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
         }
 
+        /* NEUMORFISMO (Profundidad 3D en Inputs) */
         input, textarea {
             background-color: var(--row-intercalated); color: var(--text-main);
-            border: 1px solid var(--border-color); border-radius: 10px;
+            border: 1px solid transparent; border-radius: 10px;
             padding: 15px; font-size: 1rem; width: 100%; box-sizing: border-box;
             font-family: var(--font-family-global); margin-bottom: 10px; font-weight: 600;
-            transition: all 0.3s;
+            box-shadow: var(--inner-shadow); transition: all 0.3s;
         }
-        input:focus, textarea:focus { outline: none; border-color: var(--title-color); background-color: var(--card-bg); box-shadow: 0 0 10px rgba(0,0,0,0.05);}
+        input:focus, textarea:focus { outline: none; border-color: var(--title-color); background-color: var(--card-bg); box-shadow: 0 0 10px rgba(0,0,0,0.05), var(--inner-shadow);}
 
         .btn {
             border: none; border-radius: var(--button-radius); font-family: var(--font-family-global);
             font-size: 1rem; font-weight: 800; padding: 18px; cursor: pointer;
-            transition: transform 0.1s; width: 100%; box-sizing: border-box; letter-spacing: 0.5px;
+            transition: transform 0.1s, background-color 0.3s; width: 100%; box-sizing: border-box; letter-spacing: 0.5px;
             position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; gap: 8px;
         }
         .btn:active { transform: scale(0.97); }
@@ -133,6 +137,7 @@
         body.theme-steampunk .btn-gold { color: #ffd700; }
         body.theme-steampunk .btn-green, body.theme-gothic .btn-green { color: #000 !important; }
 
+        /* Efecto Ripple */
         .ripple {
             position: absolute; border-radius: 50%; transform: scale(0);
             animation: ripple 0.6s linear; background-color: rgba(255, 255, 255, 0.3); pointer-events: none;
@@ -141,15 +146,19 @@
         body:not(.theme-default) .btn-outline .ripple { background-color: rgba(255, 255, 255, 0.1); }
         @keyframes ripple { to { transform: scale(4); opacity: 0; } }
 
+        /* TOGGLE NATIVO ESTILO iOS */
+        .switch { position: relative; display: inline-block; width: 50px; height: 28px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--border-color); transition: .3s; border-radius: 34px; border: 1px solid var(--text-muted); box-shadow: var(--inner-shadow);}
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: var(--text-muted); transition: .3s cubic-bezier(0.4, 0.0, 0.2, 1); border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2);}
+        input:checked + .slider { background-color: #34c759; border-color: #34c759; }
+        input:checked + .slider:before { transform: translateX(22px); background-color: #fff; }
+
         .bottom-action-bar {
-            position: fixed;
-            bottom: 0; left: 0; width: 100%;
-            background-color: var(--bottom-bar-bg);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            padding: 15px 20px; box-sizing: border-box;
-            border-top: var(--border-width) solid var(--border-color);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 1000; box-shadow: 0 -10px 30px rgba(0,0,0,0.08);
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background-color: var(--bottom-bar-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            padding: 15px 20px; box-sizing: border-box; border-top: var(--border-width) solid var(--border-color);
+            display: flex; justify-content: center; align-items: center; z-index: 1000; box-shadow: 0 -10px 30px rgba(0,0,0,0.08);
             animation: slideUp 0.4s ease-out;
         }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
@@ -175,24 +184,35 @@
 
         .money-display { font-family: var(--font-family-display); font-size: 3.5rem; font-weight: 900; color: var(--title-color); letter-spacing: -2px; margin: 5px 0; }
 
+        /* CONTADOR ACTIVO (Variables dinámicas para el color de ruta) */
+        #view-vueltas {
+            --route-color-bg: var(--btn-plus-bg);
+            --route-color-glow: var(--glow-color);
+            --route-color-text: var(--title-color);
+        }
+
         #route-display {
             background-color: var(--card-bg); padding: 14px; border-radius: 12px; 
             text-align: center; font-weight: 800; font-size: 1.05rem; margin-bottom: 15px; 
-            color: var(--title-color); box-shadow: var(--shadow); cursor: pointer;
+            color: var(--route-color-text); box-shadow: var(--shadow); cursor: pointer;
             border: 1px solid var(--border-color); backdrop-filter: blur(10px);
             display: flex; justify-content: center; align-items: center; gap: 8px;
+            transition: color 0.3s;
         }
         #route-display svg { width: 16px; height: 16px; opacity: 0.6; }
         
         #counter-value { 
             font-family: var(--font-family-display); font-size: 8rem; font-weight: 900; 
-            color: var(--title-color); margin: 0; text-align: center; line-height: 1; letter-spacing: -5px;
-            font-variant-numeric: tabular-nums; text-shadow: 0 0 20px var(--glow-color); transition: text-shadow 0.1s;
+            color: var(--route-color-text); margin: 0; text-align: center; line-height: 1; letter-spacing: -5px;
+            font-variant-numeric: tabular-nums; text-shadow: 0 0 25px var(--route-color-glow); transition: text-shadow 0.1s, color 0.3s;
         }
-        .flash-glow { text-shadow: 0 0 50px var(--title-color) !important; color: #fff !important; }
+        .flash-glow { text-shadow: 0 0 50px var(--route-color-text) !important; color: #fff !important; }
         
         #counter-controls { display: flex; flex-direction: column; gap: 15px; align-items: center; width: 100%; margin-top: 10px; position: relative;}
-        #btn-plus { font-size: 4rem; border-radius: var(--card-radius); width: 100%; padding: 25px 0; box-shadow: var(--shadow); overflow: hidden;}
+        
+        /* Botón verde adaptativo a la ruta */
+        #btn-plus { font-size: 4rem; border-radius: var(--card-radius); width: 100%; padding: 25px 0; box-shadow: var(--shadow); overflow: hidden; background-color: var(--route-color-bg); transition: background-color 0.3s;}
+        
         #btn-minus { font-size: 2rem; border-radius: 14px; width: 70px; height: 70px; padding: 0; display: flex; justify-content: center; align-items: center; }
         #counter-cash { background-color: var(--card-bg); color: var(--text-main); font-weight: 800; padding: 15px; text-align: center; border-radius: var(--button-radius); margin-top: 10px; font-size: 1.15rem; box-shadow: var(--shadow); backdrop-filter: blur(10px);}
 
@@ -209,6 +229,26 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.4); text-align: center;
         }
         .modal-buttons { display: flex; gap: 12px; margin-top: 25px; }
+
+        /* =========================================
+           ANIMACIÓN DE ÉXITO (APPLE PAY STYLE)
+           ========================================= */
+        #success-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            z-index: 30000; display: none; justify-content: center; align-items: center; flex-direction: column;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        body.theme-gothic #success-overlay, body.theme-steampunk #success-overlay { background: rgba(0,0,0,0.85); }
+        #success-overlay.show { display: flex; opacity: 1; }
+        
+        .checkmark-circle { stroke-dasharray: 166; stroke-dashoffset: 166; stroke-width: 2; stroke-miterlimit: 10; stroke: #34c759; fill: none; animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards; }
+        .checkmark { width: 110px; height: 110px; border-radius: 50%; display: block; stroke-width: 4; stroke: #34c759; stroke-miterlimit: 10; margin: 0 auto; box-shadow: inset 0px 0px 0px #34c759; animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both; }
+        .checkmark-check { transform-origin: 50% 50%; stroke-dasharray: 48; stroke-dashoffset: 48; animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards; }
+        
+        @keyframes stroke { 100% { stroke-dashoffset: 0; } }
+        @keyframes scale { 0%, 100% { transform: none; } 50% { transform: scale3d(1.1, 1.1, 1); } }
+        @keyframes fill { 100% { box-shadow: inset 0px 0px 0px 60px transparent; } }
 
         #toast-container {
             position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%);
@@ -227,6 +267,14 @@
 <body id="app-body" class="theme-default">
 
     <div id="network-banner">📵 MODO OFFLINE - SIN CONEXIÓN A INTERNET</div>
+
+    <div id="success-overlay">
+        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+        <h2 style="margin-top: 20px; color: #34c759; text-transform: uppercase; font-family: var(--font-family-display); letter-spacing: 1px;">Turno Guardado</h2>
+    </div>
 
     <div id="app-container">
         <header>
@@ -323,7 +371,7 @@
 
         <div id="view-vueltas" class="app-view">
             <div id="route-display" onclick="openRouteSelection(true)" title="Toca para cambiar destino">
-                [Ruta] 
+                <span id="route-name-display">[Ruta]</span>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
             </div>
             
@@ -356,7 +404,10 @@
             
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 15px; padding: 0 5px; margin-bottom: 10px;">
                 <span style="font-size: 0.95rem; color: var(--text-main); font-weight:700;">Efectos de Sonido</span>
-                <input type="checkbox" id="reg-sonidos" checked style="width:auto; transform: scale(1.4); margin: 0;">
+                <label class="switch">
+                    <input type="checkbox" id="reg-sonidos" checked>
+                    <span class="slider"></span>
+                </label>
             </div>
             
             <button class="btn btn-cherry" style="margin-top: 15px;" onclick="guardarConfiguracion()">GUARDAR DATOS</button>
@@ -396,7 +447,7 @@
     <div id="modal-pin" class="modal-overlay">
         <div class="modal-box">
             <h3 style="margin-top: 0; margin-bottom: 10px; text-transform: uppercase;">Acceso Restringido</h3>
-            <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 20px;">Ingresa el PIN Maestro.</p>
+            <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 20px;">Ingresa tu PIN maestro.</p>
             <input type="password" id="input-pin" style="font-size: 2rem; text-align: center; letter-spacing: 15px; font-family: var(--font-family-display); margin-bottom: 25px;" maxlength="6" inputmode="numeric">
             <div class="modal-buttons">
                 <button class="btn btn-outline" style="flex: 1; padding: 14px;" onclick="cerrarModal('modal-pin')">Cancelar</button>
@@ -410,7 +461,18 @@
     <script>
         const rates = { "Huehuetoca": 15, "Lazaro Cardenas": 14, "Colorado": 14, "Compadres": 14, "Tetecla": 14, "Pendiente 1": 14, "Pendiente 2": 14 };
 
-        const PIN_MAESTRO = "280902"; // PIN HARDCODEADO E INMODIFICABLE
+        /* ACENTOS DE COLOR POR RUTA */
+        const routeColors = {
+            "Huehuetoca": { bg: "#007aff", glow: "rgba(0,122,255,0.45)" }, // Azul
+            "Lazaro Cardenas": { bg: "#ff9500", glow: "rgba(255,149,0,0.45)" }, // Naranja
+            "Colorado": { bg: "#34c759", glow: "rgba(52,199,89,0.45)" }, // Verde
+            "Compadres": { bg: "#af52de", glow: "rgba(175,82,222,0.45)" }, // Morado
+            "Tetecla": { bg: "#ff2d55", glow: "rgba(255,45,85,0.45)" }, // Rosa/Rojo
+            "Pendiente 1": { bg: "#5856d6", glow: "rgba(88,86,214,0.45)" }, // Indigo
+            "Pendiente 2": { bg: "#ffcc00", glow: "rgba(255,204,0,0.45)" }  // Amarillo
+        };
+
+        const PIN_MAESTRO = "280902"; 
 
         let currentVuelta = null; let vueltasHistory = []; let totalDayCashAccumulated = 0;
         let isEditingActiveRoute = false; let idVueltaEditando = null; let destinoPostPin = null; 
@@ -516,7 +578,7 @@
 
                 if (session.currentVuelta) {
                     currentVuelta = session.currentVuelta;
-                    document.getElementById('route-display').innerHTML = `${currentVuelta.route} ($${currentVuelta.rate}) <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>`;
+                    aplicarColorRuta(currentVuelta.route);
                     updateVueltaDisplay(); showScreen('view-vueltas');
                 } else { showScreen('view-home'); }
             } else { showScreen('view-home'); }
@@ -548,7 +610,7 @@
             config.sueldo = parseInt(document.getElementById('reg-sueldo').value) || 0;
             localStorage.setItem('orbita_config', JSON.stringify(config));
             showToast("🔒 Sueldo Base Actualizado"); showScreen('view-registration');
-            updateHomeView(); // Refresca el panel para mostrar el nuevo sueldo
+            updateHomeView(); 
         }
 
         function saveSession() {
@@ -605,7 +667,6 @@
 
         function validarPin() {
             const pinIngresado = document.getElementById('input-pin').value;
-            // PIN MAESTRO HARDCODEADO
             if (pinIngresado === PIN_MAESTRO) { 
                 cerrarModal('modal-pin'); showScreen(destinoPostPin); 
             } else { 
@@ -623,13 +684,23 @@
 
         function cancelRouteSelection() { if (isEditingActiveRoute) { showScreen('view-vueltas'); } else { showScreen('view-home'); } }
 
+        /* APLICAR COLOR A LA RUTA ACTIVA */
+        function aplicarColorRuta(route) {
+            const colorInfo = routeColors[route] || { bg: "var(--title-color)", glow: "var(--glow-color)" };
+            const viewVueltas = document.getElementById('view-vueltas');
+            viewVueltas.style.setProperty('--route-color-bg', colorInfo.bg);
+            viewVueltas.style.setProperty('--route-color-glow', colorInfo.glow);
+            viewVueltas.style.setProperty('--route-color-text', colorInfo.bg);
+            document.getElementById('route-name-display').innerText = `${route} ($${rates[route]})`;
+        }
+
         function selectRoute(route) {
             if (isEditingActiveRoute && currentVuelta) {
                 currentVuelta.route = route; currentVuelta.rate = rates[route]; isEditingActiveRoute = false;
             } else {
                 currentVuelta = { id: Date.now(), route: route, rate: rates[route], startTime: new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' }), passengers: 0, cash: 0 };
             }
-            document.getElementById('route-display').innerHTML = `${currentVuelta.route} ($${currentVuelta.rate}) <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>`;
+            aplicarColorRuta(currentVuelta.route);
             updateVueltaDisplay(); showScreen('view-vueltas');
         }
 
@@ -838,7 +909,7 @@ _Generado automáticamente desde la App_`);
             window.open(`https://wa.me/?text=${text}`, '_blank');
         }
 
-        /* CORTE DETALLADO + GPS */
+        /* CORTE DETALLADO + GPS + ANIMACIÓN APPLE PAY */
         async function enviarReporteCorteWA() {
             if(vueltasHistory.length === 0) { showToast("⚠️ Turno vacío."); return; }
             
@@ -857,7 +928,6 @@ _Generado automáticamente desde la App_`);
                 desgloseVueltas += `${index + 1}. ${v.route} - ${v.passengers} PAX - $${v.cash}\n`;
             });
 
-            // Si hay internet, buscar GPS
             let linkUbicacion = "Modo Offline (Sin coordenadas)";
             if(navigator.onLine) {
                 showToast("📍 Registrando GPS de cierre...");
@@ -898,8 +968,14 @@ ${desgloseVueltas}-------------------------
             if(!navigator.onLine) {
                 showToast("💾 Guardado LOCALMENTE (Sin Señal).");
             } else {
-                showToast("✅ Turno cerrado.");
-                setTimeout(() => { window.open(`https://wa.me/?text=${encodeURIComponent(textoLimpio)}`, '_blank'); }, 500);
+                // DISPARAR ANIMACIÓN ESTILO APPLE PAY
+                const successOverlay = document.getElementById('success-overlay');
+                successOverlay.classList.add('show');
+                
+                setTimeout(() => { 
+                    successOverlay.classList.remove('show');
+                    window.open(`https://wa.me/?text=${encodeURIComponent(textoLimpio)}`, '_blank'); 
+                }, 1800); // 1.8 segundos de satisfacción visual antes de ir a WhatsApp
             }
         }
         
