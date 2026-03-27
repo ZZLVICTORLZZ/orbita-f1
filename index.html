@@ -162,6 +162,14 @@
         body.theme-steampunk .btn-gold { color: #ffd700; }
         body.theme-steampunk .btn-green, body.theme-gothic .btn-green { color: #000 !important; }
 
+        /* Estilo específico para los botones de selección de ruta */
+        .route-btn {
+            background-color: var(--card-bg) !important;
+            border: 1px solid var(--border-color) !important;
+            display: flex; justify-content: flex-start; padding-left: 25px;
+            color: var(--text-main);
+        }
+
         .ripple {
             position: absolute; border-radius: 50%; transform: scale(0);
             animation: ripple 0.6s linear; background-color: rgba(255, 255, 255, 0.3); pointer-events: none;
@@ -183,14 +191,10 @@
             display: flex; justify-content: center; align-items: center; z-index: 1000; box-shadow: 0 -10px 30px rgba(0,0,0,0.08);
         }
 
-        #route-full-buttons button:nth-child(odd) { background-color: var(--card-bg); border: 1px solid var(--border-color); }
-        #route-full-buttons button:nth-child(even) { background-color: var(--row-intercalated); border: 1px solid transparent; color: var(--text-main);}
-
         .merged-section { margin-bottom: 15px; }
         .corte-item { display: flex; justify-content: space-between; padding: 12px 0; font-size: 0.95rem; border-bottom: 1px solid var(--border-color); font-weight: 600;}
         .corte-item:last-child { border-bottom: none; }
         
-        /* Borde de color para las vueltas cerradas */
         .history-item-home {
             background-color: var(--card-bg); border-radius: var(--button-radius);
             padding: 16px; display: flex; justify-content: space-between; align-items: center;
@@ -202,10 +206,11 @@
         .history-controls .icon-action { cursor: pointer; padding: 8px; border-radius: 8px; background: var(--row-intercalated); transition: transform 0.2s;}
         .history-controls .icon-action:active { transform: scale(0.85); }
         .history-controls svg { width: 18px; height: 18px; stroke: var(--text-main); fill: none; stroke-width: 2.5;}
+        .past-day-card { border-left: 5px solid var(--title-color); }
 
         .money-display { font-family: var(--font-family-display); font-size: 3.5rem; font-weight: 900; color: var(--title-color); letter-spacing: -2px; margin: 5px 0; }
 
-        /* CONTADOR ACTIVO (Color Adaptativo) */
+        /* CONTADOR ACTIVO */
         #view-vueltas {
             --route-color-bg: var(--btn-plus-bg);
             --route-color-glow: var(--glow-color);
@@ -322,7 +327,7 @@
             </div>
         </header>
 
-        <div id="view-home" class="app-view">
+        <div id="view-home" class="app-view active">
             <div class="merged-section card" style="text-align: center; padding: 25px 15px;">
                 <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">
                     <span class="indicator" id="sync-indicator"></span>Efectivo Acumulado
@@ -356,7 +361,7 @@
             </div>
 
             <div class="merged-section" style="margin-top: 5px;">
-                <button class="btn btn-outline" style="border-style: dashed; font-size: 0.95rem;" onclick="solicitarPin('view-history')">CONSULTAR DÍAS ANTERIORES</button>
+                <button class="btn btn-outline" style="border-style: dashed; font-size: 0.95rem;" onclick="showScreen('view-history')">CONSULTAR DÍAS ANTERIORES</button>
             </div>
 
             <div class="bottom-action-bar">
@@ -384,15 +389,15 @@
         </div>
 
         <div id="view-route-full" class="app-view">
-            <h2 style="text-align: center; margin-bottom: 20px; text-transform: uppercase;" id="route-title">Destino PAX</h2>
+            <h2 style="text-align: center; margin-bottom: 20px; text-transform: uppercase;" id="route-title">Destino</h2>
             <div id="route-full-buttons">
-                <button class="btn btn-outline" onclick="selectRoute('Huehuetoca')">HUEHUETOCA ($15)</button>
-                <button class="btn btn-outline" onclick="selectRoute('Lazaro Cardenas')">LÁZARO CÁRDENAS ($14)</button>
-                <button class="btn btn-outline" onclick="selectRoute('Colorado')">COLORADO ($14)</button>
-                <button class="btn btn-outline" onclick="selectRoute('Compadres')">COMPADRES ($14)</button>
-                <button class="btn btn-outline" onclick="selectRoute('Tetecla')">TETECLA ($14)</button>
-                <button class="btn btn-outline" onclick="selectRoute('Pendiente 1')">PENDIENTE 1 ($14)</button>
-                <button class="btn btn-outline" onclick="selectRoute('Pendiente 2')">PENDIENTE 2 ($14)</button>
+                <button class="btn btn-outline route-btn" style="border-left: 6px solid #007aff !important;" onclick="selectRoute('Huehuetoca')">HUEHUETOCA ($15)</button>
+                <button class="btn btn-outline route-btn" style="border-left: 6px solid #ff9500 !important;" onclick="selectRoute('Lazaro Cardenas')">LÁZARO CÁRDENAS ($14)</button>
+                <button class="btn btn-outline route-btn" style="border-left: 6px solid #34c759 !important;" onclick="selectRoute('Colorado')">COLORADO ($14)</button>
+                <button class="btn btn-outline route-btn" style="border-left: 6px solid #af52de !important;" onclick="selectRoute('Compadres')">COMPADRES ($14)</button>
+                <button class="btn btn-outline route-btn" style="border-left: 6px solid #ff2d55 !important;" onclick="selectRoute('Tetecla')">TETECLA ($14)</button>
+                <button class="btn btn-outline route-btn" style="border-left: 6px solid #5856d6 !important;" onclick="selectRoute('Pendiente 1')">PENDIENTE 1 ($14)</button>
+                <button class="btn btn-outline route-btn" style="border-left: 6px solid #ffcc00 !important;" onclick="selectRoute('Pendiente 2')">PENDIENTE 2 ($14)</button>
             </div>
             <button class="btn btn-cherry" style="margin-top: 20px;" onclick="cancelRouteSelection()">CANCELAR</button>
         </div>
@@ -475,7 +480,7 @@
     <div id="modal-pin" class="modal-overlay">
         <div class="modal-box">
             <h3 style="margin-top: 0; margin-bottom: 10px; text-transform: uppercase;">Acceso Restringido</h3>
-            <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 20px;">Ingresa tu PIN maestro.</p>
+            <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 20px;">Ingresa el PIN Maestro.</p>
             <input type="password" id="input-pin" style="font-size: 2rem; text-align: center; letter-spacing: 15px; font-family: var(--font-family-display); margin-bottom: 25px;" maxlength="6" inputmode="numeric">
             <div class="modal-buttons">
                 <button class="btn btn-outline" style="flex: 1; padding: 14px;" onclick="cerrarModal('modal-pin')">Cancelar</button>
@@ -597,12 +602,10 @@
             const savedTheme = localStorage.getItem('orbita_theme') || 'theme-default';
             setTheme(savedTheme); checkNetworkStatus(); cargarConfiguracion(); 
             
-            // Lógica del Splash Screen
             setTimeout(() => {
                 const splash = document.getElementById('splash-screen');
                 splash.classList.add('hidden');
                 
-                // Mostrar la vista principal después del splash
                 const session = JSON.parse(localStorage.getItem('orbita_active_session'));
                 if (session) {
                     vueltasHistory = session.vueltasHistory || []; totalDayCashAccumulated = session.totalDayCashAccumulated || 0;
@@ -618,8 +621,8 @@
                 } else { showScreen('view-home'); }
                 updatePastDaysList();
                 
-                setTimeout(() => splash.remove(), 600); // Eliminar del DOM para limpiar memoria
-            }, 2000); // 2 segundos de pantalla de carga
+                setTimeout(() => splash.remove(), 600); 
+            }, 2000); 
         };
 
         function cargarConfiguracion() {
@@ -717,7 +720,7 @@
 
         function openRouteSelection(isEditing) {
             isEditingActiveRoute = isEditing;
-            document.getElementById('route-title').innerText = isEditing ? "Cambiar Destino" : "Destino PAX";
+            document.getElementById('route-title').innerText = isEditing ? "Cambiar Destino" : "Destino";
             showScreen('view-route-full');
         }
 
@@ -803,7 +806,6 @@
                 const item = document.createElement('div');
                 item.className = 'history-item-home';
                 
-                // Aplicar el color de la ruta al borde y al texto
                 const rColor = (routeColors[vuelta.route] && routeColors[vuelta.route].bg) ? routeColors[vuelta.route].bg : "var(--title-color)";
                 item.style.borderLeft = `5px solid ${rColor}`;
                 
@@ -914,7 +916,7 @@ _Generado automáticamente desde la App_`);
             window.open(`https://wa.me/?text=${encodedText}`, '_blank'); 
         }
 
-        /* LECTURA GPS */
+        /* LECTURA GPS (ANTI-TRAMPAS) */
         function obtenerUbicacion() {
             return new Promise((resolve) => {
                 if (!navigator.geolocation) {
