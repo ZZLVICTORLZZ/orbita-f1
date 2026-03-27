@@ -11,7 +11,7 @@
 
     <style>
         /* =========================================
-           PALETAS DE COLORES (Premium Glassmorphism)
+           PALETAS DE COLORES (Premium)
            ========================================= */
         :root {
             --bg-gradient: radial-gradient(circle at top left, #ffffff, #f2f2f7, #e5e5ea);
@@ -240,7 +240,7 @@
                 <span class="icon-btn" id="theme-toggle-btn" onclick="cycleTheme()" title="Cambiar Estilo">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
                 </span>
-                <span class="icon-btn" onclick="solicitarPin('view-registration')" title="Configuración">
+                <span class="icon-btn" onclick="showScreen('view-registration')" title="Configuración">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                 </span>
             </div>
@@ -350,20 +350,34 @@
 
         <div id="view-registration" class="app-view card">
             <h2 style="text-transform: uppercase;">Configuración</h2>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; font-weight: 700;">Datos de Operación:</p>
-            <input type="text" id="reg-operador" placeholder="Operador (ej. Carlos)" value="Carlos">
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; font-weight: 700;">Datos del Operador:</p>
+            <input type="text" id="reg-operador" placeholder="Nombre (ej. Carlos)" value="Carlos">
             <input type="number" id="reg-unidad" placeholder="Unidad (ej. 15)" value="15">
             
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 20px 0 10px 0; font-weight: 700;">Seguridad y Finanzas:</p>
-            <input type="password" id="reg-pin" placeholder="PIN Maestro" value="280902">
-            <input type="number" id="reg-sueldo" placeholder="Sueldo Base Operador ($)" value="650">
-            
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 15px; padding: 0 5px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 15px; padding: 0 5px; margin-bottom: 10px;">
                 <span style="font-size: 0.95rem; color: var(--text-main); font-weight:700;">Efectos de Sonido</span>
                 <input type="checkbox" id="reg-sonidos" checked style="width:auto; transform: scale(1.4); margin: 0;">
             </div>
             
-            <button class="btn btn-cherry" style="margin-top: 25px;" onclick="guardarConfiguracion()">GUARDAR DATOS</button>
+            <button class="btn btn-cherry" style="margin-top: 15px;" onclick="guardarConfiguracion()">GUARDAR DATOS</button>
+            
+            <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 25px 0;">
+            
+            <button class="btn btn-outline" style="border-style: dashed;" onclick="solicitarPin('view-admin')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                ADMINISTRACIÓN
+            </button>
+        </div>
+
+        <div id="view-admin" class="app-view card">
+            <h2 style="text-transform: uppercase; color: var(--text-main);">Panel de Control</h2>
+            <p style="font-size: 0.85rem; color: var(--title-color); margin-bottom: 20px; font-weight: 700;">Acceso concedido.</p>
+            
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; font-weight: 700;">Sueldo Base del Turno ($):</p>
+            <input type="number" id="reg-sueldo" placeholder="Sueldo Base Operador" value="650" style="font-family: var(--font-family-display); font-size: 1.5rem; text-align: center;">
+            
+            <button class="btn btn-cherry" style="margin-top: 20px;" onclick="guardarAdmin()">GUARDAR SUELDO</button>
+            <button class="btn btn-outline" style="margin-top: 10px;" onclick="showScreen('view-registration')">VOLVER</button>
         </div>
     </div>
 
@@ -382,7 +396,7 @@
     <div id="modal-pin" class="modal-overlay">
         <div class="modal-box">
             <h3 style="margin-top: 0; margin-bottom: 10px; text-transform: uppercase;">Acceso Restringido</h3>
-            <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 20px;">Ingresa tu PIN maestro.</p>
+            <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 20px;">Ingresa el PIN Maestro.</p>
             <input type="password" id="input-pin" style="font-size: 2rem; text-align: center; letter-spacing: 15px; font-family: var(--font-family-display); margin-bottom: 25px;" maxlength="6" inputmode="numeric">
             <div class="modal-buttons">
                 <button class="btn btn-outline" style="flex: 1; padding: 14px;" onclick="cerrarModal('modal-pin')">Cancelar</button>
@@ -395,6 +409,8 @@
 
     <script>
         const rates = { "Huehuetoca": 15, "Lazaro Cardenas": 14, "Colorado": 14, "Compadres": 14, "Tetecla": 14, "Pendiente 1": 14, "Pendiente 2": 14 };
+
+        const PIN_MAESTRO = "280902"; // PIN HARDCODEADO E INMODIFICABLE
 
         let currentVuelta = null; let vueltasHistory = []; let totalDayCashAccumulated = 0;
         let isEditingActiveRoute = false; let idVueltaEditando = null; let destinoPostPin = null; 
@@ -508,26 +524,31 @@
         };
 
         function cargarConfiguracion() {
-            const config = JSON.parse(localStorage.getItem('orbita_config')) || { pin: '280902', operador: 'Carlos', unidad: 15, sonidos: true, sueldo: 650 };
+            const config = JSON.parse(localStorage.getItem('orbita_config')) || { operador: 'Carlos', unidad: 15, sonidos: true, sueldo: 650 };
             document.getElementById('reg-operador').value = config.operador;
             document.getElementById('reg-unidad').value = config.unidad;
-            document.getElementById('reg-pin').value = config.pin;
             document.getElementById('reg-sueldo').value = config.sueldo;
             sonidosActivados = config.sonidos !== undefined ? config.sonidos : true;
             document.getElementById('reg-sonidos').checked = sonidosActivados;
         }
 
         function guardarConfiguracion() {
-            const config = {
-                operador: document.getElementById('reg-operador').value,
-                unidad: document.getElementById('reg-unidad').value,
-                pin: document.getElementById('reg-pin').value || '280902',
-                sueldo: parseInt(document.getElementById('reg-sueldo').value) || 0,
-                sonidos: document.getElementById('reg-sonidos').checked
-            };
+            const config = JSON.parse(localStorage.getItem('orbita_config')) || { sueldo: 650 };
+            config.operador = document.getElementById('reg-operador').value;
+            config.unidad = document.getElementById('reg-unidad').value;
+            config.sonidos = document.getElementById('reg-sonidos').checked;
+            
             sonidosActivados = config.sonidos;
             localStorage.setItem('orbita_config', JSON.stringify(config));
             showToast("✅ Configuración Guardada"); showScreen('view-home');
+        }
+
+        function guardarAdmin() {
+            const config = JSON.parse(localStorage.getItem('orbita_config')) || { operador: 'Carlos', unidad: 15, sonidos: true };
+            config.sueldo = parseInt(document.getElementById('reg-sueldo').value) || 0;
+            localStorage.setItem('orbita_config', JSON.stringify(config));
+            showToast("🔒 Sueldo Base Actualizado"); showScreen('view-registration');
+            updateHomeView(); // Refresca el panel para mostrar el nuevo sueldo
         }
 
         function saveSession() {
@@ -576,8 +597,6 @@
         }
 
         function solicitarPin(destino) {
-            const config = JSON.parse(localStorage.getItem('orbita_config'));
-            if (!config || !config.pin || config.pin === "") { showScreen(destino); return; }
             destinoPostPin = destino;
             document.getElementById('input-pin').value = '';
             document.getElementById('modal-pin').classList.add('show');
@@ -585,10 +604,13 @@
         }
 
         function validarPin() {
-            const config = JSON.parse(localStorage.getItem('orbita_config'));
             const pinIngresado = document.getElementById('input-pin').value;
-            if (pinIngresado === config.pin) { cerrarModal('modal-pin'); showScreen(destinoPostPin); } 
-            else { showToast("❌ PIN Incorrecto"); document.getElementById('input-pin').value = ''; }
+            // PIN MAESTRO HARDCODEADO
+            if (pinIngresado === PIN_MAESTRO) { 
+                cerrarModal('modal-pin'); showScreen(destinoPostPin); 
+            } else { 
+                showToast("❌ PIN Incorrecto"); document.getElementById('input-pin').value = ''; 
+            }
         }
 
         function cerrarModal(idModal) { document.getElementById(idModal).classList.remove('show'); }
@@ -786,7 +808,7 @@ _Generado automáticamente desde la App_`);
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
                         const lat = position.coords.latitude; const lon = position.coords.longitude;
-                        resolve(`https://www.google.com/maps?q=${lat},${lon}`);
+                        resolve(`http://googleusercontent.com/maps.google.com/maps?q=${lat},${lon}`);
                     },
                     (error) => { resolve("Permiso denegado / Apagado"); },
                     { enableHighAccuracy: true, timeout: 6000, maximumAge: 0 }
