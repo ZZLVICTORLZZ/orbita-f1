@@ -646,7 +646,8 @@
         };
 
         function cargarConfiguracion() {
-            const config = JSON.parse(localStorage.getItem('orbita_config')) || { operador: 'Carlos', unidad: 15, sonidos: true, sueldo: 650 };
+            // Quitamos a Carlos y el 15 de los valores por defecto
+            const config = JSON.parse(localStorage.getItem('orbita_config')) || { operador: '', unidad: '', sonidos: true, sueldo: 650 };
             document.getElementById('reg-operador').value = config.operador;
             document.getElementById('reg-unidad').value = config.unidad;
             document.getElementById('reg-sueldo').value = config.sueldo;
@@ -665,8 +666,9 @@
             showToast("✅ Configuración Guardada"); showScreen('view-home');
         }
 
-        function guardarAdmin() {
-            const config = JSON.parse(localStorage.getItem('orbita_config')) || { operador: 'Carlos', unidad: 15, sonidos: true };
+       function guardarAdmin() {
+            // Quitamos a Carlos y el 15 también de aquí
+            const config = JSON.parse(localStorage.getItem('orbita_config')) || { operador: '', unidad: '', sonidos: true };
             config.sueldo = parseInt(document.getElementById('reg-sueldo').value) || 0;
             localStorage.setItem('orbita_config', JSON.stringify(config));
             showToast("🔒 Sueldo Base Actualizado"); showScreen('view-registration');
